@@ -1,4 +1,4 @@
-#!/usr/bin/env perl6
+#!/usr/bin/env raku
 
 if !@*ARGS {
     say "Usage: $*PROGRAM-NAME go";

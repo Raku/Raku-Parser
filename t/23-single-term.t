@@ -1,14 +1,14 @@
 use v6;
 
 use Test;
-use Perl6::Parser;
+use Raku::Parser;
 
 use lib 't/lib/';
 use Utils;
 
 plan 23;
 
-my $pp                 = Perl6::Parser.new;
+my $pp                 = Raku::Parser.new;
 my $*CONSISTENCY-CHECK = True;
 my $*FALL-THROUGH      = True;
 
@@ -19,7 +19,7 @@ subtest {
     subtest {
       my $source = Q{0};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -28,7 +28,7 @@ subtest {
     subtest {
       my $source = Q{ 0  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -41,7 +41,7 @@ subtest {
     subtest {
       my $source = Q{1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -50,7 +50,7 @@ subtest {
     subtest {
       my $source = Q{ 1  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -63,7 +63,7 @@ subtest {
     subtest {
       my $source = Q{-1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -72,7 +72,7 @@ subtest {
     subtest {
       my $source = Q{ -1  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -85,7 +85,7 @@ subtest {
     subtest {
       my $source = Q{1_1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -94,7 +94,7 @@ subtest {
     subtest {
       my $source = Q{ 1_1  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -107,7 +107,7 @@ subtest {
     subtest {
       my $source = Q{Inf};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Infinity ), Q{found token};
+      ok has-a( $tree, Raku::Infinity ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -116,7 +116,7 @@ subtest {
     subtest {
       my $source = Q{ Inf  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Infinity ), Q{found token};
+      ok has-a( $tree, Raku::Infinity ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -129,7 +129,7 @@ subtest {
     subtest {
       my $source = Q{NaN};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::NotANumber ), Q{found token};
+      ok has-a( $tree, Raku::NotANumber ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -138,7 +138,7 @@ subtest {
     subtest {
       my $source = Q{ NaN  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::NotANumber ), Q{found token};
+      ok has-a( $tree, Raku::NotANumber ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -155,7 +155,7 @@ subtest {
     subtest {
       my $source = Q{0b0};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -164,7 +164,7 @@ subtest {
     subtest {
       my $source = Q{ 0b0  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -175,7 +175,7 @@ subtest {
     subtest {
       my $source = Q{0b1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -184,7 +184,7 @@ subtest {
     subtest {
       my $source = Q{ 0b1  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -195,7 +195,7 @@ subtest {
     subtest {
       my $source = Q{-0b1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -204,7 +204,7 @@ subtest {
     subtest {
       my $source = Q{ -0b1  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -221,7 +221,7 @@ subtest {
     subtest {
       my $source = Q{0o0};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -230,7 +230,7 @@ subtest {
     subtest {
       my $source = Q{ 0o0  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -243,7 +243,7 @@ subtest {
     subtest {
       my $source = Q{0o1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -252,7 +252,7 @@ subtest {
     subtest {
       my $source = Q{ 0o1  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -265,7 +265,7 @@ subtest {
     subtest {
       my $source = Q{-0o1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -274,7 +274,7 @@ subtest {
     subtest {
       my $source = Q{ -0o1  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -291,7 +291,7 @@ subtest {
     subtest {
       my $source = Q{0d0};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -300,7 +300,7 @@ subtest {
     subtest {
       my $source = Q{ 0d0  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -313,7 +313,7 @@ subtest {
     subtest {
       my $source = Q{0d1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -322,7 +322,7 @@ subtest {
     subtest {
       my $source = Q{ 0d1  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -335,7 +335,7 @@ subtest {
     subtest {
       my $source = Q{-0d1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -344,7 +344,7 @@ subtest {
     subtest {
       my $source = Q{ -0d1  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -361,7 +361,7 @@ subtest {
     subtest {
       my $source = Q{0};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -370,7 +370,7 @@ subtest {
     subtest {
       my $source = Q{ 0  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -383,7 +383,7 @@ subtest {
     subtest {
       my $source = Q{1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -392,7 +392,7 @@ subtest {
     subtest {
       my $source = Q{ 1  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -405,7 +405,7 @@ subtest {
     subtest {
       my $source = Q{-1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -414,7 +414,7 @@ subtest {
     subtest {
       my $source = Q{ -1  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -431,7 +431,7 @@ subtest {
     subtest {
       my $source = Q{0x0};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -440,7 +440,7 @@ subtest {
     subtest {
       my $source = Q{ 0x0  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -453,7 +453,7 @@ subtest {
     subtest {
       my $source = Q{0x1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -462,7 +462,7 @@ subtest {
     subtest {
       my $source = Q{ 0x1  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -475,7 +475,7 @@ subtest {
     subtest {
       my $source = Q{-0x1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -484,7 +484,7 @@ subtest {
     subtest {
       my $source = Q{ -0x1  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -501,7 +501,7 @@ subtest {
     subtest {
       my $source = Q{:13(0)};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -510,7 +510,7 @@ subtest {
     subtest {
       my $source = Q{ :13(0)  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -523,7 +523,7 @@ subtest {
     subtest {
       my $source = Q{:13(1)};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -532,7 +532,7 @@ subtest {
     subtest {
       my $source = Q{ :13(1)  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -545,7 +545,7 @@ subtest {
     subtest {
       my $source = Q{:13(-1)};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -554,7 +554,7 @@ subtest {
     subtest {
       my $source = Q{ :13(-1)  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -571,7 +571,7 @@ subtest {
     subtest {
       my $source = Q{0e0};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -580,7 +580,7 @@ subtest {
     subtest {
       my $source = Q{ 0e0  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -593,7 +593,7 @@ subtest {
     subtest {
       my $source = Q{0e1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -602,7 +602,7 @@ subtest {
     subtest {
       my $source = Q{ 0e1  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -615,7 +615,7 @@ subtest {
     subtest {
       my $source = Q{-0e1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -624,7 +624,7 @@ subtest {
     subtest {
       my $source = Q{ -0e1  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -637,7 +637,7 @@ subtest {
     subtest {
       my $source = Q{0e-1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -646,7 +646,7 @@ subtest {
     subtest {
       my $source = Q{ 0e-1  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -663,7 +663,7 @@ subtest {
     subtest {
       my $source = Q{0i};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -672,7 +672,7 @@ subtest {
     subtest {
       my $source = Q{ 0i  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -685,7 +685,7 @@ subtest {
     subtest {
       my $source = Q{1i};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -694,7 +694,7 @@ subtest {
     subtest {
       my $source = Q{ 1i  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -707,7 +707,7 @@ subtest {
     subtest {
       my $source = Q{-1i};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -716,7 +716,7 @@ subtest {
     subtest {
       my $source = Q{ -1i  };
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Number ), Q{found token};
+      ok has-a( $tree, Raku::Number ), Q{found token};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -734,7 +734,7 @@ subtest {
   subtest {
     my $source = Q{@*ARGS};
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Variable ), Q{found token};
+    ok has-a( $tree, Raku::Variable ), Q{found token};
     is $pp.to-string( $tree ), $source, Q{formatted}; 
 
     done-testing;
@@ -743,7 +743,7 @@ subtest {
   subtest {
     my $source = Q{ @*ARGS  };
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Variable ), Q{found token};
+    ok has-a( $tree, Raku::Variable ), Q{found token};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -756,7 +756,7 @@ subtest {
   subtest {
     my $source = Q{$};
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Variable ), Q{found token};
+    ok has-a( $tree, Raku::Variable ), Q{found token};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -765,7 +765,7 @@ subtest {
   subtest {
     my $source = Q{ $  };
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Variable ), Q{found token};
+    ok has-a( $tree, Raku::Variable ), Q{found token};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -778,7 +778,7 @@ subtest {
   subtest {
     my $source = Q{$_};
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Variable ), Q{found token};
+    ok has-a( $tree, Raku::Variable ), Q{found token};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -787,7 +787,7 @@ subtest {
   subtest {
     my $source = Q{ $_  };
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Variable ), Q{found token};
+    ok has-a( $tree, Raku::Variable ), Q{found token};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -800,7 +800,7 @@ subtest {
   subtest {
     my $source = Q{$/};
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Variable ), Q{found token};
+    ok has-a( $tree, Raku::Variable ), Q{found token};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -809,7 +809,7 @@ subtest {
   subtest {
     my $source = Q{ $/  };
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Variable ), Q{found token};
+    ok has-a( $tree, Raku::Variable ), Q{found token};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -822,7 +822,7 @@ subtest {
   subtest {
     my $source = Q{$!};
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Variable ), Q{found token};
+    ok has-a( $tree, Raku::Variable ), Q{found token};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -831,7 +831,7 @@ subtest {
   subtest {
     my $source = Q{ $!  };
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Variable ), Q{found token};
+    ok has-a( $tree, Raku::Variable ), Q{found token};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -844,7 +844,7 @@ subtest {
   subtest {
     my $source = Q{$Foo::Bar};
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Variable ), Q{found token};
+    ok has-a( $tree, Raku::Variable ), Q{found token};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -853,7 +853,7 @@ subtest {
   subtest {
     my $source = Q{ $Foo::Bar  };
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Variable ), Q{found token};
+    ok has-a( $tree, Raku::Variable ), Q{found token};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -887,7 +887,7 @@ subtest {
   subtest {
     my $source = Q{$Foo::($*GLOBAL)::Bar};
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Variable ), Q{found token};
+    ok has-a( $tree, Raku::Variable ), Q{found token};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -896,7 +896,7 @@ subtest {
   subtest {
     my $source = Q{ $Foo::($*GLOBAL)::Bar  };
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Variable ), Q{found token};
+    ok has-a( $tree, Raku::Variable ), Q{found token};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -912,7 +912,7 @@ subtest {
     my $source = Q{Int};
     my $tree = $pp.to-tree( $source );
 # XXX Probably shouldn't be a bareword...
-#    ok (grep { $_ ~~ Perl6::Number },
+#    ok (grep { $_ ~~ Raku::Number },
 #       $tree.child.[0].child),
 #       Q{found number};
     is $pp.to-string( $tree ), $source, Q{formatted};
@@ -924,7 +924,7 @@ subtest {
     my $source = Q{ Int  };
     my $tree = $pp.to-tree( $source );
 # XXX Probably shouldn't be a bareword...
-#    ok (grep { $_ ~~ Perl6::Number },
+#    ok (grep { $_ ~~ Raku::Number },
 #       $tree.child.[0].child),
 #       Q{found number};
     is $pp.to-string( $tree ), $source, Q{formatted};
@@ -940,7 +940,7 @@ subtest {
     my $source = Q{IO::Handle};
     my $tree = $pp.to-tree( $source );
 # XXX Probably shouldn't be a bareword...
-#    ok (grep { $_ ~~ Perl6::Number },
+#    ok (grep { $_ ~~ Raku::Number },
 #       $tree.child.[0].child),
 #       Q{found number};
     is $pp.to-string( $tree ), $source, Q{formatted};
@@ -952,7 +952,7 @@ subtest {
     my $source = Q{ IO::Handle  };
     my $tree = $pp.to-tree( $source );
 # XXX Probably shouldn't be a bareword...
-#    ok (grep { $_ ~~ Perl6::Number },
+#    ok (grep { $_ ~~ Raku::Number },
 #       $tree.child.[0].child),
 #       Q{found number};
     is $pp.to-string( $tree ), $source, Q{formatted};
@@ -970,7 +970,7 @@ subtest {
     my $source = Q{pi};
     my $tree = $pp.to-tree( $source );
 # XXX Probably shouldn't be a bareword...
-#    ok (grep { $_ ~~ Perl6::Number },
+#    ok (grep { $_ ~~ Raku::Number },
 #       $tree.child.[0].child),
 #       Q{found number};
     is $pp.to-string( $tree ), $source, Q{formatted};
@@ -982,7 +982,7 @@ subtest {
     my $source = Q{ pi  };
     my $tree = $pp.to-tree( $source );
 # XXX Probably shouldn't be a bareword...
-#    ok (grep { $_ ~~ Perl6::Number },
+#    ok (grep { $_ ~~ Raku::Number },
 #       $tree.child.[0].child),
 #       Q{found number};
     is $pp.to-string( $tree ), $source, Q{formatted};
@@ -999,7 +999,7 @@ subtest {
   subtest {
     my $source = Q{sum};
     my $tree = $pp.to-tree( $source );
-#    ok (grep { $_ ~~ Perl6::Number },
+#    ok (grep { $_ ~~ Raku::Number },
 #       $tree.child.[0].child),
 #       Q{found number};
     is $pp.to-string( $tree ), $source, Q{formatted};
@@ -1010,7 +1010,7 @@ subtest {
   subtest {
     my $source = Q{ sum  };
     my $tree = $pp.to-tree( $source );
-#    ok (grep { $_ ~~ Perl6::Number },
+#    ok (grep { $_ ~~ Raku::Number },
 #       $tree.child.[0].child),
 #       Q{found number};
     is $pp.to-string( $tree ), $source, Q{formatted};
@@ -1027,7 +1027,7 @@ subtest {
   subtest {
     my $source = Q{()};
     my $tree = $pp.to-tree( $source );
-#    ok (grep { $_ ~~ Perl6::Number },
+#    ok (grep { $_ ~~ Raku::Number },
 #       $tree.child.[0].child),
 #       Q{found number};
     is $pp.to-string( $tree ), $source, Q{formatted};
@@ -1038,7 +1038,7 @@ subtest {
   subtest {
     my $source = Q{ ()  };
     my $tree = $pp.to-tree( $source );
-#    ok (grep { $_ ~~ Perl6::Number },
+#    ok (grep { $_ ~~ Raku::Number },
 #       $tree.child.[0].child),
 #       Q{found number};
     is $pp.to-string( $tree ), $source, Q{formatted};
@@ -1057,7 +1057,7 @@ subtest {
   subtest {
     my $source = Q{:()};
     my $tree = $pp.to-tree( $source );
-#    ok (grep { $_ ~~ Perl6::Number },
+#    ok (grep { $_ ~~ Raku::Number },
 #       $tree.child.[0].child),
 #       Q{found number};
     is $pp.to-string( $tree ), $source, Q{formatted};
@@ -1068,7 +1068,7 @@ subtest {
   subtest {
     my $source = Q{ :()  };
     my $tree = $pp.to-tree( $source );
-#    ok (grep { $_ ~~ Perl6::Number },
+#    ok (grep { $_ ~~ Raku::Number },
 #       $tree.child.[0].child),
 #       Q{found number};
     is $pp.to-string( $tree ), $source, Q{formatted};
@@ -1081,4 +1081,4 @@ subtest {
 
 done-testing;
 
-# vim: ft=perl6
+# vim: ft=raku

@@ -1,7 +1,7 @@
 use v6;
 
 use Test;
-use Perl6::Parser;
+use Raku::Parser;
 
 use lib 't/lib';
 use Utils;
@@ -15,7 +15,7 @@ plan 1;
 # (excepting those that span multiples) should break a test.
 #
 # '3.27e5' blows past parser
-my $tree = Perl6::Parser.new.to-tree( Q:to[_END_] );
+my $tree = Raku::Parser.new.to-tree( Q:to[_END_] );
 =begin pod
 
 =end pod
@@ -85,57 +85,57 @@ open 'foo', :r;
 _END_
 
 subtest {
-  ok Perl6::Element ~~ Mu, Q{has correct parent};
-  ok has-a( $tree, Perl6::Element ), Q{found};
+  ok Raku::Element ~~ Mu, Q{has correct parent};
+  ok has-a( $tree, Raku::Element ), Q{found};
   
   subtest {
-    ok Perl6::Visible ~~ Perl6::Element, Q{has correct parent};
-    ok has-a( $tree, Perl6::Visible ), Q{found};
+    ok Raku::Visible ~~ Raku::Element, Q{has correct parent};
+    ok has-a( $tree, Raku::Visible ), Q{found};
     
     subtest {
-      ok Perl6::Operator ~~ Perl6::Visible, Q{has correct parent};
-      ok has-a( $tree, Perl6::Operator ), Q{found};
+      ok Raku::Operator ~~ Raku::Visible, Q{has correct parent};
+      ok has-a( $tree, Raku::Operator ), Q{found};
       
       subtest {
-        ok Perl6::Operator::Hyper ~~ Perl6::Operator, Q{has correct parent};
-        ok has-a( $tree, Perl6::Operator ), Q{found};
+        ok Raku::Operator::Hyper ~~ Raku::Operator, Q{has correct parent};
+        ok has-a( $tree, Raku::Operator ), Q{found};
         
         done-testing;
       }, Q{Operator::Hyper};
       
       subtest {
-        ok Perl6::Operator::Prefix ~~ Perl6::Operator, Q{has correct parent};
-        ok has-a( $tree, Perl6::Operator ), Q{found};
+        ok Raku::Operator::Prefix ~~ Raku::Operator, Q{has correct parent};
+        ok has-a( $tree, Raku::Operator ), Q{found};
         
         done-testing;
       }, Q{Operator::Prefix};
       
       subtest {
-        ok Perl6::Operator::Infix ~~ Perl6::Operator, Q{has correct parent};
-        ok has-a( $tree, Perl6::Operator ), Q{found};
+        ok Raku::Operator::Infix ~~ Raku::Operator, Q{has correct parent};
+        ok has-a( $tree, Raku::Operator ), Q{found};
         
         done-testing;
       }, Q{Operator::Infix};
       
       subtest {
-        ok Perl6::Operator::Postfix ~~ Perl6::Operator, Q{has correct parent};
-        ok has-a( $tree, Perl6::Operator ), Q{found};
+        ok Raku::Operator::Postfix ~~ Raku::Operator, Q{has correct parent};
+        ok has-a( $tree, Raku::Operator ), Q{found};
         
         done-testing;
       }, Q{Operator::Postfix};
       
       subtest {
-        ok Perl6::Operator::Circumfix ~~ Perl6::Operator,
+        ok Raku::Operator::Circumfix ~~ Raku::Operator,
            Q{has correct parent};
-        ok has-a( $tree, Perl6::Operator ), Q{found};
+        ok has-a( $tree, Raku::Operator ), Q{found};
         
         done-testing;
       }, Q{Operator::Circumfix};
       
       subtest {
-        ok Perl6::Operator::PostCircumfix ~~ Perl6::Operator,
+        ok Raku::Operator::PostCircumfix ~~ Raku::Operator,
            Q{has correct parent};
-        ok has-a( $tree, Perl6::Operator ), Q{found};
+        ok has-a( $tree, Raku::Operator ), Q{found};
         
         done-testing;
       }, Q{Operator::PostCircumfix};
@@ -144,24 +144,24 @@ subtest {
     }, Q{Operator};
     
     subtest {
-      ok Perl6::String ~~ Perl6::Visible, Q{has correct parent};
-      ok has-a( $tree, Perl6::String ), Q{found};
+      ok Raku::String ~~ Raku::Visible, Q{has correct parent};
+      ok has-a( $tree, Raku::String ), Q{found};
       
       subtest {
-        ok Perl6::String::Body ~~ Perl6::String, Q{has correct parent};
-        ok has-a( $tree, Perl6::String::Body ), Q{found};
+        ok Raku::String::Body ~~ Raku::String, Q{has correct parent};
+        ok has-a( $tree, Raku::String::Body ), Q{found};
         
         done-testing;
       }, Q{String::Body};
       
       subtest {
-        ok Perl6::String::WordQuoting ~~ Perl6::String, Q{has correct parent};
-        ok has-a( $tree, Perl6::String::WordQuoting ), Q{found};
+        ok Raku::String::WordQuoting ~~ Raku::String, Q{has correct parent};
+        ok has-a( $tree, Raku::String::WordQuoting ), Q{found};
         
         subtest {
-          ok Perl6::String::WordQuoting::QuoteProtection ~~
-             Perl6::String::WordQuoting, Q{has correct parent};
-          ok has-a( $tree, Perl6::String::WordQuoting::QuoteProtection ),
+          ok Raku::String::WordQuoting::QuoteProtection ~~
+             Raku::String::WordQuoting, Q{has correct parent};
+          ok has-a( $tree, Raku::String::WordQuoting::QuoteProtection ),
              Q{found};
           
           done-testing;
@@ -171,32 +171,32 @@ subtest {
       }, Q{String::WordQuoting};
       
       subtest {
-        ok Perl6::String::Interpolation ~~ Perl6::String,
+        ok Raku::String::Interpolation ~~ Raku::String,
            Q{has correct parent};
-        ok has-a( $tree, Perl6::String::Interpolation ), Q{found};
+        ok has-a( $tree, Raku::String::Interpolation ), Q{found};
         
         subtest {
-          ok Perl6::String::Interpolation::Shell ~~
-             Perl6::String::Interpolation,
+          ok Raku::String::Interpolation::Shell ~~
+             Raku::String::Interpolation,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::String::Interpolation::Shell ), Q{found};
+          ok has-a( $tree, Raku::String::Interpolation::Shell ), Q{found};
           
           done-testing;
         }, Q{String::Interpolation::Shell};
         
         subtest {
-          ok Perl6::String::Interpolation::WordQuoting ~~
-             Perl6::String::Interpolation, Q{has correct parent};
-          ok has-a( $tree, Perl6::String::Interpolation::WordQuoting ),
+          ok Raku::String::Interpolation::WordQuoting ~~
+             Raku::String::Interpolation, Q{has correct parent};
+          ok has-a( $tree, Raku::String::Interpolation::WordQuoting ),
              Q{found};
           
           subtest {
-            ok Perl6::String::Interpolation::WordQuoting::QuoteProtection ~~
-               Perl6::String::Interpolation::WordQuoting,
+            ok Raku::String::Interpolation::WordQuoting::QuoteProtection ~~
+               Raku::String::Interpolation::WordQuoting,
                Q{has correct parent};
             ok has-a(
                  $tree,
-                 Perl6::String::Interpolation::WordQuoting::QuoteProtection
+                 Raku::String::Interpolation::WordQuoting::QuoteProtection
                ), Q{found};
             
             done-testing;
@@ -209,35 +209,35 @@ subtest {
       }, Q{String::Interpolation};
       
       subtest {
-        ok Perl6::String::Shell ~~ Perl6::String, Q{has correct parent};
-        ok has-a( $tree, Perl6::String::Shell ), Q{found};
+        ok Raku::String::Shell ~~ Raku::String, Q{has correct parent};
+        ok has-a( $tree, Raku::String::Shell ), Q{found};
         
         done-testing;
       }, Q{String::Shell};
       
       subtest {
-        ok Perl6::String::Escaping ~~ Perl6::String, Q{has correct parent};
-        ok has-a( $tree, Perl6::String::Escaping ), Q{found};
+        ok Raku::String::Escaping ~~ Raku::String, Q{has correct parent};
+        ok has-a( $tree, Raku::String::Escaping ), Q{found};
         
         done-testing;
       }, Q{String::Escaping};
       
       subtest {
-        ok Perl6::String::Literal ~~ Perl6::String, Q{has correct parent};
-        ok has-a( $tree, Perl6::String::Literal ), Q{found};
+        ok Raku::String::Literal ~~ Raku::String, Q{has correct parent};
+        ok has-a( $tree, Raku::String::Literal ), Q{found};
         
         subtest {
-          ok Perl6::String::Literal::WordQuoting ~~ Perl6::String,
+          ok Raku::String::Literal::WordQuoting ~~ Raku::String,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::String::Literal::WordQuoting ), Q{found};
+          ok has-a( $tree, Raku::String::Literal::WordQuoting ), Q{found};
           
           done-testing;
         }, Q{String::Literal::WordQuoting};
         
         subtest {
-          ok Perl6::String::Literal::Shell ~~ Perl6::String,
+          ok Raku::String::Literal::Shell ~~ Raku::String,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::String::Literal::Shell ), Q{found};
+          ok has-a( $tree, Raku::String::Literal::Shell ), Q{found};
           
           done-testing;
         }, Q{String::Literal::Shell};
@@ -249,19 +249,19 @@ subtest {
     }, Q{String};
     
     subtest {
-      ok Perl6::Documentation ~~ Perl6::Visible, Q{has correct parent};
-      ok has-a( $tree, Perl6::Documentation ), Q{found};
+      ok Raku::Documentation ~~ Raku::Visible, Q{has correct parent};
+      ok has-a( $tree, Raku::Documentation ), Q{found};
       
       subtest {
-        ok Perl6::Pod ~~ Perl6::Documentation, Q{has correct parent};
-        ok has-a( $tree, Perl6::Pod ), Q{found};
+        ok Raku::Pod ~~ Raku::Documentation, Q{has correct parent};
+        ok has-a( $tree, Raku::Pod ), Q{found};
         
         done-testing;
       }, Q{Pod};
       
       subtest {
-        ok Perl6::Comment ~~ Perl6::Documentation, Q{has correct parent};
-        ok has-a( $tree, Perl6::Comment ), Q{found};
+        ok Raku::Comment ~~ Raku::Documentation, Q{has correct parent};
+        ok has-a( $tree, Raku::Comment ), Q{found};
         
         done-testing;
       }, Q{Comment};
@@ -270,26 +270,26 @@ subtest {
     }, Q{Documentation};
     
     subtest {
-      ok Perl6::Balanced ~~ Perl6::Visible, Q{has correct parent};
-      ok has-a( $tree, Perl6::Balanced ), Q{found};
+      ok Raku::Balanced ~~ Raku::Visible, Q{has correct parent};
+      ok has-a( $tree, Raku::Balanced ), Q{found};
       
       subtest {
-        ok Perl6::Balanced::Enter ~~ Perl6::Balanced, Q{has correct parent};
-        ok has-a( $tree, Perl6::Balanced::Enter ), Q{found};
+        ok Raku::Balanced::Enter ~~ Raku::Balanced, Q{has correct parent};
+        ok has-a( $tree, Raku::Balanced::Enter ), Q{found};
         
         subtest {
-          ok Perl6::Block::Enter ~~ Perl6::Balanced::Enter,
+          ok Raku::Block::Enter ~~ Raku::Balanced::Enter,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::Block::Enter ), Q{found};
+          ok has-a( $tree, Raku::Block::Enter ), Q{found};
           
           done-testing;
         }, Q{Block::Enter};
         
         subtest {
-          ok Perl6::String::Enter ~~ Perl6::Balanced::Enter,
+          ok Raku::String::Enter ~~ Raku::Balanced::Enter,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::String::Enter ), Q{found};
+          ok has-a( $tree, Raku::String::Enter ), Q{found};
 }
           
           done-testing;
@@ -299,21 +299,21 @@ subtest {
       }, Q{Balanced::Enter};
       
       subtest {
-        ok Perl6::Balanced::Exit ~~ Perl6::Balanced, Q{has correct parent};
-        ok has-a( $tree, Perl6::Balanced::Exit ), Q{found};
+        ok Raku::Balanced::Exit ~~ Raku::Balanced, Q{has correct parent};
+        ok has-a( $tree, Raku::Balanced::Exit ), Q{found};
         
         subtest {
-          ok Perl6::Block::Exit ~~ Perl6::Balanced::Exit, Q{has correct parent};
-          ok has-a( $tree, Perl6::Block::Exit ), Q{found};
+          ok Raku::Block::Exit ~~ Raku::Balanced::Exit, Q{has correct parent};
+          ok has-a( $tree, Raku::Block::Exit ), Q{found};
           
           done-testing;
         }, Q{Block::Exit};
         
         subtest {
-          ok Perl6::String::Exit ~~ Perl6::Balanced::Exit,
+          ok Raku::String::Exit ~~ Raku::Balanced::Exit,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::String::Exit ), Q{found};
+          ok has-a( $tree, Raku::String::Exit ), Q{found};
 }
           
           done-testing;
@@ -330,50 +330,50 @@ subtest {
     # *really* shouldn't be generated by regular code.
     #
     subtest {
-      ok Perl6::Catch-All ~~ Perl6::Visible, Q{has correct parent};
-      ok !has-a( $tree, Perl6::Catch-All ), Q{found};
+      ok Raku::Catch-All ~~ Raku::Visible, Q{has correct parent};
+      ok !has-a( $tree, Raku::Catch-All ), Q{found};
       
       done-testing;
     }, Q{Catch-All};
     
     subtest {
-      ok Perl6::Whatever ~~ Perl6::Visible, Q{has correct parent};
+      ok Raku::Whatever ~~ Raku::Visible, Q{has correct parent};
 #`{
-      ok has-a( $tree, Perl6::Whatever ), Q{found};
+      ok has-a( $tree, Raku::Whatever ), Q{found};
 }
       
       done-testing;
     }, Q{Whatever};
     
     subtest {
-      ok Perl6::Loop-Separator ~~ Perl6::Visible, Q{has correct parent};
+      ok Raku::Loop-Separator ~~ Raku::Visible, Q{has correct parent};
 #`{
-      ok has-a( $tree, Perl6::Loop-Separator ), Q{found};
+      ok has-a( $tree, Raku::Loop-Separator ), Q{found};
 }
       
       done-testing;
     }, Q{Loop-Separator};
     
     subtest {
-      ok Perl6::Dimension-Separator ~~ Perl6::Visible, Q{has correct parent};
+      ok Raku::Dimension-Separator ~~ Raku::Visible, Q{has correct parent};
 #`{
-      ok has-a( $tree, Perl6::Dimension-Separator ), Q{found};
+      ok has-a( $tree, Raku::Dimension-Separator ), Q{found};
 }
       
       done-testing;
     }, Q{Dimension-Separator};
     
     subtest {
-      ok Perl6::Semicolon ~~ Perl6::Visible, Q{has correct parent};
-      ok has-a( $tree, Perl6::Semicolon ), Q{found};
+      ok Raku::Semicolon ~~ Raku::Visible, Q{has correct parent};
+      ok has-a( $tree, Raku::Semicolon ), Q{found};
       
       done-testing;
     }, Q{Semicolon};
     
     subtest {
-      ok Perl6::Backslash ~~ Perl6::Visible, Q{has correct parent};
+      ok Raku::Backslash ~~ Raku::Visible, Q{has correct parent};
 #`{
-      ok has-a( $tree, Perl6::Backslash ), Q{found};
+      ok has-a( $tree, Raku::Backslash ), Q{found};
 }
       
       done-testing;
@@ -381,40 +381,40 @@ subtest {
     
     # XXX is this a bug?... Not really, RTFS to see why.
     subtest {
-      ok Perl6::Sir-Not-Appearing-In-This-Statement ~~ Perl6::Visible,
+      ok Raku::Sir-Not-Appearing-In-This-Statement ~~ Raku::Visible,
          Q{has correct parent};
-      ok has-a( $tree, Perl6::Sir-Not-Appearing-In-This-Statement ), Q{found};
+      ok has-a( $tree, Raku::Sir-Not-Appearing-In-This-Statement ), Q{found};
       
       done-testing;
     }, Q{Sir-Not-Appearing-In-This-Statement};
     
     subtest {
-      ok Perl6::Number ~~ Perl6::Visible, Q{has correct parent};
-      ok has-a( $tree, Perl6::Number ), Q{found};
+      ok Raku::Number ~~ Raku::Visible, Q{has correct parent};
+      ok has-a( $tree, Raku::Number ), Q{found};
       
       subtest {
-        ok Perl6::Number::Binary ~~ Perl6::Number, Q{has correct parent};
-        ok has-a( $tree, Perl6::Number::Binary ), Q{found};
+        ok Raku::Number::Binary ~~ Raku::Number, Q{has correct parent};
+        ok has-a( $tree, Raku::Number::Binary ), Q{found};
         
         done-testing;
       }, Q{Number::Binary};
       
       subtest {
-        ok Perl6::Number::Octal ~~ Perl6::Number, Q{has correct parent};
-        ok has-a( $tree, Perl6::Number::Octal ), Q{found};
+        ok Raku::Number::Octal ~~ Raku::Number, Q{has correct parent};
+        ok has-a( $tree, Raku::Number::Octal ), Q{found};
         
         done-testing;
       }, Q{Number::Octal};
       
       subtest {
-        ok Perl6::Number::Decimal ~~ Perl6::Number, Q{has correct parent};
-        ok has-a( $tree, Perl6::Number::Decimal ), Q{found};
+        ok Raku::Number::Decimal ~~ Raku::Number, Q{has correct parent};
+        ok has-a( $tree, Raku::Number::Decimal ), Q{found};
         
         subtest {
-          ok Perl6::Number::Decimal::Explicit ~~ Perl6::Number::Decimal,
+          ok Raku::Number::Decimal::Explicit ~~ Raku::Number::Decimal,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Number::Decimal::Explicit), Q{found};
+          ok has-a( $tree, Raku::Number::Decimal::Explicit), Q{found};
 }
           
           done-testing;
@@ -424,24 +424,24 @@ subtest {
       }, Q{Number::Decimal};
       
       subtest {
-        ok Perl6::Number::Hexadecimal ~~ Perl6::Number, Q{has correct parent};
-        ok has-a( $tree, Perl6::Number::Hexadecimal ), Q{found};
+        ok Raku::Number::Hexadecimal ~~ Raku::Number, Q{has correct parent};
+        ok has-a( $tree, Raku::Number::Hexadecimal ), Q{found};
         
         done-testing;
       }, Q{Number::Hexadecimal};
       
       subtest {
-        ok Perl6::Number::Radix ~~ Perl6::Number, Q{has correct parent};
+        ok Raku::Number::Radix ~~ Raku::Number, Q{has correct parent};
 #`{
-        ok has-a( $tree, Perl6::Number::Radix ), Q{found};
+        ok has-a( $tree, Raku::Number::Radix ), Q{found};
 }
         
         done-testing;
       }, Q{Number::Radix};
       
       subtest {
-        ok Perl6::Number::FloatingPoint ~~ Perl6::Number, Q{has correct parent};
-        ok has-a( $tree, Perl6::Number::FloatingPoint ), Q{found};
+        ok Raku::Number::FloatingPoint ~~ Raku::Number, Q{has correct parent};
+        ok has-a( $tree, Raku::Number::FloatingPoint ), Q{found};
         
         done-testing;
       }, Q{Number::FloatingPoint};
@@ -450,41 +450,41 @@ subtest {
     }, Q{Number};
     
     subtest {
-      ok Perl6::NotANumber ~~ Perl6::Visible, Q{has correct parent};
-      ok has-a( $tree, Perl6::NotANumber ), Q{found};
+      ok Raku::NotANumber ~~ Raku::Visible, Q{has correct parent};
+      ok has-a( $tree, Raku::NotANumber ), Q{found};
       
       done-testing;
     }, Q{NotANumber};
     
     subtest {
-      ok Perl6::Infinity ~~ Perl6::Visible, Q{has correct parent};
-      ok has-a( $tree, Perl6::Infinity ), Q{found};
+      ok Raku::Infinity ~~ Raku::Visible, Q{has correct parent};
+      ok has-a( $tree, Raku::Infinity ), Q{found};
       
       done-testing;
     }, Q{Infinity};
     
     subtest {
-      ok Perl6::Regex ~~ Perl6::Visible, Q{has correct parent};
-      ok has-a( $tree, Perl6::Regex ), Q{found};
+      ok Raku::Regex ~~ Raku::Visible, Q{has correct parent};
+      ok has-a( $tree, Raku::Regex ), Q{found};
       
       done-testing;
     }, Q{Regex};
     
     subtest {
-      ok Perl6::Bareword ~~ Perl6::Visible, Q{has correct parent};
-      ok has-a( $tree, Perl6::Bareword ), Q{found};
+      ok Raku::Bareword ~~ Raku::Visible, Q{has correct parent};
+      ok has-a( $tree, Raku::Bareword ), Q{found};
       
       subtest {
-        ok Perl6::SubroutineDeclaration ~~ Perl6::Bareword,
+        ok Raku::SubroutineDeclaration ~~ Raku::Bareword,
            Q{has correct parent};
-        ok has-a( $tree, Perl6::SubroutineDeclaration ), Q{found};
+        ok has-a( $tree, Raku::SubroutineDeclaration ), Q{found};
         
         done-testing;
       }, Q{SubroutineDeclaration};
       
       subtest {
-        ok Perl6::ColonBareword ~~ Perl6::Bareword, Q{has correct parent};
-        ok has-a( $tree, Perl6::ColonBareword ), Q{found};
+        ok Raku::ColonBareword ~~ Raku::Bareword, Q{has correct parent};
+        ok has-a( $tree, Raku::ColonBareword ), Q{found};
         
         done-testing;
       }, Q{ColonBareword};
@@ -493,118 +493,118 @@ subtest {
     }, Q{Bareword};
     
     subtest {
-      ok Perl6::Adverb ~~ Perl6::Visible, Q{has correct parent};
+      ok Raku::Adverb ~~ Raku::Visible, Q{has correct parent};
 #`{
-      ok has-a( $tree, Perl6::Adverb ), Q{found};
+      ok has-a( $tree, Raku::Adverb ), Q{found};
 }
     
       done-testing;
     }, Q{Adverb};
     
     subtest {
-      ok Perl6::PackageName ~~ Perl6::Visible, Q{has correct parent};
+      ok Raku::PackageName ~~ Raku::Visible, Q{has correct parent};
 #`{
-      ok has-a( $tree, Perl6::PackageName ), Q{found};
+      ok has-a( $tree, Raku::PackageName ), Q{found};
 }
       
       done-testing;
     }, Q{PackageName};
     
     subtest {
-      ok Perl6::Variable ~~ Perl6::Visible, Q{has correct parent};
-      ok has-a( $tree, Perl6::Variable ), Q{found};
+      ok Raku::Variable ~~ Raku::Visible, Q{has correct parent};
+      ok has-a( $tree, Raku::Variable ), Q{found};
       
       subtest {
-        ok Perl6::Variable::Scalar ~~ Perl6::Variable, Q{has correct parent};
-        ok has-a( $tree, Perl6::Variable::Scalar ), Q{found};
+        ok Raku::Variable::Scalar ~~ Raku::Variable, Q{has correct parent};
+        ok has-a( $tree, Raku::Variable::Scalar ), Q{found};
         
         subtest {
-          ok Perl6::Variable::Scalar::Contextualizer ~~ Perl6::Variable::Scalar,
+          ok Raku::Variable::Scalar::Contextualizer ~~ Raku::Variable::Scalar,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Scalar::Contextualizer ), Q{found};
+          ok has-a( $tree, Raku::Variable::Scalar::Contextualizer ), Q{found};
 }
           
           done-testing;
         }, Q{Variable::Scalar::Contextualizer};
         
         subtest {
-          ok Perl6::Variable::Scalar::Dynamic ~~ Perl6::Variable::Scalar,
+          ok Raku::Variable::Scalar::Dynamic ~~ Raku::Variable::Scalar,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::Variable::Scalar::Dynamic ), Q{found};
+          ok has-a( $tree, Raku::Variable::Scalar::Dynamic ), Q{found};
           
           done-testing;
         }, Q{Variable::Scalar::Dynamic};
         
         subtest {
-          ok Perl6::Variable::Scalar::Attribute ~~ Perl6::Variable::Scalar,
+          ok Raku::Variable::Scalar::Attribute ~~ Raku::Variable::Scalar,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::Variable::Scalar::Attribute ), Q{found};
+          ok has-a( $tree, Raku::Variable::Scalar::Attribute ), Q{found};
           
           done-testing;
         }, Q{Variable::Scalar::Attribute};
         
         subtest {
-          ok Perl6::Variable::Scalar::Accessor ~~ Perl6::Variable::Scalar,
+          ok Raku::Variable::Scalar::Accessor ~~ Raku::Variable::Scalar,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::Variable::Scalar::Accessor ), Q{found};
+          ok has-a( $tree, Raku::Variable::Scalar::Accessor ), Q{found};
           
           done-testing;
         }, Q{Variable::Scalar::Accessor};
         
         subtest {
-          ok Perl6::Variable::Scalar::CompileTime ~~ Perl6::Variable::Scalar,
+          ok Raku::Variable::Scalar::CompileTime ~~ Raku::Variable::Scalar,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Scalar::CompileTime ), Q{found};
+          ok has-a( $tree, Raku::Variable::Scalar::CompileTime ), Q{found};
 }
           
           done-testing;
         }, Q{Variable::Scalar::CompileTime};
         
         subtest {
-          ok Perl6::Variable::Scalar::MatchIndex ~~ Perl6::Variable::Scalar,
+          ok Raku::Variable::Scalar::MatchIndex ~~ Raku::Variable::Scalar,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Scalar::MatchIndex ), Q{found};
+          ok has-a( $tree, Raku::Variable::Scalar::MatchIndex ), Q{found};
 }
           
           done-testing;
         }, Q{Variable::Scalar::MatchIndex};
         
         subtest {
-          ok Perl6::Variable::Scalar::Positional ~~ Perl6::Variable::Scalar,
+          ok Raku::Variable::Scalar::Positional ~~ Raku::Variable::Scalar,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Scalar::Positional ), Q{found};
+          ok has-a( $tree, Raku::Variable::Scalar::Positional ), Q{found};
 }
           
           done-testing;
         }, Q{Variable::Scalar::Positional};
         
         subtest {
-          ok Perl6::Variable::Scalar::Named ~~ Perl6::Variable::Scalar,
+          ok Raku::Variable::Scalar::Named ~~ Raku::Variable::Scalar,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Scalar::Named ), Q{found};
+          ok has-a( $tree, Raku::Variable::Scalar::Named ), Q{found};
 }
         
           done-testing;
         }, Q{Variable::Scalar::Named};
         
         subtest {
-          ok Perl6::Variable::Scalar::Pod ~~ Perl6::Variable::Scalar,
+          ok Raku::Variable::Scalar::Pod ~~ Raku::Variable::Scalar,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::Variable::Scalar::Pod ), Q{found};
+          ok has-a( $tree, Raku::Variable::Scalar::Pod ), Q{found};
           
           done-testing;
         }, Q{Variable::Scalar::Pod};
         
         subtest {
-          ok Perl6::Variable::Scalar::SubLanguage ~~ Perl6::Variable::Scalar,
+          ok Raku::Variable::Scalar::SubLanguage ~~ Raku::Variable::Scalar,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Scalar::SubLanguage ), Q{found};
+          ok has-a( $tree, Raku::Variable::Scalar::SubLanguage ), Q{found};
 }
           
           done-testing;
@@ -614,94 +614,94 @@ subtest {
       }, Q{Variable::Scalar};
       
       subtest {
-        ok Perl6::Variable::Array ~~ Perl6::Variable, Q{has correct parent};
-        ok has-a( $tree, Perl6::Variable::Array ), Q{found};
+        ok Raku::Variable::Array ~~ Raku::Variable, Q{has correct parent};
+        ok has-a( $tree, Raku::Variable::Array ), Q{found};
         
 #        subtest {
-#          ok Perl6::Variable::Array::Contextualizer ~~ Perl6::Variable::Array,
+#          ok Raku::Variable::Array::Contextualizer ~~ Raku::Variable::Array,
 #             Q{has correct parent};
-#          ok has-a( $tree, Perl6::Variable::Array::Contextualizer ), Q{found};
+#          ok has-a( $tree, Raku::Variable::Array::Contextualizer ), Q{found};
 #          
 #          done-testing;
 #        }, Q{Variable::Array::Contextualizer};
         
         subtest {
-          ok Perl6::Variable::Array::Dynamic ~~ Perl6::Variable::Array,
+          ok Raku::Variable::Array::Dynamic ~~ Raku::Variable::Array,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::Variable::Array::Dynamic ), Q{found};
+          ok has-a( $tree, Raku::Variable::Array::Dynamic ), Q{found};
           
           done-testing;
         }, Q{Variable::Array::Dynamic};
         
         subtest {
-          ok Perl6::Variable::Array::Attribute ~~ Perl6::Variable::Array,
+          ok Raku::Variable::Array::Attribute ~~ Raku::Variable::Array,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::Variable::Array::Attribute ), Q{found};
+          ok has-a( $tree, Raku::Variable::Array::Attribute ), Q{found};
           
           done-testing;
         }, Q{Variable::Array::Attribute};
         
         subtest {
-          ok Perl6::Variable::Array::Accessor ~~ Perl6::Variable::Array,
+          ok Raku::Variable::Array::Accessor ~~ Raku::Variable::Array,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::Variable::Array::Accessor ), Q{found};
+          ok has-a( $tree, Raku::Variable::Array::Accessor ), Q{found};
           
           done-testing;
         }, Q{Variable::Array::Accessor};
         
         subtest {
-          ok Perl6::Variable::Array::CompileTime ~~ Perl6::Variable::Array,
+          ok Raku::Variable::Array::CompileTime ~~ Raku::Variable::Array,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Array::CompileTime ), Q{found};
+          ok has-a( $tree, Raku::Variable::Array::CompileTime ), Q{found};
 }
           
           done-testing;
         }, Q{Variable::Array::CompileTime};
         
         subtest {
-          ok Perl6::Variable::Array::MatchIndex ~~ Perl6::Variable::Array,
+          ok Raku::Variable::Array::MatchIndex ~~ Raku::Variable::Array,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Array::MatchIndex ), Q{found};
+          ok has-a( $tree, Raku::Variable::Array::MatchIndex ), Q{found};
 }
           
           done-testing;
         }, Q{Variable::Array::MatchIndex};
         
         subtest {
-          ok Perl6::Variable::Array::Positional ~~ Perl6::Variable::Array,
+          ok Raku::Variable::Array::Positional ~~ Raku::Variable::Array,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Array::Positional ), Q{found};
+          ok has-a( $tree, Raku::Variable::Array::Positional ), Q{found};
 }
           
           done-testing;
         }, Q{Variable::Array::Positional};
         
         subtest {
-          ok Perl6::Variable::Array::Named ~~ Perl6::Variable::Array,
+          ok Raku::Variable::Array::Named ~~ Raku::Variable::Array,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Array::Named ), Q{found};
+          ok has-a( $tree, Raku::Variable::Array::Named ), Q{found};
 }
         
           done-testing;
         }, Q{Variable::Array::Named};
         
         subtest {
-          ok Perl6::Variable::Array::Pod ~~ Perl6::Variable::Array,
+          ok Raku::Variable::Array::Pod ~~ Raku::Variable::Array,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::Variable::Array::Pod ), Q{found};
+          ok has-a( $tree, Raku::Variable::Array::Pod ), Q{found};
           
           done-testing;
         }, Q{Variable::Array::Pod};
         
         subtest {
-          ok Perl6::Variable::Array::SubLanguage ~~ Perl6::Variable::Array,
+          ok Raku::Variable::Array::SubLanguage ~~ Raku::Variable::Array,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Array::SubLanguage ), Q{found};
+          ok has-a( $tree, Raku::Variable::Array::SubLanguage ), Q{found};
 }
           
           done-testing;
@@ -712,94 +712,94 @@ subtest {
       }, Q{Variable::Array};
       
       subtest {
-        ok Perl6::Variable::Hash ~~ Perl6::Variable, Q{has correct parent};
-        ok has-a( $tree, Perl6::Variable::Hash ), Q{found};
+        ok Raku::Variable::Hash ~~ Raku::Variable, Q{has correct parent};
+        ok has-a( $tree, Raku::Variable::Hash ), Q{found};
         
 #	subtest {
-#         ok Perl6::Variable::Hash::Contextualizer ~~ Perl6::Variable::Hash,
+#         ok Raku::Variable::Hash::Contextualizer ~~ Raku::Variable::Hash,
 #            Q{has correct parent};
-#         ok has-a( $tree, Perl6::Variable::Hash::Contextualizer ), Q{found};
+#         ok has-a( $tree, Raku::Variable::Hash::Contextualizer ), Q{found};
 #         
 #         done-testing;
 #	}, Q{Variable::Hash::Contextualizer};
         
         subtest {
-          ok Perl6::Variable::Hash::Dynamic ~~ Perl6::Variable::Hash,
+          ok Raku::Variable::Hash::Dynamic ~~ Raku::Variable::Hash,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::Variable::Hash::Dynamic ), Q{found};
+          ok has-a( $tree, Raku::Variable::Hash::Dynamic ), Q{found};
           
           done-testing;
         }, Q{Variable::Hash::Dynamic};
         
         subtest {
-          ok Perl6::Variable::Hash::Attribute ~~ Perl6::Variable::Hash,
+          ok Raku::Variable::Hash::Attribute ~~ Raku::Variable::Hash,
              Q{has correct parent};
- 	  ok has-a( $tree, Perl6::Variable::Hash::Attribute ), Q{found};
+ 	  ok has-a( $tree, Raku::Variable::Hash::Attribute ), Q{found};
         
           done-testing;
         }, Q{Variable::Hash::Attribute};
         
         subtest {
-          ok Perl6::Variable::Hash::Accessor ~~ Perl6::Variable::Hash,
+          ok Raku::Variable::Hash::Accessor ~~ Raku::Variable::Hash,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::Variable::Hash::Accessor ), Q{found};
+          ok has-a( $tree, Raku::Variable::Hash::Accessor ), Q{found};
           
           done-testing;
         }, Q{Variable::Hash::Accessor};
         
         subtest {
-          ok Perl6::Variable::Hash::CompileTime ~~ Perl6::Variable::Hash,
+          ok Raku::Variable::Hash::CompileTime ~~ Raku::Variable::Hash,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Hash::CompileTime ), Q{found};
+          ok has-a( $tree, Raku::Variable::Hash::CompileTime ), Q{found};
 }
         
           done-testing;
         }, Q{Variable::Hash::CompileTime};
         
         subtest {
-          ok Perl6::Variable::Hash::MatchIndex ~~ Perl6::Variable::Hash,
+          ok Raku::Variable::Hash::MatchIndex ~~ Raku::Variable::Hash,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Hash::MatchIndex ), Q{found};
+          ok has-a( $tree, Raku::Variable::Hash::MatchIndex ), Q{found};
 }
         
           done-testing;
         }, Q{Variable::Hash::MatchIndex};
         
         subtest {
-          ok Perl6::Variable::Hash::Positional ~~ Perl6::Variable::Hash,
+          ok Raku::Variable::Hash::Positional ~~ Raku::Variable::Hash,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Hash::Positional ),	Q{found};
+          ok has-a( $tree, Raku::Variable::Hash::Positional ),	Q{found};
 }
           
           done-testing;
         }, Q{Variable::Hash::Positional};
         
         subtest {
-          ok Perl6::Variable::Hash::Named ~~ Perl6::Variable::Hash,
+          ok Raku::Variable::Hash::Named ~~ Raku::Variable::Hash,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Hash::Named ), Q{found};
+          ok has-a( $tree, Raku::Variable::Hash::Named ), Q{found};
 }
           
           done-testing;
         }, Q{Variable::Hash::Named};
         
         subtest {
-          ok Perl6::Variable::Hash::Pod ~~ Perl6::Variable::Hash,
+          ok Raku::Variable::Hash::Pod ~~ Raku::Variable::Hash,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::Variable::Hash::Pod ), Q{found};
+          ok has-a( $tree, Raku::Variable::Hash::Pod ), Q{found};
           
           done-testing;
         }, Q{Variable::Hash::Pod};
         
         subtest {
-          ok Perl6::Variable::Hash::SubLanguage ~~ Perl6::Variable::Hash,
+          ok Raku::Variable::Hash::SubLanguage ~~ Raku::Variable::Hash,
              Q{has correct parent};
 #`{
- 	  ok has-a( $tree, Perl6::Variable::Hash::SubLanguage ), Q{found};
+ 	  ok has-a( $tree, Raku::Variable::Hash::SubLanguage ), Q{found};
 }
           
           done-testing;
@@ -809,97 +809,97 @@ subtest {
       }, Q{Variable::Hash};
       
       subtest {
-        ok Perl6::Variable::Callable ~~ Perl6::Variable, Q{has correct parent};
-        ok has-a( $tree, Perl6::Variable::Callable ), Q{found};
+        ok Raku::Variable::Callable ~~ Raku::Variable, Q{has correct parent};
+        ok has-a( $tree, Raku::Variable::Callable ), Q{found};
         
 #	subtest {
-#	  ok Perl6::Variable::Callable::Contextualizer ~~ Perl6::Variable::Callable,
+#	  ok Raku::Variable::Callable::Contextualizer ~~ Raku::Variable::Callable,
 #	  Q{has correct parent};
-#	  ok has-a( $tree, Perl6::Variable::Callable::Contextualizer ),
+#	  ok has-a( $tree, Raku::Variable::Callable::Contextualizer ),
 #	     Q{found};
 #
 #	  done-testing;
 #	}, Q{Variable::Callable::Contextualizer};
         
         subtest {
-          ok Perl6::Variable::Callable::Dynamic ~~ Perl6::Variable::Callable,
+          ok Raku::Variable::Callable::Dynamic ~~ Raku::Variable::Callable,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::Variable::Callable::Dynamic ), Q{found};
+          ok has-a( $tree, Raku::Variable::Callable::Dynamic ), Q{found};
           
           done-testing;
         }, Q{Variable::Callable::Dynamic};
         
         subtest {
-          ok Perl6::Variable::Callable::Attribute ~~ Perl6::Variable::Callable,
+          ok Raku::Variable::Callable::Attribute ~~ Raku::Variable::Callable,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::Variable::Callable::Attribute ), Q{found};
+          ok has-a( $tree, Raku::Variable::Callable::Attribute ), Q{found};
           
           done-testing;
         }, Q{Variable::Callable::Attribute};
         
         subtest {
-          ok Perl6::Variable::Callable::Accessor ~~ Perl6::Variable::Callable,
+          ok Raku::Variable::Callable::Accessor ~~ Raku::Variable::Callable,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::Variable::Callable::Accessor ), Q{found};
+          ok has-a( $tree, Raku::Variable::Callable::Accessor ), Q{found};
           
           done-testing;
         }, Q{Variable::Callable::Accessor};
         
         subtest {
-          ok Perl6::Variable::Callable::CompileTime ~~
-             Perl6::Variable::Callable,
+          ok Raku::Variable::Callable::CompileTime ~~
+             Raku::Variable::Callable,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Callable::CompileTime ), Q{found};
+          ok has-a( $tree, Raku::Variable::Callable::CompileTime ), Q{found};
 }
           
           done-testing;
         }, Q{Variable::Callable::CompileTime};
         
         subtest {
-          ok Perl6::Variable::Callable::MatchIndex ~~ Perl6::Variable::Callable,
+          ok Raku::Variable::Callable::MatchIndex ~~ Raku::Variable::Callable,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Callable::MatchIndex ), Q{found};
+          ok has-a( $tree, Raku::Variable::Callable::MatchIndex ), Q{found};
 }
           
           done-testing;
         }, Q{Variable::Callable::MatchIndex};
         
         subtest {
-          ok Perl6::Variable::Callable::Positional ~~ Perl6::Variable::Callable,
+          ok Raku::Variable::Callable::Positional ~~ Raku::Variable::Callable,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Callable::Positional ), Q{found};
+          ok has-a( $tree, Raku::Variable::Callable::Positional ), Q{found};
 }
           
           done-testing;
         }, Q{Variable::Callable::Positional};
         
         subtest {
-          ok Perl6::Variable::Callable::Named ~~ Perl6::Variable::Callable,
+          ok Raku::Variable::Callable::Named ~~ Raku::Variable::Callable,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Callable::Named ), Q{found};
+          ok has-a( $tree, Raku::Variable::Callable::Named ), Q{found};
 }
 
           done-testing;
         }, Q{Variable::Callable::Named};
         
         subtest {
-          ok Perl6::Variable::Callable::Pod ~~ Perl6::Variable::Callable,
+          ok Raku::Variable::Callable::Pod ~~ Raku::Variable::Callable,
              Q{has correct parent};
-          ok has-a( $tree, Perl6::Variable::Callable::Pod ), Q{found};
+          ok has-a( $tree, Raku::Variable::Callable::Pod ), Q{found};
           
           done-testing;
         }, Q{Variable::Callable::Pod};
         
         subtest {
-          ok Perl6::Variable::Callable::SubLanguage ~~
-             Perl6::Variable::Callable,
+          ok Raku::Variable::Callable::SubLanguage ~~
+             Raku::Variable::Callable,
              Q{has correct parent};
 #`{
-          ok has-a( $tree, Perl6::Variable::Callable::SubLanguage ), Q{found};
+          ok has-a( $tree, Raku::Variable::Callable::SubLanguage ), Q{found};
 }
           
           done-testing;
@@ -915,19 +915,19 @@ subtest {
   }, Q{Visible};
   
   subtest {
-    ok Perl6::Invisible ~~ Perl6::Element, Q{has correct parent};
-    ok has-a( $tree, Perl6::Invisible ), Q{found};
+    ok Raku::Invisible ~~ Raku::Element, Q{has correct parent};
+    ok has-a( $tree, Raku::Invisible ), Q{found};
   
     subtest {
-      ok Perl6::WS ~~ Perl6::Invisible, Q{has correct parent};
-      ok has-a( $tree, Perl6::Document ), Q{found};
+      ok Raku::WS ~~ Raku::Invisible, Q{has correct parent};
+      ok has-a( $tree, Raku::Document ), Q{found};
   
       done-testing;
     }, Q{WS};
   
     subtest {
-      ok Perl6::Newline ~~ Perl6::Invisible, Q{has correct parent};
-      ok has-a( $tree, Perl6::Document ), Q{found};
+      ok Raku::Newline ~~ Raku::Invisible, Q{has correct parent};
+      ok has-a( $tree, Raku::Document ), Q{found};
   
       done-testing;
     }, Q{Newline};
@@ -936,22 +936,22 @@ subtest {
   }, Q{Invisible};
   
   subtest {
-    ok Perl6::Document ~~ Perl6::Element, Q{has correct parent};
-    ok has-a( $tree, Perl6::Document ), Q{found};
+    ok Raku::Document ~~ Raku::Element, Q{has correct parent};
+    ok has-a( $tree, Raku::Document ), Q{found};
   
     done-testing;
   }, Q{Document};
   
   subtest {
-    ok Perl6::Statement ~~ Perl6::Element, Q{has correct parent};
-    ok has-a( $tree, Perl6::Statement ), Q{found};
+    ok Raku::Statement ~~ Raku::Element, Q{has correct parent};
+    ok has-a( $tree, Raku::Statement ), Q{found};
   
     done-testing;
   }, Q{Statement};
   
   subtest {
-    ok Perl6::Block ~~ Perl6::Element, Q{has correct parent};
-    ok has-a( $tree, Perl6::Block ), Q{found};
+    ok Raku::Block ~~ Raku::Element, Q{has correct parent};
+    ok has-a( $tree, Raku::Block ), Q{found};
   
     done-testing;
   }, Q{Block};
@@ -961,4 +961,4 @@ subtest {
 
 done-testing;
 
-# vim: ft=perl6
+# vim: ft=raku

@@ -1,18 +1,18 @@
 use v6;
 
 use Test;
-use Perl6::Parser;
+use Raku::Parser;
 
 plan 6;
 
-my $pp                 = Perl6::Parser.new;
-my $ppf                = Perl6::Parser::Factory.new;
+my $pp                 = Raku::Parser.new;
+my $ppf                = Raku::Parser::Factory.new;
 my $*CONSISTENCY-CHECK = True;
 my $*UPDATE-RANGES     = True;
 my $*FALL-THROUGH      = True;
 
 sub check-node(
-	Perl6::Element $element, Mu $type, Mu $parent, Int $from, Int $to ) {
+	Raku::Element $element, Mu $type, Mu $parent, Int $from, Int $to ) {
 	my $is-ok = True;
 	unless $element ~~ $type {
 		diag "expected type '$type', got type '{$element.WHAT.perl}'";
@@ -51,63 +51,63 @@ subtest {
 
 	# Check links going forward and upward.
 	#
-	ok check-node( $head, Perl6::Document, Perl6::Document, 0, 7 );
+	ok check-node( $head, Raku::Document, Raku::Document, 0, 7 );
 	$head = $head.next;
 
-	ok check-node( $head, Perl6::Statement, Perl6::Document, 0, 4 );
-	$head = $head.next;
-
-	ok check-node( $head,
-		Perl6::Operator::Circumfix, Perl6::Statement, 0, 3 );
+	ok check-node( $head, Raku::Statement, Raku::Document, 0, 4 );
 	$head = $head.next;
 
 	ok check-node( $head,
-		Perl6::Balanced::Enter, Perl6::Operator::Circumfix, 0, 1 );
+		Raku::Operator::Circumfix, Raku::Statement, 0, 3 );
 	$head = $head.next;
 
-#	ok $head ~~ Perl6::Number::Decimal;
+	ok check-node( $head,
+		Raku::Balanced::Enter, Raku::Operator::Circumfix, 0, 1 );
+	$head = $head.next;
+
+#	ok $head ~~ Raku::Number::Decimal;
 #	is $head.from, 2;
 #	$head = $head.next;
 
 	ok check-node( $head,
-		Perl6::Balanced::Exit, Perl6::Operator::Circumfix, 1, 2 );
+		Raku::Balanced::Exit, Raku::Operator::Circumfix, 1, 2 );
 	$head = $head.next;
 
-	ok check-node( $head, Perl6::Semicolon, Perl6::Statement, 2, 3 );
+	ok check-node( $head, Raku::Semicolon, Raku::Statement, 2, 3 );
 	$head = $head.next;
 
-	ok check-node( $head, Perl6::Statement, Perl6::Document, 3, 5 );
+	ok check-node( $head, Raku::Statement, Raku::Document, 3, 5 );
 	$head = $head.next;
 
-	ok check-node( $head, Perl6::Number::Decimal, Perl6::Statement, 3, 4 );
+	ok check-node( $head, Raku::Number::Decimal, Raku::Statement, 3, 4 );
 	$head = $head.next;
 
-	ok check-node( $head, Perl6::Semicolon, Perl6::Statement, 4, 5 );
+	ok check-node( $head, Raku::Semicolon, Raku::Statement, 4, 5 );
 	$head = $head.next;
 
-	ok check-node( $head, Perl6::Statement, Perl6::Document, 5, 6 );
+	ok check-node( $head, Raku::Statement, Raku::Document, 5, 6 );
 	$head = $head.next;
 
-	ok check-node( $head, Perl6::Number::Decimal, Perl6::Statement, 6, 7 );
+	ok check-node( $head, Raku::Number::Decimal, Raku::Statement, 6, 7 );
 	$head = $head.next;
 
-	ok check-node( $head, Perl6::Number::Decimal, Perl6::Statement, 6, 7 );
+	ok check-node( $head, Raku::Number::Decimal, Raku::Statement, 6, 7 );
 	ok $head.is-end;
 
 	# Now that we're at the end, throw this baby into reverse.
 	#
-	ok $head ~~ Perl6::Number::Decimal;     $head = $head.previous;
-	ok $head ~~ Perl6::Statement;           $head = $head.previous;
-	ok $head ~~ Perl6::Semicolon;           $head = $head.previous;
-	ok $head ~~ Perl6::Number;              $head = $head.previous;
-	ok $head ~~ Perl6::Statement;           $head = $head.previous;
-	ok $head ~~ Perl6::Semicolon;           $head = $head.previous;
-	ok $head ~~ Perl6::Balanced::Exit;      $head = $head.previous;
-#	ok $head ~~ Perl6::String::Body;        $head = $head.previous;
-	ok $head ~~ Perl6::Balanced::Enter;     $head = $head.previous;
-	ok $head ~~ Perl6::Operator::Circumfix; $head = $head.previous;
-	ok $head ~~ Perl6::Statement;           $head = $head.previous;
-	ok $head ~~ Perl6::Document;            $head = $head.previous;
+	ok $head ~~ Raku::Number::Decimal;     $head = $head.previous;
+	ok $head ~~ Raku::Statement;           $head = $head.previous;
+	ok $head ~~ Raku::Semicolon;           $head = $head.previous;
+	ok $head ~~ Raku::Number;              $head = $head.previous;
+	ok $head ~~ Raku::Statement;           $head = $head.previous;
+	ok $head ~~ Raku::Semicolon;           $head = $head.previous;
+	ok $head ~~ Raku::Balanced::Exit;      $head = $head.previous;
+#	ok $head ~~ Raku::String::Body;        $head = $head.previous;
+	ok $head ~~ Raku::Balanced::Enter;     $head = $head.previous;
+	ok $head ~~ Raku::Operator::Circumfix; $head = $head.previous;
+	ok $head ~~ Raku::Statement;           $head = $head.previous;
+	ok $head ~~ Raku::Document;            $head = $head.previous;
 	ok $head.is-start;
 
 	my $iterated = '';
@@ -132,7 +132,7 @@ subtest {
 	my $integer = $head.next(4);
 
 	$integer.replace-node-with(
-		Perl6::Number::Decimal.new(
+		Raku::Number::Decimal.new(
 			:from( 1 ),
 			:to( 2 ),
 			:content( '42' )
@@ -141,70 +141,70 @@ subtest {
 
 	# Check links going forward and upward.
 	#
-	ok check-node( $head, Perl6::Document, Perl6::Document, 0, 7 );
+	ok check-node( $head, Raku::Document, Raku::Document, 0, 7 );
 	$head = $head.next;
 
-	ok check-node( $head, Perl6::Statement, Perl6::Document, 0, 4 );
-	$head = $head.next;
-
-	ok check-node( $head,
-		Perl6::Operator::Circumfix, Perl6::Statement, 0, 3 );
+	ok check-node( $head, Raku::Statement, Raku::Document, 0, 4 );
 	$head = $head.next;
 
 	ok check-node( $head,
-		Perl6::Balanced::Enter, Perl6::Operator::Circumfix, 0, 1 );
+		Raku::Operator::Circumfix, Raku::Statement, 0, 3 );
 	$head = $head.next;
 
 	ok check-node( $head,
-		Perl6::Number::Decimal, Perl6::Operator::Circumfix, 1, 2 );
+		Raku::Balanced::Enter, Raku::Operator::Circumfix, 0, 1 );
 	$head = $head.next;
 
 	ok check-node( $head,
-		Perl6::Balanced::Exit, Perl6::Operator::Circumfix, 2, 3 );
+		Raku::Number::Decimal, Raku::Operator::Circumfix, 1, 2 );
 	$head = $head.next;
 
 	ok check-node( $head,
-		Perl6::Semicolon, Perl6::Statement, 3, 4 );
+		Raku::Balanced::Exit, Raku::Operator::Circumfix, 2, 3 );
 	$head = $head.next;
 
 	ok check-node( $head,
-		Perl6::Statement, Perl6::Document, 4, 6 );
+		Raku::Semicolon, Raku::Statement, 3, 4 );
 	$head = $head.next;
 
 	ok check-node( $head,
-		Perl6::Number::Decimal, Perl6::Statement, 4, 5 );
+		Raku::Statement, Raku::Document, 4, 6 );
 	$head = $head.next;
 
 	ok check-node( $head,
-		Perl6::Semicolon, Perl6::Statement, 5, 6 );
+		Raku::Number::Decimal, Raku::Statement, 4, 5 );
 	$head = $head.next;
 
 	ok check-node( $head,
-		Perl6::Statement, Perl6::Document, 6, 7 );
+		Raku::Semicolon, Raku::Statement, 5, 6 );
 	$head = $head.next;
 
 	ok check-node( $head,
-		Perl6::Number::Decimal, Perl6::Statement, 6, 7 );
+		Raku::Statement, Raku::Document, 6, 7 );
 	$head = $head.next;
 
 	ok check-node( $head,
-		Perl6::Number::Decimal, Perl6::Statement, 6, 7 );
+		Raku::Number::Decimal, Raku::Statement, 6, 7 );
+	$head = $head.next;
+
+	ok check-node( $head,
+		Raku::Number::Decimal, Raku::Statement, 6, 7 );
 	ok $head.is-end;
 
 	# Now that we're at the end, throw this baby into reverse.
 	#
-	ok $head ~~ Perl6::Number::Decimal;     $head = $head.previous;
-	ok $head ~~ Perl6::Statement;           $head = $head.previous;
-	ok $head ~~ Perl6::Semicolon;           $head = $head.previous;
-	ok $head ~~ Perl6::Number;              $head = $head.previous;
-	ok $head ~~ Perl6::Statement;           $head = $head.previous;
-	ok $head ~~ Perl6::Semicolon;           $head = $head.previous;
-	ok $head ~~ Perl6::Balanced::Exit;      $head = $head.previous;
-	ok $head ~~ Perl6::Number::Decimal;     $head = $head.previous;
-	ok $head ~~ Perl6::Balanced::Enter;     $head = $head.previous;
-	ok $head ~~ Perl6::Operator::Circumfix; $head = $head.previous;
-	ok $head ~~ Perl6::Statement;           $head = $head.previous;
-	ok $head ~~ Perl6::Document;            $head = $head.previous;
+	ok $head ~~ Raku::Number::Decimal;     $head = $head.previous;
+	ok $head ~~ Raku::Statement;           $head = $head.previous;
+	ok $head ~~ Raku::Semicolon;           $head = $head.previous;
+	ok $head ~~ Raku::Number;              $head = $head.previous;
+	ok $head ~~ Raku::Statement;           $head = $head.previous;
+	ok $head ~~ Raku::Semicolon;           $head = $head.previous;
+	ok $head ~~ Raku::Balanced::Exit;      $head = $head.previous;
+	ok $head ~~ Raku::Number::Decimal;     $head = $head.previous;
+	ok $head ~~ Raku::Balanced::Enter;     $head = $head.previous;
+	ok $head ~~ Raku::Operator::Circumfix; $head = $head.previous;
+	ok $head ~~ Raku::Statement;           $head = $head.previous;
+	ok $head ~~ Raku::Document;            $head = $head.previous;
 	ok $head.is-start;
 
 	my $iterated = '';
@@ -235,32 +235,32 @@ subtest {
 	#
 	$one.remove-node;
 
-	ok $head ~~ Perl6::Document;            $head = $head.next;
-	ok $head ~~ Perl6::Statement;           $head = $head.next;
-	ok $head ~~ Perl6::Operator::Circumfix; $head = $head.next;
-	ok $head ~~ Perl6::Balanced::Enter;     $head = $head.next;
-	ok $head ~~ Perl6::Number::Decimal;     $head = $head.next;
-	ok $head ~~ Perl6::Balanced::Exit;      $head = $head.next;
-	ok $head ~~ Perl6::Semicolon;           $head = $head.next;
-	ok $head ~~ Perl6::Statement;           $head = $head.next;
-	ok $head ~~ Perl6::Number::Decimal;     $head = $head.next;
-	ok $head ~~ Perl6::Semicolon;           $head = $head.next;
-	ok $head ~~ Perl6::Statement;           $head = $head.next;
-#	ok $head ~~ Perl6::Number::Decimal;     $head = $head.next;
+	ok $head ~~ Raku::Document;            $head = $head.next;
+	ok $head ~~ Raku::Statement;           $head = $head.next;
+	ok $head ~~ Raku::Operator::Circumfix; $head = $head.next;
+	ok $head ~~ Raku::Balanced::Enter;     $head = $head.next;
+	ok $head ~~ Raku::Number::Decimal;     $head = $head.next;
+	ok $head ~~ Raku::Balanced::Exit;      $head = $head.next;
+	ok $head ~~ Raku::Semicolon;           $head = $head.next;
+	ok $head ~~ Raku::Statement;           $head = $head.next;
+	ok $head ~~ Raku::Number::Decimal;     $head = $head.next;
+	ok $head ~~ Raku::Semicolon;           $head = $head.next;
+	ok $head ~~ Raku::Statement;           $head = $head.next;
+#	ok $head ~~ Raku::Number::Decimal;     $head = $head.next;
 	ok $head.is-end;
 
-#	ok $head ~~ Perl6::Number::Decimal;     $head = $head.previous;
-	ok $head ~~ Perl6::Statement;           $head = $head.previous;
-	ok $head ~~ Perl6::Semicolon;           $head = $head.previous;
-	ok $head ~~ Perl6::Number::Decimal;     $head = $head.previous;
-	ok $head ~~ Perl6::Statement;           $head = $head.previous;
-	ok $head ~~ Perl6::Semicolon;           $head = $head.previous;
-	ok $head ~~ Perl6::Balanced::Exit;      $head = $head.previous;
-	ok $head ~~ Perl6::Number::Decimal;     $head = $head.previous;
-	ok $head ~~ Perl6::Balanced::Enter;     $head = $head.previous;
-	ok $head ~~ Perl6::Operator::Circumfix; $head = $head.previous;
-	ok $head ~~ Perl6::Statement;           $head = $head.previous;
-	ok $head ~~ Perl6::Document;            $head = $head.previous;
+#	ok $head ~~ Raku::Number::Decimal;     $head = $head.previous;
+	ok $head ~~ Raku::Statement;           $head = $head.previous;
+	ok $head ~~ Raku::Semicolon;           $head = $head.previous;
+	ok $head ~~ Raku::Number::Decimal;     $head = $head.previous;
+	ok $head ~~ Raku::Statement;           $head = $head.previous;
+	ok $head ~~ Raku::Semicolon;           $head = $head.previous;
+	ok $head ~~ Raku::Balanced::Exit;      $head = $head.previous;
+	ok $head ~~ Raku::Number::Decimal;     $head = $head.previous;
+	ok $head ~~ Raku::Balanced::Enter;     $head = $head.previous;
+	ok $head ~~ Raku::Operator::Circumfix; $head = $head.previous;
+	ok $head ~~ Raku::Statement;           $head = $head.previous;
+	ok $head ~~ Raku::Document;            $head = $head.previous;
 
 	my $iterated = '';
 	while $walk-me {
@@ -286,7 +286,7 @@ subtest {
 	# insert '3' into the parenthesized list.
 	#
 	$start-paren.insert-node-after(
-		Perl6::Number::Decimal.new(
+		Raku::Number::Decimal.new(
 			:from( 0 ),
 			:to( 0 ),
 			:content( '3' )
@@ -295,45 +295,45 @@ subtest {
 
 	# Check links going forward and upward.
 	#
-	ok $head ~~ Perl6::Document;            $head = $head.next;
-	ok $head.parent ~~ Perl6::Document;    
-	ok $head ~~ Perl6::Statement;           $head = $head.next;
-	ok $head.parent ~~ Perl6::Statement;
-	ok $head ~~ Perl6::Operator::Circumfix; $head = $head.next;
-	ok $head.parent ~~ Perl6::Operator::Circumfix;
-	ok $head ~~ Perl6::Balanced::Enter;     $head = $head.next;
-	ok $head.parent ~~ Perl6::Operator::Circumfix;
-	ok $head ~~ Perl6::Number::Decimal;     $head = $head.next;
-	ok $head.parent ~~ Perl6::Operator::Circumfix;
-	ok $head ~~ Perl6::Balanced::Exit;      $head = $head.next;
-	ok $head.parent ~~ Perl6::Statement;
-	ok $head ~~ Perl6::Semicolon;           $head = $head.next;
-	ok $head.parent ~~ Perl6::Document;    
-	ok $head ~~ Perl6::Statement;           $head = $head.next;
-	ok $head.parent ~~ Perl6::Statement;
-	ok $head ~~ Perl6::Number::Decimal;     $head = $head.next;
-	ok $head.parent ~~ Perl6::Statement;   
-	ok $head ~~ Perl6::Semicolon;           $head = $head.next;
-	ok $head.parent ~~ Perl6::Document;     
-	ok $head ~~ Perl6::Statement;           $head = $head.next;
-	ok $head.parent ~~ Perl6::Statement;   
-	ok $head ~~ Perl6::Number::Decimal;     $head = $head.next;
+	ok $head ~~ Raku::Document;            $head = $head.next;
+	ok $head.parent ~~ Raku::Document;    
+	ok $head ~~ Raku::Statement;           $head = $head.next;
+	ok $head.parent ~~ Raku::Statement;
+	ok $head ~~ Raku::Operator::Circumfix; $head = $head.next;
+	ok $head.parent ~~ Raku::Operator::Circumfix;
+	ok $head ~~ Raku::Balanced::Enter;     $head = $head.next;
+	ok $head.parent ~~ Raku::Operator::Circumfix;
+	ok $head ~~ Raku::Number::Decimal;     $head = $head.next;
+	ok $head.parent ~~ Raku::Operator::Circumfix;
+	ok $head ~~ Raku::Balanced::Exit;      $head = $head.next;
+	ok $head.parent ~~ Raku::Statement;
+	ok $head ~~ Raku::Semicolon;           $head = $head.next;
+	ok $head.parent ~~ Raku::Document;    
+	ok $head ~~ Raku::Statement;           $head = $head.next;
+	ok $head.parent ~~ Raku::Statement;
+	ok $head ~~ Raku::Number::Decimal;     $head = $head.next;
+	ok $head.parent ~~ Raku::Statement;   
+	ok $head ~~ Raku::Semicolon;           $head = $head.next;
+	ok $head.parent ~~ Raku::Document;     
+	ok $head ~~ Raku::Statement;           $head = $head.next;
+	ok $head.parent ~~ Raku::Statement;   
+	ok $head ~~ Raku::Number::Decimal;     $head = $head.next;
 	ok $head.is-end;
 
 	# Now that we're at the end, throw this baby into reverse.
 	#
-	ok $head ~~ Perl6::Number::Decimal;     $head = $head.previous;
-	ok $head ~~ Perl6::Statement;           $head = $head.previous;
-	ok $head ~~ Perl6::Semicolon;           $head = $head.previous;
-	ok $head ~~ Perl6::Number;              $head = $head.previous;
-	ok $head ~~ Perl6::Statement;           $head = $head.previous;
-	ok $head ~~ Perl6::Semicolon;           $head = $head.previous;
-	ok $head ~~ Perl6::Balanced::Exit;      $head = $head.previous;
-	ok $head ~~ Perl6::Number::Decimal;     $head = $head.previous;
-	ok $head ~~ Perl6::Balanced::Enter;     $head = $head.previous;
-	ok $head ~~ Perl6::Operator::Circumfix; $head = $head.previous;
-	ok $head ~~ Perl6::Statement;           $head = $head.previous;
-	ok $head ~~ Perl6::Document;            $head = $head.previous;
+	ok $head ~~ Raku::Number::Decimal;     $head = $head.previous;
+	ok $head ~~ Raku::Statement;           $head = $head.previous;
+	ok $head ~~ Raku::Semicolon;           $head = $head.previous;
+	ok $head ~~ Raku::Number;              $head = $head.previous;
+	ok $head ~~ Raku::Statement;           $head = $head.previous;
+	ok $head ~~ Raku::Semicolon;           $head = $head.previous;
+	ok $head ~~ Raku::Balanced::Exit;      $head = $head.previous;
+	ok $head ~~ Raku::Number::Decimal;     $head = $head.previous;
+	ok $head ~~ Raku::Balanced::Enter;     $head = $head.previous;
+	ok $head ~~ Raku::Operator::Circumfix; $head = $head.previous;
+	ok $head ~~ Raku::Statement;           $head = $head.previous;
+	ok $head ~~ Raku::Document;            $head = $head.previous;
 	ok $head.is-start;
 
 	my $iterated = '';
@@ -360,7 +360,7 @@ subtest {
 	# insert '3' into the parenthesized list.
 	#
 	$start-paren.insert-node-before(
-		Perl6::Number::Decimal.new(
+		Raku::Number::Decimal.new(
 			:from( 0 ),
 			:to( 0 ),
 			:content( '3' )
@@ -369,45 +369,45 @@ subtest {
 
 	# Check links going forward and upward.
 	#
-	ok $head ~~ Perl6::Document;            $head = $head.next;
-	ok $head.parent ~~ Perl6::Document;    
-	ok $head ~~ Perl6::Statement;           $head = $head.next;
-	ok $head.parent ~~ Perl6::Statement;
-	ok $head ~~ Perl6::Operator::Circumfix; $head = $head.next;
-	ok $head.parent ~~ Perl6::Operator::Circumfix;
-	ok $head ~~ Perl6::Balanced::Enter;     $head = $head.next;
-	ok $head.parent ~~ Perl6::Operator::Circumfix;
-	ok $head ~~ Perl6::Number::Decimal;     $head = $head.next;
-	ok $head.parent ~~ Perl6::Operator::Circumfix;
-	ok $head ~~ Perl6::Balanced::Exit;      $head = $head.next;
-	ok $head.parent ~~ Perl6::Statement;
-	ok $head ~~ Perl6::Semicolon;           $head = $head.next;
-	ok $head.parent ~~ Perl6::Document;    
-	ok $head ~~ Perl6::Statement;           $head = $head.next;
-	ok $head.parent ~~ Perl6::Statement;
-	ok $head ~~ Perl6::Number::Decimal;     $head = $head.next;
-	ok $head.parent ~~ Perl6::Statement;   
-	ok $head ~~ Perl6::Semicolon;           $head = $head.next;
-	ok $head.parent ~~ Perl6::Document;     
-	ok $head ~~ Perl6::Statement;           $head = $head.next;
-	ok $head.parent ~~ Perl6::Statement;   
-	ok $head ~~ Perl6::Number::Decimal;     $head = $head.next;
+	ok $head ~~ Raku::Document;            $head = $head.next;
+	ok $head.parent ~~ Raku::Document;    
+	ok $head ~~ Raku::Statement;           $head = $head.next;
+	ok $head.parent ~~ Raku::Statement;
+	ok $head ~~ Raku::Operator::Circumfix; $head = $head.next;
+	ok $head.parent ~~ Raku::Operator::Circumfix;
+	ok $head ~~ Raku::Balanced::Enter;     $head = $head.next;
+	ok $head.parent ~~ Raku::Operator::Circumfix;
+	ok $head ~~ Raku::Number::Decimal;     $head = $head.next;
+	ok $head.parent ~~ Raku::Operator::Circumfix;
+	ok $head ~~ Raku::Balanced::Exit;      $head = $head.next;
+	ok $head.parent ~~ Raku::Statement;
+	ok $head ~~ Raku::Semicolon;           $head = $head.next;
+	ok $head.parent ~~ Raku::Document;    
+	ok $head ~~ Raku::Statement;           $head = $head.next;
+	ok $head.parent ~~ Raku::Statement;
+	ok $head ~~ Raku::Number::Decimal;     $head = $head.next;
+	ok $head.parent ~~ Raku::Statement;   
+	ok $head ~~ Raku::Semicolon;           $head = $head.next;
+	ok $head.parent ~~ Raku::Document;     
+	ok $head ~~ Raku::Statement;           $head = $head.next;
+	ok $head.parent ~~ Raku::Statement;   
+	ok $head ~~ Raku::Number::Decimal;     $head = $head.next;
 	ok $head.is-end;
 
 	# Now that we're at the end, throw this baby into reverse.
 	#
-	ok $head ~~ Perl6::Number::Decimal;     $head = $head.previous;
-	ok $head ~~ Perl6::Statement;           $head = $head.previous;
-	ok $head ~~ Perl6::Semicolon;           $head = $head.previous;
-	ok $head ~~ Perl6::Number;              $head = $head.previous;
-	ok $head ~~ Perl6::Statement;           $head = $head.previous;
-	ok $head ~~ Perl6::Semicolon;           $head = $head.previous;
-	ok $head ~~ Perl6::Balanced::Exit;      $head = $head.previous;
-	ok $head ~~ Perl6::Number::Decimal;     $head = $head.previous;
-	ok $head ~~ Perl6::Balanced::Enter;     $head = $head.previous;
-	ok $head ~~ Perl6::Operator::Circumfix; $head = $head.previous;
-	ok $head ~~ Perl6::Statement;           $head = $head.previous;
-	ok $head ~~ Perl6::Document;            $head = $head.previous;
+	ok $head ~~ Raku::Number::Decimal;     $head = $head.previous;
+	ok $head ~~ Raku::Statement;           $head = $head.previous;
+	ok $head ~~ Raku::Semicolon;           $head = $head.previous;
+	ok $head ~~ Raku::Number;              $head = $head.previous;
+	ok $head ~~ Raku::Statement;           $head = $head.previous;
+	ok $head ~~ Raku::Semicolon;           $head = $head.previous;
+	ok $head ~~ Raku::Balanced::Exit;      $head = $head.previous;
+	ok $head ~~ Raku::Number::Decimal;     $head = $head.previous;
+	ok $head ~~ Raku::Balanced::Enter;     $head = $head.previous;
+	ok $head ~~ Raku::Operator::Circumfix; $head = $head.previous;
+	ok $head ~~ Raku::Statement;           $head = $head.previous;
+	ok $head ~~ Raku::Document;            $head = $head.previous;
 	ok $head.is-start;
 
 	my $iterated = '';
@@ -428,7 +428,7 @@ subtest {
 	my $iterated = '';
 
 	my $replacement =
-		Perl6::Number::Decimal.new( :from(0), :to(0), :content('42') );
+		Raku::Number::Decimal.new( :from(0), :to(0), :content('42') );
 
 	@token.splice( 7, 1, $replacement );
 
@@ -440,4 +440,4 @@ subtest {
 	done-testing;
 }, Q{edit list};
 
-# vim: ft=perl6
+# vim: ft=raku

@@ -5,19 +5,19 @@
   ],
   "build-depends" : [ ],
   "depends" : [ ],
-  "description" : "Parse Perl 6 from within Perl 6",
+  "description" : "Parse Raku from within Raku.",
   "license" : "Artistic-2.0",
   "meta6" : "0",
-  "name" : "Perl6::Parser",
+  "name" : "Raku::Parser",
   "perl" : "6.c",
   "provides" : {
-    "Perl6::Parser" : "lib/Perl6/Parser.pm6",
-    "Perl6::Parser::Factory" : "lib/Perl6/Parser/Factory.pm6"
+    "Raku::Parser" : "lib/Raku/Parser.rakumod",
+    "Raku::Parser::Factory" : "lib/Raku/Parser/Factory.rakumod"
   },
   "resources" : [ ],
-  "source-url" : "https://github.com/drforr/perl6-Perl6-Parser.git",
+  "source-url" : "https://github.com/Raku/Raku-Parser.git",
   "support" : {
-    "source" : "https://github.com/drforr/perl6-Perl6-Parser"
+    "source" : "https://github.com/Raku/Raku-Parser"
   },
   "tags" : [
     "parse",

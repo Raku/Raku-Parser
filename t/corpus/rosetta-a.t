@@ -1,7 +1,7 @@
 use v6;
 
 use Test;
-use Perl6::Parser;
+use Raku::Parser;
 
 use lib 't/lib/';
 use Utils;
@@ -231,7 +231,7 @@ _END_
 
 subtest {
 	{ ok round-trips( Q:to[_END_] ), Q{version 1};
-#to be called with perl6 columnaligner.pl <orientation>(left, center , right )
+#to be called with raku columnaligner.pl <orientation>(left, center , right )
 #with left as default
 my $fh = open  "example.txt" , :r  or die "Can't read text file!\n" ;
 my @filelines = $fh.lines ;
@@ -581,7 +581,7 @@ _END_
 #	    $png.set: |((cis( Θ / π ) * Θ).reals »+« ($w/2, $h/2))».Int, 255, 0, 255;
 #	}
 #
-#	$png.write: 'Archimedean-spiral-perl6.png';
+#	$png.write: 'Archimedean-spiral-raku.png';
 #	_END_
 #	};
 
@@ -1108,4 +1108,4 @@ _END_
 
 done-testing;
 
-# vim: ft=perl6
+# vim: ft=raku

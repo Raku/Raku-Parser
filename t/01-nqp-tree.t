@@ -1,7 +1,7 @@
 use v6;
 
 use Test;
-use Perl6::Parser;
+use Raku::Parser;
 
 sub hash-matches( Mu $parsed, $key, $from, $to, $text ) returns Bool {
   $parsed.hash:exists{$key} or
@@ -25,7 +25,7 @@ plan 2;
 #
 # Also, just check that we have the keys we're expecting in the hash/list.
 #
-my $pp                 = Perl6::Parser.new;
+my $pp                 = Raku::Parser.new;
 my $*CONSISTENCY-CHECK = True;
 my $*FALL-THROUGH      = True;
 
@@ -65,4 +65,4 @@ subtest {
   ok !$parsed.hash, Q{tree ends};
 }, Q{'a'};
 
-# vim: ft=perl6
+# vim: ft=raku

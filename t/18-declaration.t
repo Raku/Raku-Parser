@@ -1,7 +1,7 @@
 use v6;
 
 use Test;
-use Perl6::Parser;
+use Raku::Parser;
 
 use lib 't/lib/';
 use Utils;
@@ -61,4 +61,4 @@ subtest {
   done-testing;
 }, Q{subroutine};
 
-# vim: ft=perl6
+# vim: ft=raku

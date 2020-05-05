@@ -1,7 +1,7 @@
 use v6;
 
 use Test;
-use Perl6::Parser;
+use Raku::Parser;
 
 use lib 't/lib/';
 use Utils;
@@ -228,7 +228,7 @@ for ^2e5 {
     $png.set(($w / 2 + $x * 60).Int, $h - ($y * 60).Int, 0, 255, 0);
 }
  
-$png.write: 'Barnsley-fern-perl6.png';
+$png.write: 'Barnsley-fern-raku.png';
 _END_
 };
 
@@ -407,12 +407,12 @@ _END_
 
 #`{
 { ok round-trips( Q:to[_END_] ), Q{Binary strings};
-# Perl 6 is perfectly fine with NUL *characters* in strings:
+# Raku is perfectly fine with NUL *characters* in strings:
  
 my Str $s = 'nema' ~ 0.chr ~ 'problema!';
 say $s;
  
-# However, Perl 6 makes a clear distinction between strings
+# However, Raku makes a clear distinction between strings
 # (i.e. sequences of characters), like your name, or …
 my Str $str = "My God, it's full of chars!";
 # … and sequences of bytes (called Bufs), for example a PNG image, or …
@@ -982,7 +982,7 @@ repeat {
 		loop {
 			my $score = prompt "My guess: {$guess.join}.\n";
  
-			# use the :s modifier to tell Perl 6 to handle spaces
+			# use the :s modifier to tell Raku to handle spaces
 			# automatically and save the first digit in $<bulls> and
 			# the second digit in $<cows>
 			if $score ~~ m:s/^ $<bulls>=(\d) $<cows>=(\d) $/
@@ -1003,4 +1003,4 @@ _END_
 
 done-testing;
 
-#vim: ft=perl6
+#vim: ft=raku

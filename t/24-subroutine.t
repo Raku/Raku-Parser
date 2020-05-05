@@ -1,7 +1,7 @@
 use v6;
 
 use Test;
-use Perl6::Parser;
+use Raku::Parser;
 
 use lib 't/lib/';
 use Utils;
@@ -135,7 +135,7 @@ subtest {
 	_END_
 
 	# Having differing whitespace on each side of an operator
-	# assures that Perl6::WS objects aren't being reused, and the
+	# assures that Raku::WS objects aren't being reused, and the
 	# WS isn't actually being copied from the wrong RE.
 	#
 	ok round-trips( Q:to[_END_] ), Q{alternating spacing};
@@ -160,4 +160,4 @@ ok round-trips( Q:to[_END_] ), Q{separate function name and body};
 sub foo ( ) { }
 _END_
 
-# vim: ft=perl6
+# vim: ft=raku

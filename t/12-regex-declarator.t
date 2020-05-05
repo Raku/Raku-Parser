@@ -1,7 +1,7 @@
 use v6;
 
 use Test;
-use Perl6::Parser;
+use Raku::Parser;
 
 use lib 't/lib';
 use Utils;
@@ -18,12 +18,12 @@ my $*FALL-THROUGH      = True;
 # my regex Foo { } # 'regex' is a regex_declaration
 
 subtest {
-  my $pp     = Perl6::Parser.new;
+  my $pp     = Raku::Parser.new;
   my $source = Q{my token Foo{a}};
   my $tree   = $pp.to-tree( $source );
   
-  ok has-a( $tree, Perl6::Block::Enter ), Q{enter brace};
-  ok has-a( $tree, Perl6::Block::Exit ),  Q{exit brace};
+  ok has-a( $tree, Raku::Block::Enter ), Q{enter brace};
+  ok has-a( $tree, Raku::Block::Exit ),  Q{exit brace};
   
   done-testing;
 }, Q{Check the token structure};
@@ -121,4 +121,4 @@ subtest {
   }, Q{intrabrace spacing};
 }, Q{regex};
 
-# vim: ft=perl6
+# vim: ft=raku

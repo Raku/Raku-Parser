@@ -1,11 +1,11 @@
 use v6;
 
 use Test;
-use Perl6::Parser;
+use Raku::Parser;
 
 plan 2;
 
-my $pp                 = Perl6::Parser.new;
+my $pp                 = Raku::Parser.new;
 my $*CONSISTENCY-CHECK = True;
 my $*FALL-THROUGH      = True;
 
@@ -35,4 +35,4 @@ subtest {
 	done-testing;
 }, Q{token-only iterator}
 
-# vim: ft=perl6
+# vim: ft=raku

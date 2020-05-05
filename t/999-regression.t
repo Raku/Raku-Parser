@@ -1,7 +1,7 @@
 use v6;
 
 use Test;
-use Perl6::Parser;
+use Raku::Parser;
 
 use lib 't/lib';
 use Utils;
@@ -269,4 +269,4 @@ _END_
 
 done-testing;
 
-# vim: ft=perl6
+# vim: ft=raku

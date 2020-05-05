@@ -1,14 +1,14 @@
 use v6;
 
 use Test;
-use Perl6::Parser;
+use Raku::Parser;
 
 use lib 't/lib';
 use Utils;
 
 plan 4;
 
-my $pp                 = Perl6::Parser.new;
+my $pp                 = Raku::Parser.new;
 my $*CONSISTENCY-CHECK = True;
 my $*FALL-THROUGH      = True;
 
@@ -53,9 +53,9 @@ subtest {
       my $tree = $pp.to-tree( $source );
       is $pp.to-string( $tree ), $source, Q{formatted};
       ok $tree.child[0].child[3].child[0] ~~
-      	Perl6::Block::Enter, Q{enter brace};
+      	Raku::Block::Enter, Q{enter brace};
       ok $tree.child[0].child[3].child[1] ~~
-      	Perl6::Block::Exit, Q{exit brace};
+      	Raku::Block::Exit, Q{exit brace};
       
       done-testing;
     }, Q{no ws};
@@ -101,10 +101,10 @@ subtest {
       my $tree = $pp.to-tree( $source );
       is $pp.to-string( $tree ), $source, Q{formatted};
 
-      ok has-a( $tree, Perl6::Block::Enter ), Q{enter brace};
-      ok has-a( $tree, Perl6::Block::Exit ),  Q{exit brace};
-      ok has-a( $tree, Perl6::Block::Enter ), Q{enter brace};
-      ok has-a( $tree, Perl6::Block::Exit ),  Q{exit brace};
+      ok has-a( $tree, Raku::Block::Enter ), Q{enter brace};
+      ok has-a( $tree, Raku::Block::Exit ),  Q{exit brace};
+      ok has-a( $tree, Raku::Block::Enter ), Q{enter brace};
+      ok has-a( $tree, Raku::Block::Exit ),  Q{exit brace};
       
       done-testing;
     }, Q{no ws};
@@ -181,4 +181,4 @@ subtest {
 
 # XXX 'macro Foo{}' is still experimental.
 
-# vim: ft=perl6
+# vim: ft=raku

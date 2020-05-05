@@ -1,7 +1,7 @@
 use v6;
 
 use Test;
-use Perl6::Parser;
+use Raku::Parser;
 
 use lib 't/lib/';
 use Utils;
@@ -33,17 +33,17 @@ subtest {
   plan 3;
   
   subtest {
-    my $pp     = Perl6::Parser.new;
+    my $pp     = Raku::Parser.new;
     my $source = Q:to[_END_];
     my$x
     _END_
     
     my $tree   = $pp.to-tree( $source );
     
-    ok has-a( $tree, Perl6::Bareword ),         Q{'my'};
-    ok has-a( $tree, Perl6::Variable::Scalar ), Q{'$x'};
-    ok has-a( $tree, Perl6::Newline ),          Q{\n};
-    ok !has-a( $tree, Perl6::WS ),              Q{no ' '};
+    ok has-a( $tree, Raku::Bareword ),         Q{'my'};
+    ok has-a( $tree, Raku::Variable::Scalar ), Q{'$x'};
+    ok has-a( $tree, Raku::Newline ),          Q{\n};
+    ok !has-a( $tree, Raku::WS ),              Q{no ' '};
     
     done-testing;
   }, Q{Check the token structure};
@@ -75,14 +75,14 @@ subtest {
 
 subtest {
   subtest {
-    my $pp = Perl6::Parser.new;
+    my $pp = Raku::Parser.new;
     my $source = gensym-package Q:to[_END_];
     class %s{has$x}
     _END_
 
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Block::Enter ), Q{enter brace};
-    ok has-a( $tree, Perl6::Block::Exit ),  Q{exit brace};
+    ok has-a( $tree, Raku::Block::Enter ), Q{enter brace};
+    ok has-a( $tree, Raku::Block::Exit ),  Q{exit brace};
     
     done-testing;
   }, Q{Check the token structure};
@@ -131,4 +131,4 @@ _END_
 
 # XXX 'supersede $x' NIY
 
-# vim: ft=perl6
+# vim: ft=raku
