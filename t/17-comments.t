@@ -1,7 +1,7 @@
 use v6;
 
 use Test;
-use Perl6::Parser;
+use Raku::Parser;
 
 use lib 't/lib/';
 use Utils;
@@ -12,7 +12,7 @@ my $*CONSISTENCY-CHECK = True;
 my $*FALL-THROUGH      = True;
 
 ok round-trips( Q:to[_END_] ), Q{shebang line};
-#!/usr/bin/env perl6
+#!/usr/bin/env raku
 _END_
 
 subtest {
@@ -47,4 +47,4 @@ subtest {
   done-testing;
 }, Q{spanning comment};
 
-# vim: ft=perl6
+# vim: ft=raku

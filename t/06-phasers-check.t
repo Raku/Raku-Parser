@@ -1,7 +1,7 @@
 use v6;
 
 use Test;
-use Perl6::Parser;
+use Raku::Parser;
 
 use lib 't/lib';
 use Utils;
@@ -30,4 +30,4 @@ ok round-trips( Q{BEGIN { die "HALT!" }; CHECK { die "HALT!" }} ),
 # XXX Yes, there is Q{my $x will begin { die "HALT!" }} as well.
 # XXX The simple answer doesn't seem to work, I'll work on it later.
 
-# vim: ft=perl6
+# vim: ft=raku

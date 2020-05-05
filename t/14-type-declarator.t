@@ -1,7 +1,7 @@
 use v6;
 
 use Test;
-use Perl6::Parser;
+use Raku::Parser;
 
 use lib 't/lib/';
 use Utils;
@@ -21,20 +21,20 @@ subtest {
   plan 3;
   
   subtest {
-    my $pp     = Perl6::Parser.new;
+    my $pp     = Raku::Parser.new;
     my $source = gensym-package Q:to[_END_];
     enum %s()
     _END_
     
     my $tree   = $pp.to-tree( $source );
     
-    ok has-a( $tree, Perl6::Bareword ), Q{'my'};
-    ok has-a( $tree, Perl6::WS ), Q{' '};
-    ok has-a( $tree, Perl6::Bareword ), Q{Foo%s};
-    ok has-a( $tree, Perl6::Operator::Circumfix) , q{open};
-    ok has-a( $tree, Perl6::Balanced::Enter ), Q{enter brace};
-    ok has-a( $tree, Perl6::Balanced::Exit ), Q{exit brace};
-    ok has-a( $tree, Perl6::Newline ), Q{\n};
+    ok has-a( $tree, Raku::Bareword ), Q{'my'};
+    ok has-a( $tree, Raku::WS ), Q{' '};
+    ok has-a( $tree, Raku::Bareword ), Q{Foo%s};
+    ok has-a( $tree, Raku::Operator::Circumfix) , q{open};
+    ok has-a( $tree, Raku::Balanced::Enter ), Q{enter brace};
+    ok has-a( $tree, Raku::Balanced::Exit ), Q{exit brace};
+    ok has-a( $tree, Raku::Newline ), Q{\n};
     
     done-testing;
   }, Q{Check the token structure};
@@ -114,4 +114,4 @@ subtest {
   ok round-trips( Q{constant Foo=1     } ), Q{trailing ws};
 }, Q{constant};
 
-# vim: ft=perl6
+# vim: ft=raku

@@ -1,14 +1,14 @@
 use v6;
 
 use Test;
-use Perl6::Parser;
+use Raku::Parser;
 
 use lib 't/lib';
 use Utils;
 
 plan 16;
 
-my $pp                 = Perl6::Parser.new;
+my $pp                 = Raku::Parser.new;
 my $*CONSISTENCY-CHECK = True;
 my $*FALL-THROUGH      = True;
 
@@ -51,7 +51,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qqww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -69,7 +69,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qqww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -86,7 +86,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qqww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -103,7 +103,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qqww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -122,7 +122,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qqww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -137,7 +137,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qqww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -152,7 +152,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qqww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -167,7 +167,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qqww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -186,7 +186,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qqww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -201,7 +201,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qqww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -216,7 +216,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qqww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -231,7 +231,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qqww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -249,7 +249,7 @@ END};
     my $node = $tree.child.[0].child.[0];
     
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::Interpolation::WordQuoting::QuoteProtection,
+    isa-ok $node, Raku::String::Interpolation::WordQuoting::QuoteProtection,
            Q{correct type};
     is $node.quote, Q{qqww}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -264,7 +264,7 @@ END};
     my $node = $tree.child.[0].child.[0];
     
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::Interpolation::WordQuoting::QuoteProtection,
+    isa-ok $node, Raku::String::Interpolation::WordQuoting::QuoteProtection,
            Q{correct type};
     is $node.quote, Q{qqww}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -292,7 +292,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qqw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -309,7 +309,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qqw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -326,7 +326,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qqw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -343,7 +343,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qqw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -362,7 +362,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qqw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -377,7 +377,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qqw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -392,7 +392,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qqw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -407,7 +407,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qqw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -426,7 +426,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qqw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -441,7 +441,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qqw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -456,7 +456,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qqw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -471,7 +471,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::WordQuoting,
+      isa-ok $node, Raku::String::Interpolation::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qqw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -489,7 +489,7 @@ END};
     my $node = $tree.child.[0].child.[0];
     
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::Interpolation::WordQuoting,
+    isa-ok $node, Raku::String::Interpolation::WordQuoting,
              Q{correct type};
     is $node.quote, Q{qqw}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -504,7 +504,7 @@ END};
     my $node = $tree.child.[0].child.[0];
     
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::Interpolation::WordQuoting,
+    isa-ok $node, Raku::String::Interpolation::WordQuoting,
              Q{correct type};
     is $node.quote, Q{qqw}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -528,7 +528,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::Shell,
+      isa-ok $node, Raku::String::Interpolation::Shell,
              Q{correct type};
       is $node.quote, Q{qqx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -545,7 +545,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::Shell,
+      isa-ok $node, Raku::String::Interpolation::Shell,
              Q{correct type};;
       is $node.quote, Q{qqx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -562,7 +562,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::Shell,
+      isa-ok $node, Raku::String::Interpolation::Shell,
              Q{correct type};
       is $node.quote, Q{qqx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -579,7 +579,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::Shell,
+      isa-ok $node, Raku::String::Interpolation::Shell,
              Q{correct type};
       is $node.quote, Q{qqx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -598,7 +598,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::Shell,
+      isa-ok $node, Raku::String::Interpolation::Shell,
              Q{correct type};
       is $node.quote, Q{qqx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -613,7 +613,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::Shell,
+      isa-ok $node, Raku::String::Interpolation::Shell,
              Q{correct type};
       is $node.quote, Q{qqx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -628,7 +628,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::Shell,
+      isa-ok $node, Raku::String::Interpolation::Shell,
              Q{correct type};
       is $node.quote, Q{qqx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -643,7 +643,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::Shell,
+      isa-ok $node, Raku::String::Interpolation::Shell,
              Q{correct type};
       is $node.quote, Q{qqx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -662,7 +662,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::Shell,
+      isa-ok $node, Raku::String::Interpolation::Shell,
              Q{correct type};
       is $node.quote, Q{qqx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -677,7 +677,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::Shell,
+      isa-ok $node, Raku::String::Interpolation::Shell,
              Q{correct type};
       is $node.quote, Q{qqx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -692,7 +692,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::Shell,
+      isa-ok $node, Raku::String::Interpolation::Shell,
              Q{correct type};
       is $node.quote, Q{qqx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -707,7 +707,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation::Shell,
+      isa-ok $node, Raku::String::Interpolation::Shell,
              Q{correct type};
       is $node.quote, Q{qqx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -725,7 +725,7 @@ END};
     my $node = $tree.child.[0].child.[0];
     
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::Interpolation::Shell,
+    isa-ok $node, Raku::String::Interpolation::Shell,
              Q{correct type};
     is $node.quote, Q{qqx}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -740,7 +740,7 @@ END};
     my $node = $tree.child.[0].child.[0];
     
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::Interpolation::Shell,
+    isa-ok $node, Raku::String::Interpolation::Shell,
              Q{correct type};
     is $node.quote, Q{qqx}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -764,7 +764,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -781,7 +781,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -798,7 +798,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -815,7 +815,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -834,7 +834,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -849,7 +849,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -864,7 +864,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -879,7 +879,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -898,7 +898,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -913,7 +913,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -928,7 +928,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -943,7 +943,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting::QuoteProtection,
+      isa-ok $node, Raku::String::WordQuoting::QuoteProtection,
              Q{correct type};
       is $node.quote, Q{qww}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -961,7 +961,7 @@ END};
     my $node = $tree.child.[0].child.[0];
     
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::WordQuoting::QuoteProtection,
+    isa-ok $node, Raku::String::WordQuoting::QuoteProtection,
              Q{correct type};
     is $node.quote, Q{qww}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -976,7 +976,7 @@ END};
     my $node = $tree.child.[0].child.[0];
     
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::WordQuoting::QuoteProtection,
+    isa-ok $node, Raku::String::WordQuoting::QuoteProtection,
              Q{correct type};
     is $node.quote, Q{qww}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -998,7 +998,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::WordQuoting,
+      isa-ok $node, Raku::String::Literal::WordQuoting,
              Q{correct type};
       is $node.quote, Q{Qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1013,7 +1013,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::WordQuoting,
+      isa-ok $node, Raku::String::Literal::WordQuoting,
              Q{correct type};
       is $node.quote, Q{Qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1028,7 +1028,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::WordQuoting,
+      isa-ok $node, Raku::String::Literal::WordQuoting,
              Q{correct type};
       is $node.quote, Q{Qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1043,7 +1043,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::WordQuoting,
+      isa-ok $node, Raku::String::Literal::WordQuoting,
              Q{correct type};
       is $node.quote, Q{Qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1064,7 +1064,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::WordQuoting,
+      isa-ok $node, Raku::String::Literal::WordQuoting,
              Q{correct type};
       is $node.quote, Q{Qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1081,7 +1081,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::WordQuoting,
+      isa-ok $node, Raku::String::Literal::WordQuoting,
              Q{correct type};
       is $node.quote, Q{Qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1098,7 +1098,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::WordQuoting,
+      isa-ok $node, Raku::String::Literal::WordQuoting,
              Q{correct type};
       is $node.quote, Q{Qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1115,7 +1115,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::WordQuoting,
+      isa-ok $node, Raku::String::Literal::WordQuoting,
              Q{correct type};
       is $node.quote, Q{Qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1134,7 +1134,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::WordQuoting,
+      isa-ok $node, Raku::String::Literal::WordQuoting,
              Q{correct type};
       is $node.quote, Q{Qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1149,7 +1149,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::WordQuoting,
+      isa-ok $node, Raku::String::Literal::WordQuoting,
              Q{correct type};
       is $node.quote, Q{Qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1164,7 +1164,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::WordQuoting,
+      isa-ok $node, Raku::String::Literal::WordQuoting,
              Q{correct type};
       is $node.quote, Q{Qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1179,7 +1179,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::WordQuoting,
+      isa-ok $node, Raku::String::Literal::WordQuoting,
              Q{correct type};
       is $node.quote, Q{Qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1198,7 +1198,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::WordQuoting,
+      isa-ok $node, Raku::String::Literal::WordQuoting,
              Q{correct type};
       is $node.quote, Q{Qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1213,7 +1213,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::WordQuoting,
+      isa-ok $node, Raku::String::Literal::WordQuoting,
              Q{correct type};
       is $node.quote, Q{Qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1228,7 +1228,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::WordQuoting,
+      isa-ok $node, Raku::String::Literal::WordQuoting,
              Q{correct type};
       is $node.quote, Q{Qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1243,7 +1243,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::WordQuoting,
+      isa-ok $node, Raku::String::Literal::WordQuoting,
              Q{correct type};
       is $node.quote, Q{Qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1261,7 +1261,7 @@ END};
     my $node = $tree.child.[0].child.[0];
     
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::Literal::WordQuoting,
+    isa-ok $node, Raku::String::Literal::WordQuoting,
              Q{correct type};
     is $node.quote, Q{Qw}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1276,7 +1276,7 @@ END};
     my $node = $tree.child.[0].child.[0];
     
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::Literal::WordQuoting,
+    isa-ok $node, Raku::String::Literal::WordQuoting,
              Q{correct type};
     is $node.quote, Q{Qw}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1296,7 +1296,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::Shell,
+      isa-ok $node, Raku::String::Literal::Shell,
              Q{correct type};
       is $node.quote, Q{Qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1311,7 +1311,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::Shell,
+      isa-ok $node, Raku::String::Literal::Shell,
              Q{correct type};
       is $node.quote, Q{Qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1326,7 +1326,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::Shell,
+      isa-ok $node, Raku::String::Literal::Shell,
              Q{correct type};
       is $node.quote, Q{Qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1341,7 +1341,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::Shell,
+      isa-ok $node, Raku::String::Literal::Shell,
              Q{correct type};
       is $node.quote, Q{Qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1362,7 +1362,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::Shell,
+      isa-ok $node, Raku::String::Literal::Shell,
              Q{correct type};
       is $node.quote, Q{Qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1379,7 +1379,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::Shell,
+      isa-ok $node, Raku::String::Literal::Shell,
              Q{correct type};
       is $node.quote, Q{Qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1396,7 +1396,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::Shell,
+      isa-ok $node, Raku::String::Literal::Shell,
              Q{correct type};
       is $node.quote, Q{Qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1413,7 +1413,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::Shell,
+      isa-ok $node, Raku::String::Literal::Shell,
              Q{correct type};
       is $node.quote, Q{Qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1432,7 +1432,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::Shell,
+      isa-ok $node, Raku::String::Literal::Shell,
              Q{correct type};
       is $node.quote, Q{Qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1447,7 +1447,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::Shell,
+      isa-ok $node, Raku::String::Literal::Shell,
              Q{correct type};
       is $node.quote, Q{Qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1462,7 +1462,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::Shell,
+      isa-ok $node, Raku::String::Literal::Shell,
              Q{correct type};
       is $node.quote, Q{Qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1477,7 +1477,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::Shell,
+      isa-ok $node, Raku::String::Literal::Shell,
              Q{correct type};
       is $node.quote, Q{Qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1496,7 +1496,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::Shell,
+      isa-ok $node, Raku::String::Literal::Shell,
              Q{correct type};
       is $node.quote, Q{Qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1511,7 +1511,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::Shell,
+      isa-ok $node, Raku::String::Literal::Shell,
              Q{correct type};
       is $node.quote, Q{Qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1526,7 +1526,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::Shell,
+      isa-ok $node, Raku::String::Literal::Shell,
              Q{correct type};
       is $node.quote, Q{Qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1541,7 +1541,7 @@ END};
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal::Shell,
+      isa-ok $node, Raku::String::Literal::Shell,
              Q{correct type};
       is $node.quote, Q{Qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1559,7 +1559,7 @@ END};
     my $node = $tree.child.[0].child.[0];
     
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::Literal::Shell,
+    isa-ok $node, Raku::String::Literal::Shell,
              Q{correct type};
     is $node.quote, Q{Qx}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1574,7 +1574,7 @@ END};
     my $node = $tree.child.[0].child.[0];
     
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::Literal::Shell,
+    isa-ok $node, Raku::String::Literal::Shell,
              Q{correct type};
     is $node.quote, Q{Qx}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1594,7 +1594,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation,
+      isa-ok $node, Raku::String::Interpolation,
              Q{correct type};
       is $node.quote, Q{qq}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1609,7 +1609,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation,
+      isa-ok $node, Raku::String::Interpolation,
              Q{correct type};
       is $node.quote, Q{qq}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1624,7 +1624,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation,
+      isa-ok $node, Raku::String::Interpolation,
              Q{correct type};
       is $node.quote, Q{qq}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1639,7 +1639,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation,
+      isa-ok $node, Raku::String::Interpolation,
              Q{correct type};
       is $node.quote, Q{qq}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1658,7 +1658,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation,
+      isa-ok $node, Raku::String::Interpolation,
              Q{correct type};
       is $node.quote, Q{qq}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1673,7 +1673,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation,
+      isa-ok $node, Raku::String::Interpolation,
              Q{correct type};
       is $node.quote, Q{qq}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1688,7 +1688,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation,
+      isa-ok $node, Raku::String::Interpolation,
              Q{correct type};
       is $node.quote, Q{qq}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1703,7 +1703,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
       
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Interpolation,
+      isa-ok $node, Raku::String::Interpolation,
              Q{correct type};
       is $node.quote, Q{qq}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1721,7 +1721,7 @@ subtest {
     my $node = $tree.child.[0].child.[0];
     
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::Interpolation,
+    isa-ok $node, Raku::String::Interpolation,
              Q{correct type};
     is $node.quote, Q{qq}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1736,7 +1736,7 @@ subtest {
     my $node = $tree.child.[0].child.[0];
     
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::Interpolation,
+    isa-ok $node, Raku::String::Interpolation,
              Q{correct type};
     is $node.quote, Q{qq}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1760,7 +1760,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting,
+      isa-ok $node, Raku::String::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1777,7 +1777,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting,
+      isa-ok $node, Raku::String::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1794,7 +1794,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting,
+      isa-ok $node, Raku::String::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1811,7 +1811,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting,
+      isa-ok $node, Raku::String::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1830,7 +1830,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting,
+      isa-ok $node, Raku::String::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1845,7 +1845,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting,
+      isa-ok $node, Raku::String::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1860,7 +1860,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting,
+      isa-ok $node, Raku::String::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1875,7 +1875,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting,
+      isa-ok $node, Raku::String::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1894,7 +1894,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting,
+      isa-ok $node, Raku::String::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1909,7 +1909,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting,
+      isa-ok $node, Raku::String::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1924,7 +1924,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting,
+      isa-ok $node, Raku::String::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1939,7 +1939,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::WordQuoting,
+      isa-ok $node, Raku::String::WordQuoting,
              Q{correct type};
       is $node.quote, Q{qw}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1957,7 +1957,7 @@ END};
     my $node = $tree.child.[0].child.[0];
 
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::WordQuoting,
+    isa-ok $node, Raku::String::WordQuoting,
              Q{correct type};
     is $node.quote, Q{qw}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1972,7 +1972,7 @@ END};
     my $node = $tree.child.[0].child.[0];
 
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::WordQuoting,
+    isa-ok $node, Raku::String::WordQuoting,
              Q{correct type};
     is $node.quote, Q{qw}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -1996,7 +1996,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Shell,
+      isa-ok $node, Raku::String::Shell,
              Q{correct type};
       is $node.quote, Q{qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2013,7 +2013,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Shell,
+      isa-ok $node, Raku::String::Shell,
              Q{correct type};
       is $node.quote, Q{qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2030,7 +2030,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Shell,
+      isa-ok $node, Raku::String::Shell,
              Q{correct type};
       is $node.quote, Q{qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2047,7 +2047,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Shell,
+      isa-ok $node, Raku::String::Shell,
              Q{correct type};
       is $node.quote, Q{qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2066,7 +2066,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Shell,
+      isa-ok $node, Raku::String::Shell,
              Q{correct type};
       is $node.quote, Q{qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2081,7 +2081,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Shell,
+      isa-ok $node, Raku::String::Shell,
              Q{correct type};
       is $node.quote, Q{qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2096,7 +2096,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Shell,
+      isa-ok $node, Raku::String::Shell,
              Q{correct type};
       is $node.quote, Q{qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2111,7 +2111,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Shell,
+      isa-ok $node, Raku::String::Shell,
              Q{correct type};
       is $node.quote, Q{qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2130,7 +2130,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Shell,
+      isa-ok $node, Raku::String::Shell,
              Q{correct type};
       is $node.quote, Q{qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2145,7 +2145,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Shell,
+      isa-ok $node, Raku::String::Shell,
              Q{correct type};
       is $node.quote, Q{qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2160,7 +2160,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Shell,
+      isa-ok $node, Raku::String::Shell,
              Q{correct type};
       is $node.quote, Q{qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2175,7 +2175,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Shell,
+      isa-ok $node, Raku::String::Shell,
              Q{correct type};
       is $node.quote, Q{qx}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2193,7 +2193,7 @@ END};
       my $node = $tree.child.[0].child.[0];
 
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::Shell,
+    isa-ok $node, Raku::String::Shell,
              Q{correct type};
     is $node.quote, Q{qx}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2208,7 +2208,7 @@ END};
     my $node = $tree.child.[0].child.[0];
 
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::Shell,
+    isa-ok $node, Raku::String::Shell,
              Q{correct type};
     is $node.quote, Q{qx}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2228,7 +2228,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal,
+      isa-ok $node, Raku::String::Literal,
              Q{correct type};
       is $node.quote, Q{Q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2243,7 +2243,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal,
+      isa-ok $node, Raku::String::Literal,
              Q{correct type};
       is $node.quote, Q{Q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2258,7 +2258,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal,
+      isa-ok $node, Raku::String::Literal,
              Q{correct type};
       is $node.quote, Q{Q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2273,7 +2273,7 @@ subtest {
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal,
+      isa-ok $node, Raku::String::Literal,
              Q{correct type};
       is $node.quote, Q{Q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2295,7 +2295,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal,
+      isa-ok $node, Raku::String::Literal,
              Q{correct type};
       is $node.quote, Q{Q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2313,7 +2313,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal,
+      isa-ok $node, Raku::String::Literal,
              Q{correct type};
       is $node.quote, Q{Q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2331,7 +2331,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal,
+      isa-ok $node, Raku::String::Literal,
              Q{correct type};
       is $node.quote, Q{Q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2349,7 +2349,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal,
+      isa-ok $node, Raku::String::Literal,
              Q{correct type};
       is $node.quote, Q{Q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2368,7 +2368,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal,
+      isa-ok $node, Raku::String::Literal,
              Q{correct type};
       is $node.quote, Q{Q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2383,7 +2383,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal,
+      isa-ok $node, Raku::String::Literal,
              Q{correct type};
       is $node.quote, Q{Q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2398,7 +2398,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal,
+      isa-ok $node, Raku::String::Literal,
              Q{correct type};
       is $node.quote, Q{Q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2413,7 +2413,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal,
+      isa-ok $node, Raku::String::Literal,
              Q{correct type};
       is $node.quote, Q{Q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2432,7 +2432,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal,
+      isa-ok $node, Raku::String::Literal,
              Q{correct type};
       is $node.quote, Q{Q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2447,7 +2447,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal,
+      isa-ok $node, Raku::String::Literal,
              Q{correct type};
       is $node.quote, Q{Q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2462,7 +2462,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal,
+      isa-ok $node, Raku::String::Literal,
              Q{correct type};
       is $node.quote, Q{Q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2477,7 +2477,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Literal,
+      isa-ok $node, Raku::String::Literal,
              Q{correct type};
       is $node.quote, Q{Q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2495,7 +2495,7 @@ END
     my $node = $tree.child.[0].child.[0];
 
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::Literal,
+    isa-ok $node, Raku::String::Literal,
              Q{correct type};
     is $node.quote, Q{Q}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2510,7 +2510,7 @@ END
     my $node = $tree.child.[0].child.[0];
 
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::Literal,
+    isa-ok $node, Raku::String::Literal,
              Q{correct type};
     is $node.quote, Q{Q}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2535,7 +2535,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Escaping,
+      isa-ok $node, Raku::String::Escaping,
              Q{correct type};
       is $node.quote, Q{q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2553,7 +2553,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Escaping,
+      isa-ok $node, Raku::String::Escaping,
              Q{correct type};
       is $node.quote, Q{q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2571,7 +2571,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Escaping,
+      isa-ok $node, Raku::String::Escaping,
              Q{correct type};
       is $node.quote, Q{q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2589,7 +2589,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Escaping,
+      isa-ok $node, Raku::String::Escaping,
              Q{correct type};
       is $node.quote, Q{q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2608,7 +2608,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Escaping,
+      isa-ok $node, Raku::String::Escaping,
              Q{correct type};
       is $node.quote, Q{q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2623,7 +2623,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Escaping,
+      isa-ok $node, Raku::String::Escaping,
              Q{correct type};
       is $node.quote, Q{q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2638,7 +2638,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Escaping,
+      isa-ok $node, Raku::String::Escaping,
              Q{correct type};
       is $node.quote, Q{q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2653,7 +2653,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Escaping,
+      isa-ok $node, Raku::String::Escaping,
              Q{correct type};
       is $node.quote, Q{q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2672,7 +2672,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Escaping,
+      isa-ok $node, Raku::String::Escaping,
              Q{correct type};
       is $node.quote, Q{q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2687,7 +2687,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Escaping,
+      isa-ok $node, Raku::String::Escaping,
              Q{correct type};
       is $node.quote, Q{q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2702,7 +2702,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Escaping,
+      isa-ok $node, Raku::String::Escaping,
              Q{correct type};
       is $node.quote, Q{q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2717,7 +2717,7 @@ END
       my $node = $tree.child.[0].child.[0];
 
       is $pp.to-string( $tree ), $source, Q{formatted};
-      isa-ok $node, Perl6::String::Escaping,
+      isa-ok $node, Raku::String::Escaping,
              Q{correct type};
       is $node.quote, Q{q}, Q{quote name};
       is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2735,7 +2735,7 @@ END
     my $node = $tree.child.[0].child.[0];
 
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::Escaping,
+    isa-ok $node, Raku::String::Escaping,
              Q{correct type};
     is $node.quote, Q{q}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2750,7 +2750,7 @@ END
     my $node = $tree.child.[0].child.[0];
 
     is $pp.to-string( $tree ), $source, Q{formatted};
-    isa-ok $node, Perl6::String::Escaping,
+    isa-ok $node, Raku::String::Escaping,
              Q{correct type};
     is $node.quote, Q{q}, Q{quote name};
     is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2768,7 +2768,7 @@ subtest {
   my $node = $tree.child.[0].child.[0];
 
   is $pp.to-string( $tree ), $source, Q{formatted};
-  isa-ok $node, Perl6::String::WordQuoting, Q{correct type};
+  isa-ok $node, Raku::String::WordQuoting, Q{correct type};
 #  is $node.quote, Q{<>}, Q{quote name};
 #  is $node.delimiter-start, Q{<}, Q{start delimiter};
 #  is $node.delimiter-end, Q{>}, Q{end delimiter};
@@ -2782,7 +2782,7 @@ subtest {
   my $node = $tree.child.[0].child.[0];
 
   is $pp.to-string( $tree ), $source, Q{formatted};
-  isa-ok $node, Perl6::String::Literal, Q{correct type};
+  isa-ok $node, Raku::String::Literal, Q{correct type};
 #  is $node.quote, Q{｢｣}, Q{quote name};
   is $node.delimiter-start, Q{｢}, Q{start delimiter};
   is $node.delimiter-end, Q{｣}, Q{end delimiter};
@@ -2796,7 +2796,7 @@ subtest {
   my $node = $tree.child.[0].child.[0];
 
   is $pp.to-string( $tree ), $source, Q{formatted};
-  isa-ok $node, Perl6::String::Interpolation, Q{correct type};
+  isa-ok $node, Raku::String::Interpolation, Q{correct type};
 #  is $node.quote, Q{""}, Q{quote name};
   is $node.delimiter-start, Q{"}, Q{start delimiter};
   is $node.delimiter-end, Q{"}, Q{end delimiter};
@@ -2810,7 +2810,7 @@ subtest {
   my $node = $tree.child.[0].child.[0];
 
   is $pp.to-string( $tree ), $source, Q{formatted};
-  isa-ok $node, Perl6::String::Escaping, Q{correct type};
+  isa-ok $node, Raku::String::Escaping, Q{correct type};
 #  is $node.quote, Q{''}, Q{quote name};
   is $node.delimiter-start, Q{'}, Q{start delimiter};
   is $node.delimiter-end, Q{'}, Q{end delimiter};
@@ -2849,7 +2849,7 @@ END
   my $node = $tree.child.[0].child.[0];
 
   is $pp.to-string( $tree ), $source, Q{formatted};
-  isa-ok $node, Perl6::String::Escaping,
+  isa-ok $node, Raku::String::Escaping,
          Q{correct type};
 #  is $node.quote, Q{qqww}, Q{quote name};
   is $node.delimiter-start, Q{<}, Q{start delimiter};
@@ -2859,4 +2859,4 @@ END
   done-testing;
 }, Q{here-doc torture test};
 
-# vim: ft=perl6
+# vim: ft=raku

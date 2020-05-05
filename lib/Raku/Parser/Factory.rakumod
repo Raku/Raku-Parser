@@ -2,28 +2,28 @@
 
 =begin NAME
 
-Perl6::Parser::Factory - Builds client-ready Perl 6 data tree
+Raku::Parser::Factory - Builds client-ready Raku data tree
 
 =end NAME
 
 =begin DESCRIPTION
 
-Generates the complete tree of Perl6-ready objects, shielding the client from the ugly details of the internal L<nqp> representation of the object. None of the elements, hash values or children should have L<NQPMatch> objects associated with them, as trying to view them can cause nasty crashes.
+Generates the complete tree of Raku-ready objects, shielding the client from the ugly details of the internal L<nqp> representation of the object. None of the elements, hash values or children should have L<NQPMatch> objects associated with them, as trying to view them can cause nasty crashes.
 
 Objects are divided into two general categories, C<.textual> and C<.structural>. Structural items don't appear in the program text, because they just group things like blocks in C<grep { }> or argument lists in C<foo( 1, 2 )>.
 
 The metaclasses look like this:
 
-L<Perl6::Element>
-    L<Perl6::Visible> - Anything that's not whitespace
-        L<Perl6::Documentation> - Documentation
-            L<Perl6::Pod>
-            L<Perl6::Comment>
-    L<Perl6::Invisible> - Whitespace
-        L<Perl6::WS> - Horizontal whitespace
-        L<Perl6::Newline> - Vertical whitespace
+L<Raku::Element>
+    L<Raku::Visible> - Anything that's not whitespace
+        L<Raku::Documentation> - Documentation
+            L<Raku::Pod>
+            L<Raku::Comment>
+    L<Raku::Invisible> - Whitespace
+        L<Raku::WS> - Horizontal whitespace
+        L<Raku::Newline> - Vertical whitespace
 
-(note: I'm using C<class Perl6::Foo is Perl6::Bar> to denote classes whose parents are empty, "virtual".)
+(note: I'm using C<class Raku::Foo is Raku::Bar> to denote classes whose parents are empty, "virtual".)
 
 Walking a list of objects is as simple as:
 
@@ -35,7 +35,7 @@ Walking a list of objects is as simple as:
 Stripping comments and POD:
 
     my @token = Seq.new( $parser.iterator( $source ) );
-    for grep { .textual and not Perl6::Documentation }, @token {
+    for grep { .textual and not Raku::Documentation }, @token {
         print $_.content;
     }
 
@@ -45,31 +45,31 @@ See the section OBJECT_TREE for the full hierarchy.
 
 =begin OBJECT_TREE
 
-L<Perl6::Element>
-    L<Perl6::Visible> - Anything that's not whitespace
-    L<Perl6::Invisible> - Whitespace
-        L<Perl6::WS> - Horizontal whitespace
-        L<Perl6::Newline> - Vertical whitespace
+L<Raku::Element>
+    L<Raku::Visible> - Anything that's not whitespace
+    L<Raku::Invisible> - Whitespace
+        L<Raku::WS> - Horizontal whitespace
+        L<Raku::Newline> - Vertical whitespace
 
 =end OBJECT_TREE
 
 =begin GENERAL_NOTES
 
-The L<Perl6::Variable> classes all have a required C<.sigil> method which returns the sigil associated with that variable (and an C<.twigil> method should that be needed.) These are methods rather than attributes to keep the clutter down when using C<.dump> or C<.perl> debugging methods.
+The L<Raku::Variable> classes all have a required C<.sigil> method which returns the sigil associated with that variable (and an C<.twigil> method should that be needed.) These are methods rather than attributes to keep the clutter down when using C<.dump> or C<.perl> debugging methods.
 
-Keeping in mind that clients of the L<Perl6::Element> hierarchy may want to create or edit these subclasses, I'm restricting constant methods to just those things that users shouldn't need to change, for instance you shouldn't need to create a L<Perl6::Number::Binary> with a base of 3.
+Keeping in mind that clients of the L<Raku::Element> hierarchy may want to create or edit these subclasses, I'm restricting constant methods to just those things that users shouldn't need to change, for instance you shouldn't need to create a L<Raku::Number::Binary> with a base of 3.
 
 =end GENERAL_NOTES
 
 =begin CLASSES
 
-=item L<Perl6::Element>
+=item L<Raku::Element>
 
 Please see the module's documentation for the full scoop, but here's a terse summary of what's available.
 
 =item C<is-root>
 
-Is the element the root? Usually this is a L<Perl6::Document>.
+Is the element the root? Usually this is a L<Raku::Document>.
 
 =cut
 
@@ -113,9 +113,9 @@ Replace the current node with the contents.
 
 =cut
 
-=item L<Perl6::Number>
+=item L<Raku::Number>
 
-All numbers, whether decimal, rational, radix-32 or complex, fall under this class. You should be able to compare C<$x> to L<Perl6::Number> to do a quick check. Under this lies the teeming complexity of the full Perl 6 numeric lattice.
+All numbers, whether decimal, rational, radix-32 or complex, fall under this class. You should be able to compare C<$x> to L<Raku::Number> to do a quick check. Under this lies the teeming complexity of the full Raku numeric lattice.
 
 Binary, octal, hex and radix numbers have an additional C<$.headless> attribute, which gives you the binary value without the leading C<0b>. Radix numbers (C<:13(19a)>) have an additional C<$.radix> attribute specifying the radix, and its C<$.headless> attribute works as you'd expect, delivering C<'19a'> without the surrounding C<':13(..)'>.
 
@@ -123,59 +123,59 @@ Imaginary numbers have an alternative C<$.tailless> attribute which gives you th
 
 Rather than spelling out a huge list, here's how the hierarchy looks:
 
-L<Perl6::Number>
-    L<Perl6::Number::Binary>
-    L<Perl6::Number::Octal>
-    L<Perl6::Number::Decimal>
-        L<Perl6::Number::Decimal::FloatingPoint>
-    L<Perl6::Number::Hexadecimal>
-    L<Perl6::Number::Radix>
-    L<Perl6::Number::Imaginary>
+L<Raku::Number>
+    L<Raku::Number::Binary>
+    L<Raku::Number::Octal>
+    L<Raku::Number::Decimal>
+        L<Raku::Number::Decimal::FloatingPoint>
+    L<Raku::Number::Hexadecimal>
+    L<Raku::Number::Radix>
+    L<Raku::Number::Imaginary>
 
-There likely won't be a L<Perl6::Number::Complex>. While it's relatively easy to figure out that C<my $z = 3+2i;> is a complex number, who's to say what the intet behind C<my $z = 3*$a+2i> is, or a more complex high-order polynomial. Best to just assert that C<2i> is an imaginary number, and leave it to the client to form the proper interpretation.
+There likely won't be a L<Raku::Number::Complex>. While it's relatively easy to figure out that C<my $z = 3+2i;> is a complex number, who's to say what the intet behind C<my $z = 3*$a+2i> is, or a more complex high-order polynomial. Best to just assert that C<2i> is an imaginary number, and leave it to the client to form the proper interpretation.
 
 =cut
 
-=item L<Perl6::Variable>
+=item L<Raku::Variable>
 
-The catch-all for Perl 6 variable types.
+The catch-all for Raku variable types.
 
 Scalar, Hash, Array and Callable subtypes have C<$.headless> attributes with the variable's name minus the sigil and optional twigil. They also have the C<.sigil> method, and C<.twigil> optional method for classes that have them.
 
-L<Perl6::Variable>
-    L<Perl6::Variable::Scalar>
-        L<Perl6::Variable::Scalar::Dynamic>
-        L<Perl6::Variable::Scalar::CompileTime>
-        L<Perl6::Variable::Scalar::MatchIndex>
-        L<Perl6::Variable::Scalar::Positional>
-        L<Perl6::Variable::Scalar::Named>
-        L<Perl6::Variable::Scalar::Pod>
-        L<Perl6::Variable::Scalar::SubLanguage>
-        L<Perl6::Variable::Scalar::Contextualizer>
-    L<Perl6::Variable::Hash>
+L<Raku::Variable>
+    L<Raku::Variable::Scalar>
+        L<Raku::Variable::Scalar::Dynamic>
+        L<Raku::Variable::Scalar::CompileTime>
+        L<Raku::Variable::Scalar::MatchIndex>
+        L<Raku::Variable::Scalar::Positional>
+        L<Raku::Variable::Scalar::Named>
+        L<Raku::Variable::Scalar::Pod>
+        L<Raku::Variable::Scalar::SubLanguage>
+        L<Raku::Variable::Scalar::Contextualizer>
+    L<Raku::Variable::Hash>
         (and the same subtypes)
-    L<Perl6::Variable::Array>
+    L<Raku::Variable::Array>
         (and the same subtypes)
-    L<Perl6::Variable::Callable>
+    L<Raku::Variable::Callable>
         (and the same subtypes)
 
 =cut
 
-=item L<Perl6::Variable::Scalar::Contextualizer>
+=item L<Raku::Variable::Scalar::Contextualizer>
 
-Children: L<Perl6::Variable::Scalar::Contextualizer> and so forth.
+Children: L<Raku::Variable::Scalar::Contextualizer> and so forth.
 
-(a side note - These really should be L<Perl6::Variable::Scalar::Contextualizer>, but that would mean that these were both C<.textual> (from the parent L<Perl6::Variable::Scalar> and Branching because they have children). Resolving this would mean removing the L<Perl6::Textual> role from the L<Perl6::Variable::Scalar> class, which means that I either have to create a longer class name for L<Perl6::Variable::JustAPlainScalarVariable> or manually add the L<Perl6::Textual>'s contents to the L<Perl6::Variable::Scalar>, and forget to update it when I change my mind in a few weeks' time about what L<Perl6::Textual> does. Adding a separate class for this seems the lesser of two evils, especially given how often they'll appear in "real world" code.)
+(a side note - These really should be L<Raku::Variable::Scalar::Contextualizer>, but that would mean that these were both C<.textual> (from the parent L<Raku::Variable::Scalar> and Branching because they have children). Resolving this would mean removing the L<Raku::Textual> role from the L<Raku::Variable::Scalar> class, which means that I either have to create a longer class name for L<Raku::Variable::JustAPlainScalarVariable> or manually add the L<Raku::Textual>'s contents to the L<Raku::Variable::Scalar>, and forget to update it when I change my mind in a few weeks' time about what L<Raku::Textual> does. Adding a separate class for this seems the lesser of two evils, especially given how often they'll appear in "real world" code.)
 
 =cut
 
-=item L<Perl6::Sir-Not-Appearing-In-This-Statement>
+=item L<Raku::Sir-Not-Appearing-In-This-Statement>
 
-By way of caveat: If you stick to the APIs mentioned in the documentation, you should never deal with objects in this class. Ever. If you see this, you're probably debugging internals of this module, and if you're not, please send the author a snippet of code B<and> the associated Perl 6 code that replicates it.
+By way of caveat: If you stick to the APIs mentioned in the documentation, you should never deal with objects in this class. Ever. If you see this, you're probably debugging internals of this module, and if you're not, please send the author a snippet of code B<and> the associated Raku code that replicates it.
 
 While you should stick to the published APIs, there are of course times when you need to get your proverbial hands dirty. Read on if you want the scoop.
 
-Your humble author has gone to a great deal of trouble to assure that every character of user code is parsed and represented in some fashion, and the internals keep track of the text down to the by..chara...glyph level. More to the point, each Perl6::Parser element has its own start and end point.
+Your humble author has gone to a great deal of trouble to assure that every character of user code is parsed and represented in some fashion, and the internals keep track of the text down to the by..chara...glyph level. More to the point, each Raku::Parser element has its own start and end point.
 
 The internal method C<check-tree> does a B<rigorous> check of the entire parse tree, at least while self-tests are runnin. Relevant to the discussion at hand are two things: Checking that each element has exactly the number of glyphs that its start and end claim that it has, and checking that each element exactly overlaps its neighbos, with no gaps.
 
@@ -193,13 +193,13 @@ While a contrived example, it'll do to make my points. The first rule the intern
 
 So, B<internally>, here-docs start at the C<Q> of C<Q:to[_END_]> and end at the closing C<]> of C<Q:to[_END_]>. Any other text that it might have is stored somewhere that the self-test algorithm won't find it. So if you're probing the L<Here-Doc> class for its text directly (which the author disrecommends), you won't find it all there.
 
-There also can't be any gaps between two tokens, and again, here-docs break that rule. If we take it at face value, C<Q:to[_END_]> and C<First line.._END_> are two separate tokens, simply because there's an intervening 'say 2', which (to make matters worse) is in a different L<Perl6::Statement>.
+There also can't be any gaps between two tokens, and again, here-docs break that rule. If we take it at face value, C<Q:to[_END_]> and C<First line.._END_> are two separate tokens, simply because there's an intervening 'say 2', which (to make matters worse) is in a different L<Raku::Statement>.
 
-Now L<Perl6::Sir-Not-Appearing-In-This-Statement> comes into play. Since tokens can only be a single block of text, we can't have both the C<Q:to[_END_]> and C<First line> be in the same token; and if we did break them up (which we do), they can't be the same class, because we'd end up with multiple heredocs later on when parsing.
+Now L<Raku::Sir-Not-Appearing-In-This-Statement> comes into play. Since tokens can only be a single block of text, we can't have both the C<Q:to[_END_]> and C<First line> be in the same token; and if we did break them up (which we do), they can't be the same class, because we'd end up with multiple heredocs later on when parsing.
 
-So our single here-doc internally becomes two elements. First comes the official L<Perl6::String> element, which you can query to get the delimiter (C<_END_>), full text (C<Q:to[_END_]>\nFirst line\n_END_> and the body text, C<First line>.
+So our single here-doc internally becomes two elements. First comes the official L<Raku::String> element, which you can query to get the delimiter (C<_END_>), full text (C<Q:to[_END_]>\nFirst line\n_END_> and the body text, C<First line>.
 
-Later on, we run across the actual body of the here-doc, and rather than fiddling with the validation algorithms, we drop in L<Sir-Not-Appearing-In-This-Statement>, a "token" that doesn't exist. It has the bounds of the C<First line\n_END_> text, so that it appears for our validation algorithm. But it's special-cased to not appear in the C<dump-tree> method, or anything that deals with L<Perl6::Statement>s because while B<syntactically> it's in a statement's boundary, it's not B<semantically> part of the statement it "appears" in.
+Later on, we run across the actual body of the here-doc, and rather than fiddling with the validation algorithms, we drop in L<Sir-Not-Appearing-In-This-Statement>, a "token" that doesn't exist. It has the bounds of the C<First line\n_END_> text, so that it appears for our validation algorithm. But it's special-cased to not appear in the C<dump-tree> method, or anything that deals with L<Raku::Statement>s because while B<syntactically> it's in a statement's boundary, it's not B<semantically> part of the statement it "appears" in.
 
 Whew. If you're doing manipulation of statements, B<now> hopefully you'll see why the author recommends sticking to the methods in the API. Eventually this little kink may get ironed out and here-docs may be relegated to a special case somewhere, but not today.
 
@@ -219,13 +219,13 @@ Lets the tree walking utilities know this node is a decision point.
 
 Represents things such as numbers that are a token unto themselves.
 
-Classes such as C<Perl6::Number> and C<Perl6::Quote> set this attribute in order to declare that they represent stand-alone tokens. Any class that uses this can expect a C<$.content> member to contain the full text of the token, whether it be a variable such as C<$a> or a 50-line heredoc string.
+Classes such as C<Raku::Number> and C<Raku::Quote> set this attribute in order to declare that they represent stand-alone tokens. Any class that uses this can expect a C<$.content> member to contain the full text of the token, whether it be a variable such as C<$a> or a 50-line heredoc string.
 
 Classes can have custom attributes such as a number's radix value, or a string's delimiters, but they'll always have a C<$.content> value.
 
 =cut
 
-=item Perl6::Branch
+=item Raku::Branch
 
 Represents things such as lists and circumfix operators that have children.
 
@@ -239,7 +239,7 @@ Child elements aren't restricted to leaves, because a document is a tree the C<@
 
 =begin DEVELOPER_NOTES
 
-Just to keep the hierarchy reasonably clean, classes do only the preprocessing necessary to generate the C<:content()> attribute. Everything else is done by methods. See L<Perl6::PackageName> and the L<Perl6::Variable> hierarchy for examples.
+Just to keep the hierarchy reasonably clean, classes do only the preprocessing necessary to generate the C<:content()> attribute. Everything else is done by methods. See L<Raku::PackageName> and the L<Raku::Variable> hierarchy for examples.
 
 =end DEVELOPER_NOTES
 
@@ -308,7 +308,7 @@ my role Movement {
 	}
 }
 
-class Perl6::Element {
+class Raku::Element {
 	also does Movement;
 	
 	# .from and .to are the start glyph and (one after) the end glyph
@@ -329,15 +329,15 @@ class Perl6::Element {
 	# you'll need to use the iterator method to get a sequence of
 	# tokens.
 	#
-	has Perl6::Element $.next-node is rw;
-	has Perl6::Element $.previous-node is rw;
-	has Perl6::Element $.parent-node is rw;
+	has Raku::Element $.next-node is rw;
+	has Raku::Element $.previous-node is rw;
+	has Raku::Element $.parent-node is rw;
 
 	# Should only be run only flattened element lists.
 	# This is because it does nothing WRT .child.
 	# And by design, it has no access to that anyway.
 	#
-	method _add-offset( Perl6::Element $node, Int $delta ) {
+	method _add-offset( Raku::Element $node, Int $delta ) {
 		my $head = $node;
 		while !$head.is-end {
 			$head.to += $delta;
@@ -363,7 +363,7 @@ class Perl6::Element {
 		return self;
 	}
 
-	method replace-node-with( Perl6::Element $node ) {
+	method replace-node-with( Raku::Element $node ) {
 		my $cur-length = $.to - $.from;
 		my $new-length = $node.to - $node.from;
 
@@ -391,7 +391,7 @@ class Perl6::Element {
 		return $node;
 	}
 
-	method insert-node-before( Perl6::Element $node ) {
+	method insert-node-before( Raku::Element $node ) {
 		self._add-offset( self, $.to - $.from ) if
 			$*UPDATE-RANGES;
 		$node.next-node = self;
@@ -407,7 +407,7 @@ class Perl6::Element {
 		$.previous-node = $node;
 	}
 
-	method insert-node-after( Perl6::Element $node ) {
+	method insert-node-after( Raku::Element $node ) {
 		self._add-offset( self.next, $.to - $.from ) if
 			$*UPDATE-RANGES;
 		$node.parent-node = self.parent;
@@ -465,8 +465,8 @@ my role Twig {
 	method is-twig returns Bool { True }
 	method is-empty returns Bool { @.child.elems == 0 }
 
-	method first returns Perl6::Element { @.child[0] }
-	method last returns Perl6::Element { @.child[*-1] }
+	method first returns Raku::Element { @.child[0] }
+	method last returns Raku::Element { @.child[*-1] }
 }
 
 my role Textual {
@@ -490,7 +490,7 @@ my role Token {
 }
 
 my role Constructor-from-match {
-	method from-match( Mu $p ) returns Perl6::Element {
+	method from-match( Mu $p ) returns Raku::Element {
 		self.bless(
 			:factory-line-number( callframe(1).line ),
 			:from( $p.from ),
@@ -501,7 +501,7 @@ my role Constructor-from-match {
 }
 
 my role Constructor-from-int {
-	method from-int( Int $from, Str $str ) returns Perl6::Element {
+	method from-int( Int $from, Str $str ) returns Raku::Element {
 		self.bless(
 			:factory-line-number( callframe(1).line ),
 			:from( $from ),
@@ -512,7 +512,7 @@ my role Constructor-from-int {
 }
 
 my role Constructor-from-sample {
-	method from-sample( Mu $p, Str $token ) returns Perl6::Element {
+	method from-sample( Mu $p, Str $token ) returns Raku::Element {
 		$p.Str ~~ m{ ($token) };
 		my Int $left-margin = $0.from;
 		self.bless(
@@ -524,9 +524,9 @@ my role Constructor-from-sample {
 	}
 }
 
-class Perl6::Visible is Perl6::Element { }
-class Perl6::Operator is Perl6::Visible { }
-class Perl6::String is Perl6::Visible { }
+class Raku::Visible is Raku::Element { }
+class Raku::Operator is Raku::Visible { }
+class Raku::String is Raku::Visible { }
 
 my role BasicTextual {
 	also does Textual;
@@ -536,15 +536,15 @@ my role BasicTextual {
 # Don't refactor documentation just yet, as POD should be more complex than
 # just a raw text block.
 #
-class Perl6::Documentation is Perl6::Visible { }
-class Perl6::Invisible is Perl6::Element {
+class Raku::Documentation is Raku::Visible { }
+class Raku::Invisible is Raku::Element {
 	also does BasicTextual;
 
 	also does Constructor-from-int;
 }
 
-class Perl6::Element-List {
-	has Perl6::Element @.child;
+class Raku::Element-List {
+	has Raku::Element @.child;
 
 	method fall-through( Mu $p ) {
 		if $*FALL-THROUGH {
@@ -562,49 +562,49 @@ class Perl6::Element-List {
 			die;
 		}
 		else {
-			Perl6::Catch-All.from-match( $p );
+			Raku::Catch-All.from-match( $p );
 		}
 	}
 
-	multi method append( Perl6::Element $element ) {
+	multi method append( Raku::Element $element ) {
 		@.child.append( $element );
 	}
-	multi method append( Perl6::Element-List $element-list ) {
+	multi method append( Raku::Element-List $element-list ) {
 		@.child.append( $element-list.child )
 	}
 }
 
-class Perl6::Balanced is Perl6::Visible {
+class Raku::Balanced is Raku::Visible {
 	also does BasicTextual;
 
 	also does Constructor-from-int;
 }
 
-class Perl6::Balanced::Enter is Perl6::Balanced { }
-class Perl6::Balanced::Exit is Perl6::Balanced { }
+class Raku::Balanced::Enter is Raku::Balanced { }
+class Raku::Balanced::Exit is Raku::Balanced { }
 
-class Perl6::Block::Enter is Perl6::Balanced::Enter { }
-class Perl6::Block::Exit is Perl6::Balanced::Exit { }
+class Raku::Block::Enter is Raku::Balanced::Enter { }
+class Raku::Block::Exit is Raku::Balanced::Exit { }
 
 my role Constructor-Enter-from-int {
 	method Enter-from-int( Int $from, Str $content ) {
 		return ( $content eq Q'{' ) ??
-			Perl6::Block::Enter.from-int( $from, $content ) !!
-			Perl6::Balanced::Enter.from-int( $from, $content );
+			Raku::Block::Enter.from-int( $from, $content ) !!
+			Raku::Balanced::Enter.from-int( $from, $content );
 	}
 }
 my role Constructor-Exit-from-int {
 	method Exit-from-int( Int $from, Str $content ) {
 		return ( $content eq Q'}' ) ??
-			Perl6::Block::Exit.from-int( $from, $content ) !!
-			Perl6::Balanced::Exit.from-int( $from, $content );
+			Raku::Block::Exit.from-int( $from, $content ) !!
+			Raku::Balanced::Exit.from-int( $from, $content );
 	}
 }
 
 my role Constructor-from-match-child {
-	method from-match( Mu $p, Perl6::Element-List $child )
-			returns Perl6::Element {
-		my $_child = Perl6::Element-List.new;
+	method from-match( Mu $p, Raku::Element-List $child )
+			returns Raku::Element {
+		my $_child = Raku::Element-List.new;
 		$p.Str ~~ m{ ^ (.) .* (.) $ };
 		$_child.append(
 			self.Enter-from-int( $p.from, $0.Str )
@@ -627,9 +627,9 @@ my role Constructor-from-match-child {
 
 my role Constructor-from-delims {
 	method from-delims(
-		Mu $p, Str $front, Str $back, Perl6::Element-List $child )
-			returns Perl6::Element {
-		my $_child = Perl6::Element-List.new;
+		Mu $p, Str $front, Str $back, Raku::Element-List $child )
+			returns Raku::Element {
+		my $_child = Raku::Element-List.new;
 		$_child.append(
 			self.Enter-from-int( $p.from, $front )
 		);
@@ -650,9 +650,9 @@ my role Constructor-from-delims {
 }
 
 my role Constructor-from-outer-match {
-	method from-outer-match( Mu $p, Perl6::Element-List $child )
-			returns Perl6::Element {
-		my $_child = Perl6::Element-List.new;
+	method from-outer-match( Mu $p, Raku::Element-List $child )
+			returns Raku::Element {
+		my $_child = Raku::Element-List.new;
 		my $x = $p.orig.substr( 0, $p.from );
 		$x ~~ m{ (.) ( \s* ) $ };
 		my $left-edge = $0.Str;
@@ -685,10 +685,10 @@ my role Constructor-from-outer-match {
 
 my role Constructor-from-outer-int {
 	method from-outer-int( Mu $p, Int $from, Str $str,
-			Perl6::Element-List $child )
-			returns Perl6::Element {
+			Raku::Element-List $child )
+			returns Raku::Element {
 		my $to = $from + $str.chars;
-		my $_child = Perl6::Element-List.new;
+		my $_child = Raku::Element-List.new;
 		my $x = $p.orig.substr( 0, $from );
 		$x ~~ m{ (.) ( \s* ) $ };
 		my $left-edge = $0.Str;
@@ -720,9 +720,9 @@ my role Constructor-from-outer-int {
 }
 
 my role Constructor-from-int-balanced {
-	method from-int( Int $from, Str $str, Perl6::Element-List $child )
-			returns Perl6::Element {
-		my $_child = Perl6::Element-List.new;
+	method from-int( Int $from, Str $str, Raku::Element-List $child )
+			returns Raku::Element {
+		my $_child = Raku::Element-List.new;
 		$str ~~ m{ ^ (.) .* (.) $ };
 		$_child.append(
 			self.Enter-from-int( $from, $0.Str )
@@ -744,7 +744,7 @@ my role Constructor-from-int-balanced {
 }
 
 my role Child {
-	has Perl6::Element @.child;
+	has Raku::Element @.child;
 }
 
 my role Branching does Child {
@@ -753,44 +753,44 @@ my role Branching does Child {
 	}
 }
 
-class Perl6::Catch-All is Perl6::Visible {
+class Raku::Catch-All is Raku::Visible {
 	also does BasicTextual;
 }
 
-class Perl6::Whatever is Perl6::Visible {
-	also does BasicTextual;
-
-	also does Constructor-from-int;
-}
-
-class Perl6::Loop-Separator is Perl6::Visible {
+class Raku::Whatever is Raku::Visible {
 	also does BasicTextual;
 
 	also does Constructor-from-int;
 }
 
-class Perl6::Dimension-Separator is Perl6::Visible {
+class Raku::Loop-Separator is Raku::Visible {
 	also does BasicTextual;
 
 	also does Constructor-from-int;
 }
 
-class Perl6::Semicolon is Perl6::Visible {
+class Raku::Dimension-Separator is Raku::Visible {
 	also does BasicTextual;
 
 	also does Constructor-from-int;
 }
-class Perl6::Backslash is Perl6::Visible {
+
+class Raku::Semicolon is Raku::Visible {
+	also does BasicTextual;
+
+	also does Constructor-from-int;
+}
+class Raku::Backslash is Raku::Visible {
 	also does BasicTextual;
 
 	also does Constructor-from-match;
 	also does Constructor-from-int;
 }
 
-class Perl6::String::Enter is Perl6::Balanced::Enter { }
-class Perl6::String::Exit is Perl6::Balanced::Exit { }
+class Raku::String::Enter is Raku::Balanced::Enter { }
+class Raku::String::Exit is Raku::Balanced::Exit { }
 
-class Perl6::Operator::Hyper is Perl6::Operator {
+class Raku::Operator::Hyper is Raku::Operator {
 	also does Structural;
 	also does Branching;
 	also does Twig;
@@ -802,7 +802,7 @@ class Perl6::Operator::Hyper is Perl6::Operator {
 	also does Constructor-from-delims;
 }
 
-class Perl6::Operator::Prefix is Perl6::Operator {
+class Raku::Operator::Prefix is Raku::Operator {
 	also does BasicTextual;
 
 	also does Constructor-from-match;
@@ -810,7 +810,7 @@ class Perl6::Operator::Prefix is Perl6::Operator {
 	also does Constructor-from-sample;
 }
 
-class Perl6::Operator::Infix is Perl6::Operator {
+class Raku::Operator::Infix is Raku::Operator {
 	also does BasicTextual;
 
 	also does Constructor-from-match;
@@ -818,13 +818,13 @@ class Perl6::Operator::Infix is Perl6::Operator {
 	also does Constructor-from-sample;
 }
 
-class Perl6::Operator::Postfix is Perl6::Operator {
+class Raku::Operator::Postfix is Raku::Operator {
 	also does BasicTextual;
 
 	also does Constructor-from-match;
 }
 
-class Perl6::Operator::Circumfix is Perl6::Operator {
+class Raku::Operator::Circumfix is Raku::Operator {
 	also does Structural;
 	also does Branching;
 	also does Twig;
@@ -837,7 +837,7 @@ class Perl6::Operator::Circumfix is Perl6::Operator {
 	also does Constructor-from-delims;
 }
 
-class Perl6::Operator::PostCircumfix is Perl6::Operator {
+class Raku::Operator::PostCircumfix is Raku::Operator {
 	also does Structural;
 	also does Branching;
 	also does Twig;
@@ -848,30 +848,30 @@ class Perl6::Operator::PostCircumfix is Perl6::Operator {
 	also does Constructor-from-delims;
 }
 
-class Perl6::WS is Perl6::Invisible { }
-class Perl6::Newline is Perl6::Invisible { }
+class Raku::WS is Raku::Invisible { }
+class Raku::Newline is Raku::Invisible { }
 
-class Perl6::Pod is Perl6::Documentation {
+class Raku::Pod is Raku::Documentation {
 	also does BasicTextual;
 
 	also does Constructor-from-int;
 }
 
-class Perl6::Comment is Perl6::Documentation {
+class Raku::Comment is Raku::Documentation {
 	also does BasicTextual;
 
 	also does Constructor-from-int;
 }
 
-class Perl6::Structural is Perl6::Element {
+class Raku::Structural is Raku::Element {
 }
 
-class Perl6::Document is Perl6::Structural {
+class Raku::Document is Raku::Structural {
 	also does Structural;
 	also does Branching;
 	also does Twig;
 
-	method from-list( Perl6::Element-List $child ) returns Perl6::Element {
+	method from-list( Raku::Element-List $child ) returns Raku::Element {
 		if $child.child {
 			self.bless(
 				:from( $child.child.[0].from ),
@@ -893,7 +893,7 @@ class Perl6::Document is Perl6::Structural {
 # docs. This workaround may be gone by the time you read about this class,
 # and if so, I'm glad.
 #
-class Perl6::Sir-Not-Appearing-In-This-Statement is Perl6::Visible {
+class Raku::Sir-Not-Appearing-In-This-Statement is Raku::Visible {
 	also does Textual;
 
 	has $.content; # because it's not quite a token.
@@ -903,12 +903,12 @@ class Perl6::Sir-Not-Appearing-In-This-Statement is Perl6::Visible {
 	}
 }
 
-class Perl6::Statement is Perl6::Structural {
+class Raku::Statement is Raku::Structural {
 	also does Structural;
 	also does Branching;
 	also does Twig;
 
-	method from-list( Perl6::Element-List $child ) returns Perl6::Element {
+	method from-list( Raku::Element-List $child ) returns Raku::Element {
 		self.bless(
 			:factory-line-number( callframe(1).line ),
 			:from( $child.child[0].from ),
@@ -920,51 +920,51 @@ class Perl6::Statement is Perl6::Structural {
 
 # And now for the most basic tokens...
 #
-class Perl6::Number is Perl6::Visible {
+class Raku::Number is Raku::Visible {
 	also does BasicTextual;
 
 	method base { !!! }
 
 	also does Constructor-from-match;
 }
-class Perl6::Number::Binary is Perl6::Number {
+class Raku::Number::Binary is Raku::Number {
 	method base { 2 }
 }
-class Perl6::Number::Octal is Perl6::Number {
+class Raku::Number::Octal is Raku::Number {
 	method base { 8 }
 }
-class Perl6::Number::Decimal is Perl6::Number {
+class Raku::Number::Decimal is Raku::Number {
 	method base { 10 }
 }
-class Perl6::Number::Decimal::Explicit is Perl6::Number::Decimal {
+class Raku::Number::Decimal::Explicit is Raku::Number::Decimal {
 }
-class Perl6::Number::Hexadecimal is Perl6::Number {
+class Raku::Number::Hexadecimal is Raku::Number {
 	method base { 16 }
 }
-class Perl6::Number::Radix is Perl6::Number {
+class Raku::Number::Radix is Raku::Number {
 }
-class Perl6::Number::FloatingPoint is Perl6::Number {
+class Raku::Number::FloatingPoint is Raku::Number {
 	method base { 10 }
 }
 
-class Perl6::NotANumber is Perl6::Visible {
+class Raku::NotANumber is Raku::Visible {
 	also does BasicTextual;
 
 	also does Constructor-from-match;
 }
-class Perl6::Infinity is Perl6::Visible {
+class Raku::Infinity is Raku::Visible {
 	also does BasicTextual;
 
 	also does Constructor-from-match;
 }
 
 # XXX Come up with a better name.
-class Perl6::String::Body is Perl6::String {
+class Raku::String::Body is Raku::String {
 	also does BasicTextual;
 
 	also does Constructor-from-match;
 }
-class Perl6::String::WordQuoting is Perl6::String {
+class Raku::String::WordQuoting is Raku::String {
 	also does BasicTextual;
 
 	also does Constructor-from-match;
@@ -975,12 +975,12 @@ class Perl6::String::WordQuoting is Perl6::String {
 	has Str @.adverb;
 	has Str $.here-doc;
 }
-class Perl6::String::WordQuoting::QuoteProtection {
-	also is Perl6::String::WordQuoting;
+class Raku::String::WordQuoting::QuoteProtection {
+	also is Raku::String::WordQuoting;
 
 	also does Token;
 }
-class Perl6::String::Interpolation is Perl6::String {
+class Raku::String::Interpolation is Raku::String {
 	also does BasicTextual;
 
 	has Str $.quote;
@@ -989,16 +989,16 @@ class Perl6::String::Interpolation is Perl6::String {
 	has Str @.adverb;
 	has Str $.here-doc;
 }
-class Perl6::String::Interpolation::Shell {
-	also is Perl6::String::Interpolation;
+class Raku::String::Interpolation::Shell {
+	also is Raku::String::Interpolation;
 }
-class Perl6::String::Interpolation::WordQuoting {
-	also is Perl6::String::Interpolation;
+class Raku::String::Interpolation::WordQuoting {
+	also is Raku::String::Interpolation;
 }
-class Perl6::String::Interpolation::WordQuoting::QuoteProtection {
-	also is Perl6::String::Interpolation::WordQuoting;
+class Raku::String::Interpolation::WordQuoting::QuoteProtection {
+	also is Raku::String::Interpolation::WordQuoting;
 }
-class Perl6::String::Shell is Perl6::String {
+class Raku::String::Shell is Raku::String {
 	also does BasicTextual;
 
 	has Bool $.is-here-doc = False;
@@ -1009,7 +1009,7 @@ class Perl6::String::Shell is Perl6::String {
 	has Str @.adverb;
 	has Str $.here-doc;
 }
-class Perl6::String::Escaping is Perl6::String {
+class Raku::String::Escaping is Raku::String {
 	also does BasicTextual;
 
 	has Bool $.is-here-doc = False;
@@ -1020,7 +1020,7 @@ class Perl6::String::Escaping is Perl6::String {
 	has Str @.adverb;
 	has Str $.here-doc;
 }
-class Perl6::String::Literal is Perl6::String {
+class Raku::String::Literal is Raku::String {
 	also does BasicTextual;
 
 	has Bool $.is-here-doc = False;
@@ -1031,14 +1031,14 @@ class Perl6::String::Literal is Perl6::String {
 	has Str @.adverb;
 	has Str $.here-doc;
 }
-class Perl6::String::Literal::WordQuoting is Perl6::String::Literal {
+class Raku::String::Literal::WordQuoting is Raku::String::Literal {
 	also does Token;
 }
-class Perl6::String::Literal::Shell is Perl6::String::Literal {
+class Raku::String::Literal::Shell is Raku::String::Literal {
 	also does Token;
 }
 
-class Perl6::Regex is Perl6::Visible {
+class Raku::Regex is Raku::Visible {
 	also does Structural;
 	also does Branching;
 	also does Twig;
@@ -1051,26 +1051,26 @@ class Perl6::Regex is Perl6::Visible {
 	has Str @.adverb;
 }
 
-class Perl6::Bareword is Perl6::Visible {
+class Raku::Bareword is Raku::Visible {
 	also does BasicTextual;
 
 	also does Constructor-from-match;
 	also does Constructor-from-int;
 }
-class Perl6::SubroutineDeclaration is Perl6::Bareword { }
+class Raku::SubroutineDeclaration is Raku::Bareword { }
 
-class Perl6::Adverb is Perl6::Visible {
+class Raku::Adverb is Raku::Visible {
 	also does BasicTextual;
 
 	also does Constructor-from-match;
 }
-class Perl6::PackageName is Perl6::Visible {
+class Raku::PackageName is Raku::Visible {
 	also does BasicTextual;
 
 	also does Constructor-from-match;
 }
-class Perl6::ColonBareword is Perl6::Bareword { }
-class Perl6::Block is Perl6::Structural {
+class Raku::ColonBareword is Raku::Bareword { }
+class Raku::Block is Raku::Structural {
 	also does Structural;
 	also does Branching;
 	also does Twig;
@@ -1082,16 +1082,16 @@ class Perl6::Block is Perl6::Structural {
 	also does Constructor-from-delims;
 }
 
-class Perl6::Variable is Perl6::Visible {
+class Raku::Variable is Raku::Visible {
 }
-class Perl6::Variable::Scalar is Perl6::Variable {
+class Raku::Variable::Scalar is Raku::Variable {
 	also does BasicTextual;
 
 	also does Constructor-from-int;
 
 	method sigil { Q{$} }
 }
-class Perl6::Variable::Scalar::Contextualizer is Perl6::Variable::Scalar {
+class Raku::Variable::Scalar::Contextualizer is Raku::Variable::Scalar {
 	also does Structural;
 	#also does Token;
 	also does Branching;
@@ -1099,133 +1099,133 @@ class Perl6::Variable::Scalar::Contextualizer is Perl6::Variable::Scalar {
 
 	method sigil { Q{$} }
 }
-class Perl6::Variable::Scalar::Dynamic is Perl6::Variable::Scalar {
+class Raku::Variable::Scalar::Dynamic is Raku::Variable::Scalar {
 	method twigil { Q{*} }
 }
-class Perl6::Variable::Scalar::Attribute is Perl6::Variable::Scalar {
+class Raku::Variable::Scalar::Attribute is Raku::Variable::Scalar {
 	method twigil { Q{!} }
 }
-class Perl6::Variable::Scalar::Accessor is Perl6::Variable::Scalar {
+class Raku::Variable::Scalar::Accessor is Raku::Variable::Scalar {
 	method twigil { Q{.} }
 }
-class Perl6::Variable::Scalar::CompileTime is Perl6::Variable::Scalar {
+class Raku::Variable::Scalar::CompileTime is Raku::Variable::Scalar {
 	method twigil { Q{?} }
 }
-class Perl6::Variable::Scalar::MatchIndex is Perl6::Variable::Scalar {
+class Raku::Variable::Scalar::MatchIndex is Raku::Variable::Scalar {
 	method twigil { Q{<} }
 }
-class Perl6::Variable::Scalar::Positional is Perl6::Variable::Scalar {
+class Raku::Variable::Scalar::Positional is Raku::Variable::Scalar {
 	method twigil { Q{^} }
 }
-class Perl6::Variable::Scalar::Named is Perl6::Variable::Scalar {
+class Raku::Variable::Scalar::Named is Raku::Variable::Scalar {
 	method twigil { Q{:} }
 }
-class Perl6::Variable::Scalar::Pod is Perl6::Variable::Scalar {
+class Raku::Variable::Scalar::Pod is Raku::Variable::Scalar {
 	method twigil { Q{=} }
 }
-class Perl6::Variable::Scalar::SubLanguage is Perl6::Variable::Scalar {
+class Raku::Variable::Scalar::SubLanguage is Raku::Variable::Scalar {
 	method twigil { Q{~} }
 }
-class Perl6::Variable::Array is Perl6::Variable {
+class Raku::Variable::Array is Raku::Variable {
 	also does BasicTextual;
 
 	also does Constructor-from-int;
 
 	method sigil { Q{@} }
 }
-class Perl6::Variable::Array::Dynamic is Perl6::Variable::Array {
+class Raku::Variable::Array::Dynamic is Raku::Variable::Array {
 	method twigil { Q{*} }
 }
-class Perl6::Variable::Array::Attribute is Perl6::Variable::Array {
+class Raku::Variable::Array::Attribute is Raku::Variable::Array {
 	method twigil { Q{!} }
 }
-class Perl6::Variable::Array::Accessor is Perl6::Variable::Array {
+class Raku::Variable::Array::Accessor is Raku::Variable::Array {
 	method twigil { Q{.} }
 }
-class Perl6::Variable::Array::CompileTime is Perl6::Variable::Array {
+class Raku::Variable::Array::CompileTime is Raku::Variable::Array {
 	method twigil { Q{?} }
 }
-class Perl6::Variable::Array::MatchIndex is Perl6::Variable::Array {
+class Raku::Variable::Array::MatchIndex is Raku::Variable::Array {
 	method twigil { Q{<} }
 }
-class Perl6::Variable::Array::Positional is Perl6::Variable::Array {
+class Raku::Variable::Array::Positional is Raku::Variable::Array {
 	method twigil { Q{^} }
 }
-class Perl6::Variable::Array::Named is Perl6::Variable::Array {
+class Raku::Variable::Array::Named is Raku::Variable::Array {
 	method twigil { Q{:} }
 }
-class Perl6::Variable::Array::Pod is Perl6::Variable::Array {
+class Raku::Variable::Array::Pod is Raku::Variable::Array {
 	method twigil { Q{=} }
 }
-class Perl6::Variable::Array::SubLanguage is Perl6::Variable::Array {
+class Raku::Variable::Array::SubLanguage is Raku::Variable::Array {
 	method twigil { Q{~} }
 }
-class Perl6::Variable::Hash is Perl6::Variable {
+class Raku::Variable::Hash is Raku::Variable {
 	also does BasicTextual;
 
 	also does Constructor-from-int;
 
 	method sigil { Q{%} }
 }
-class Perl6::Variable::Hash::Dynamic is Perl6::Variable::Hash {
+class Raku::Variable::Hash::Dynamic is Raku::Variable::Hash {
 	method twigil { Q{*} }
 }
-class Perl6::Variable::Hash::Attribute is Perl6::Variable::Hash {
+class Raku::Variable::Hash::Attribute is Raku::Variable::Hash {
 	method twigil { Q{!} }
 }
-class Perl6::Variable::Hash::Accessor is Perl6::Variable::Hash {
+class Raku::Variable::Hash::Accessor is Raku::Variable::Hash {
 	method twigil { Q{.} }
 }
-class Perl6::Variable::Hash::CompileTime is Perl6::Variable::Hash {
+class Raku::Variable::Hash::CompileTime is Raku::Variable::Hash {
 	method twigil { Q{?} }
 }
-class Perl6::Variable::Hash::MatchIndex is Perl6::Variable::Hash {
+class Raku::Variable::Hash::MatchIndex is Raku::Variable::Hash {
 	method twigil { Q{<} }
 }
-class Perl6::Variable::Hash::Positional is Perl6::Variable::Hash {
+class Raku::Variable::Hash::Positional is Raku::Variable::Hash {
 	method twigil { Q{^} }
 }
-class Perl6::Variable::Hash::Named is Perl6::Variable::Hash {
+class Raku::Variable::Hash::Named is Raku::Variable::Hash {
 	method twigil { Q{:} }
 }
-class Perl6::Variable::Hash::Pod is Perl6::Variable::Hash {
+class Raku::Variable::Hash::Pod is Raku::Variable::Hash {
 	method twigil { Q{=} }
 }
-class Perl6::Variable::Hash::SubLanguage is Perl6::Variable::Hash {
+class Raku::Variable::Hash::SubLanguage is Raku::Variable::Hash {
 	method twigil { Q{~} }
 }
-class Perl6::Variable::Callable is Perl6::Variable {
+class Raku::Variable::Callable is Raku::Variable {
 	also does BasicTextual;
 
 	also does Constructor-from-int;
 
 	method sigil { Q{&} }
 }
-class Perl6::Variable::Callable::Dynamic is Perl6::Variable::Callable {
+class Raku::Variable::Callable::Dynamic is Raku::Variable::Callable {
 	method twigil { Q{*} }
 }
-class Perl6::Variable::Callable::Attribute is Perl6::Variable::Callable {
+class Raku::Variable::Callable::Attribute is Raku::Variable::Callable {
 	method twigil { Q{!} }
 }
-class Perl6::Variable::Callable::Accessor is Perl6::Variable::Callable {
+class Raku::Variable::Callable::Accessor is Raku::Variable::Callable {
 	method twigil { Q{.} }
 }
-class Perl6::Variable::Callable::CompileTime is Perl6::Variable::Callable {
+class Raku::Variable::Callable::CompileTime is Raku::Variable::Callable {
 	method twigil { Q{?} }
 }
-class Perl6::Variable::Callable::MatchIndex is Perl6::Variable::Callable {
+class Raku::Variable::Callable::MatchIndex is Raku::Variable::Callable {
 	method twigil { Q{<} }
 }
-class Perl6::Variable::Callable::Positional is Perl6::Variable::Callable {
+class Raku::Variable::Callable::Positional is Raku::Variable::Callable {
 	method twigil { Q{^} }
 }
-class Perl6::Variable::Callable::Named is Perl6::Variable::Callable {
+class Raku::Variable::Callable::Named is Raku::Variable::Callable {
 	method twigil { Q{:} }
 }
-class Perl6::Variable::Callable::Pod is Perl6::Variable::Callable {
+class Raku::Variable::Callable::Pod is Raku::Variable::Callable {
 	method twigil { Q{=} }
 }
-class Perl6::Variable::Callable::SubLanguage is Perl6::Variable::Callable {
+class Raku::Variable::Callable::SubLanguage is Raku::Variable::Callable {
 	method twigil { Q{~} }
 }
 
@@ -1289,7 +1289,7 @@ my role Options {
 		if $p.Str ~~ m{ << (where) >> } {
 			my Int $left-margin = $0.from;
 			return
-				Perl6::Bareword.from-int(
+				Raku::Bareword.from-int(
 					$left-margin + $p.from,
 					$0.Str
 				)
@@ -1297,7 +1297,7 @@ my role Options {
 	}
 }
 
-my role Perl6::Parser::Grammar::Rules {
+my role Raku::Parser::Grammar::Rules {
 	rule _integer {
 	||	<_integer_binary>
 	||	<_integer_octal>
@@ -1306,8 +1306,8 @@ my role Perl6::Parser::Grammar::Rules {
 	}
 }
 
-grammar Perl6::Parser::Grammar {
-	also does Perl6::Parser::Grammar::Rules;
+grammar Raku::Parser::Grammar {
+	also does Raku::Parser::Grammar::Rules;
 	token identifier {
 		<alpha> <[ \w \- _ ]>*
 	}
@@ -1419,7 +1419,7 @@ grammar Perl6::Parser::Grammar {
 	}
 }
 
-my role Perl6::Parser::Actions::Rules {
+my role Raku::Parser::Actions::Rules {
 	method _integer( $/ ) {
 		make $/<_integer_binary>.ast //
 		     $/<_integer_octal>.ast //
@@ -1428,12 +1428,12 @@ my role Perl6::Parser::Actions::Rules {
 	}
 }
 
-class Perl6::Parser::Actions {
-	also does Perl6::Parser::Actions::Rules;
+class Raku::Parser::Actions {
+	also does Raku::Parser::Actions::Rules;
 	has $.offset is rw = 0;
 
 	method __Bareword( $/ ) {
-		Perl6::Bareword.new(
+		Raku::Bareword.new(
 			:factory-line-number( callframe(1).line ),
 			:from( $/.from + $.offset ),
 			:to( $/.to + $.offset ),
@@ -1441,7 +1441,7 @@ class Perl6::Parser::Actions {
 		)
 	}
 	method __String__WordQuoting( $/ ) {
-		Perl6::String::WordQuoting.new(
+		Raku::String::WordQuoting.new(
 			:factory-line-number( callframe(1).line ),
 			:from( $/.from + $.offset ),
 			:to( $/.to + $.offset ),
@@ -1449,7 +1449,7 @@ class Perl6::Parser::Actions {
 		)
 	}
 	method __ColonBareword( $/ ) {
-		Perl6::ColonBareword.new(
+		Raku::ColonBareword.new(
 			:factory-line-number( callframe(1).line ),
 			:from( $/.from + $.offset ),
 			:to( $/.to + $.offset ),
@@ -1457,7 +1457,7 @@ class Perl6::Parser::Actions {
 		)
 	}
 	method __Operator__Infix( $/ ) {
-		Perl6::Operator::Infix.new(
+		Raku::Operator::Infix.new(
 			:factory-line-number( callframe(1).line ),
 			:from( $/.from + $.offset ),
 			:to( $/.to + $.offset ),
@@ -1465,7 +1465,7 @@ class Perl6::Parser::Actions {
 		)
 	}
 	method __Number__Binary( $/ ) {
-		Perl6::Number::Binary.new(
+		Raku::Number::Binary.new(
 			:factory-line-number( callframe(1).line ),
 			:from( $/.from + $.offset ),
 			:to( $/.to + $.offset ),
@@ -1473,7 +1473,7 @@ class Perl6::Parser::Actions {
 		)
 	}
 	method __Number__Octal( $/ ) {
-		Perl6::Number::Octal.new(
+		Raku::Number::Octal.new(
 			:factory-line-number( callframe(1).line ),
 			:from( $/.from + $.offset ),
 			:to( $/.to + $.offset ),
@@ -1481,7 +1481,7 @@ class Perl6::Parser::Actions {
 		)
 	}
 	method __Number__Decimal( $/ ) {
-		Perl6::Number::Decimal.new(
+		Raku::Number::Decimal.new(
 			:factory-line-number( callframe(1).line ),
 			:from( $/.from + $.offset ),
 			:to( $/.to + $.offset ),
@@ -1489,7 +1489,7 @@ class Perl6::Parser::Actions {
 		)
 	}
 	method __Number__Hexadecimal( $/ ) {
-		Perl6::Number::Hexadecimal.new(
+		Raku::Number::Hexadecimal.new(
 			:factory-line-number( callframe(1).line ),
 			:from( $/.from + $.offset ),
 			:to( $/.to + $.offset ),
@@ -1497,7 +1497,7 @@ class Perl6::Parser::Actions {
 		)
 	}
 	method __Operator__Postfix( $/ ) {
-		Perl6::Operator::Postfix.new(
+		Raku::Operator::Postfix.new(
 			:factory-line-number( callframe(1).line ),
 			:from( $/.from + $.offset ),
 			:to( $/.to + $.offset ),
@@ -1505,7 +1505,7 @@ class Perl6::Parser::Actions {
 		)
 	}
 	method __Number__FloatingPoint( $/ ) {
-		Perl6::Number::FloatingPoint.new(
+		Raku::Number::FloatingPoint.new(
 			:factory-line-number( callframe(1).line ),
 			:from( $/.from + $.offset ),
 			:to( $/.to + $.offset ),
@@ -1513,7 +1513,7 @@ class Perl6::Parser::Actions {
 		)
 	}
 	method __Backslash( $/ ) {
-		Perl6::Backslash.new(
+		Raku::Backslash.new(
 			:factory-line-number( callframe(1).line ),
 			:from( $/.from + $.offset ),
 			:to( $/.to + $.offset ),
@@ -1521,7 +1521,7 @@ class Perl6::Parser::Actions {
 		)
 	}
 	method __PackageName( $/ ) {
-		Perl6::PackageName.new(
+		Raku::PackageName.new(
 			:factory-line-number( callframe(1).line ),
 			:from( $/.from + $.offset ),
 			:to( $/.to + $.offset ),
@@ -1529,7 +1529,7 @@ class Perl6::Parser::Actions {
 		)
 	}
 	method __Infinity( $/ ) {
-		Perl6::Infinity.new(
+		Raku::Infinity.new(
 			:factory-line-number( callframe(1).line ),
 			:from( $/.from + $.offset ),
 			:to( $/.to + $.offset ),
@@ -1537,7 +1537,7 @@ class Perl6::Parser::Actions {
 		)
 	}
 	method __NaN( $/ ) {
-		Perl6::NotANumber.new(
+		Raku::NotANumber.new(
 			:factory-line-number( callframe(1).line ),
 			:from( $/.from + $.offset ),
 			:to( $/.to + $.offset ),
@@ -1545,7 +1545,7 @@ class Perl6::Parser::Actions {
 		)
 	}
 	method __Adverb( $/ ) {
-		Perl6::Adverb.new(
+		Raku::Adverb.new(
 			:factory-line-number( callframe(1).line ),
 			:from( $/.from + $.offset ),
 			:to( $/.to + $.offset ),
@@ -1553,7 +1553,7 @@ class Perl6::Parser::Actions {
 		)
 	}
 	method __Number_Radix( $/ ) {
-		Perl6::Number::Radix.new(
+		Raku::Number::Radix.new(
 			:factory-line-number( callframe(1).line ),
 			:from( $/.from + $.offset ),
 			:to( $/.to + $.offset ),
@@ -1561,7 +1561,7 @@ class Perl6::Parser::Actions {
 		)
 	}
 	method __SubroutineDeclaration( $/ ) {
-		Perl6::SubroutineDeclaration.new(
+		Raku::SubroutineDeclaration.new(
 			:factory-line-number( callframe(1).line ),
 			:from( $/.from + $.offset ),
 			:to( $/.to + $.offset ),
@@ -1653,12 +1653,12 @@ class Perl6::Parser::Actions {
 	}
 }
 
-class Perl6::Parser::Factory {
+class Raku::Parser::Factory {
 	also does Assertions;
 	also does Options;
 
-	has $.grammar = Perl6::Parser::Grammar.new;
-	has $.actions = Perl6::Parser::Actions.new;
+	has $.grammar = Raku::Parser::Grammar.new;
+	has $.actions = Raku::Parser::Actions.new;
 
 	method parse( Mu $p, Str $rule ) {
 		$.actions.offset = $p.from;
@@ -1683,49 +1683,49 @@ class Perl6::Parser::Factory {
 	constant BACKSLASH = Q'\'; # because the braces confuse vim.
 
 	method _Operator_Circumfix-from-match( Mu $p, Mu $_p ) {
-		my $child = Perl6::Element-List.new;
-		my $_child = Perl6::Element-List.new;
+		my $child = Raku::Element-List.new;
+		my $_child = Raku::Element-List.new;
 		$_child.append( $_p );
 		$child.append(
-			Perl6::Operator::Circumfix.from-match( $p, $_child )
+			Raku::Operator::Circumfix.from-match( $p, $_child )
 		);
 		$child;
 	}
 
 	method _Block-from-match( Mu $p, Mu $_p ) {
-		my $child = Perl6::Element-List.new;
-		my $_child = Perl6::Element-List.new;
+		my $child = Raku::Element-List.new;
+		my $_child = Raku::Element-List.new;
 		$_child.append( $_p );
 		$child.append(
-			Perl6::Block.from-match( $p, $_child )
+			Raku::Block.from-match( $p, $_child )
 		);
 		$child;
 	}
 
-	method __Prefix( Mu $p, Perl6::Element-List $prefix ) {
-		my $child = Perl6::Element-List.new;
+	method __Prefix( Mu $p, Raku::Element-List $prefix ) {
+		my $child = Raku::Element-List.new;
 		$child.append( $prefix );
 		$child.append( self._EXPR( $p.list[0] ) );
 		$child;
 	}
 
-	method __Postfix( Mu $p, Perl6::Element-List $postfix ) {
-		my $child = Perl6::Element-List.new;
+	method __Postfix( Mu $p, Raku::Element-List $postfix ) {
+		my $child = Raku::Element-List.new;
 		$child.append( self._EXPR( $p.list[0] ) );
 		$child.append( $postfix );
 		$child;
 	}
 
-	multi method __Infix( Mu $p, Perl6::Element-List $infix ) {
-		my $child = Perl6::Element-List.new;
+	multi method __Infix( Mu $p, Raku::Element-List $infix ) {
+		my $child = Raku::Element-List.new;
 		$child.append( self._EXPR( $p.list[0] ) );
 		$child.append( $infix );
 		$child.append( self._EXPR( $p.list[1] ) );
 		$child;
 	}
 
-	multi method __Infix( Mu $p, Perl6::Element $infix ) {
-		my $child = Perl6::Element-List.new;
+	multi method __Infix( Mu $p, Raku::Element $infix ) {
+		my $child = Raku::Element-List.new;
 		$child.append( self._EXPR( $p.list.[0] ) );
 		$child.append( $infix );
 		$child.append( self._EXPR( $p.list.[1] ) );
@@ -1733,36 +1733,36 @@ class Perl6::Parser::Factory {
 	}
 
 	method __Whitespace-from-match( Int $from, Str $str ) {
-		my $child = Perl6::Element-List.new;
+		my $child = Raku::Element-List.new;
 		my $_from = $from;
 		my $_str = $str;
 		while $_str ~~ s{ ^ ( \h* ) ( \n ) } = '' {
 			if $0.Str {
 				$child.append(
-					Perl6::WS.from-int( $_from, $0.Str )
+					Raku::WS.from-int( $_from, $0.Str )
 				);
 				$_from += $0.Str.chars;
 			}
 			$child.append(
-				Perl6::Newline.from-int( $_from, $1.Str )
+				Raku::Newline.from-int( $_from, $1.Str )
 			);
 			$_from += $1.Str.chars;
 		}
 		if $_str {
-			$child.append( Perl6::WS.from-int( $_from, $_str ) );
+			$child.append( Raku::WS.from-int( $_from, $_str ) );
 		}
 		$child;
 	}
 
 	method _string-to-tokens( Int $from, Str $str )
-			returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+			returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		my $remainder = $str;
 		my $left-margin = 0;
 
 		if %.here-doc{$left-margin + $from} {
 			$child.append(
-				Perl6::Sir-Not-Appearing-In-This-Statement.new(
+				Raku::Sir-Not-Appearing-In-This-Statement.new(
 					:factory-line-number(
 						callframe(1).line
 					),
@@ -1792,7 +1792,7 @@ class Perl6::Parser::Factory {
 				}
 				when m{ ^ ( '#' .+? ) \s*? $ } {
 					$child.append(
-						Perl6::Comment.from-int(
+						Raku::Comment.from-int(
 							$left-margin + $from,
 							$0.Str
 						)
@@ -1804,7 +1804,7 @@ class Perl6::Parser::Factory {
 				}
 				when m{ ^ '=' } {
 					$child.append(
-						Perl6::Pod.from-int(
+						Raku::Pod.from-int(
 							$left-margin + $from,
 							$_
 						)
@@ -1817,7 +1817,7 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	sub dump-element( Perl6::Element $node ) {
+	sub dump-element( Raku::Element $node ) {
 		if $node {
 			my $str = $node.WHAT.perl;
 			if $node.is-leaf {
@@ -1832,11 +1832,11 @@ class Perl6::Parser::Factory {
 	}
 
 	my class Thread-Tree {
-		has Perl6::Element $.tail is rw;
+		has Raku::Element $.tail is rw;
 
-		my class Sentinel is Perl6::Element { }
+		my class Sentinel is Raku::Element { }
 
-		method add-link( Perl6::Element $node ) {
+		method add-link( Raku::Element $node ) {
 			return if $node ~~ Sentinel;
 			$node.previous-node = $.tail;
 			$.tail.next-node = $node;
@@ -1847,7 +1847,7 @@ class Perl6::Parser::Factory {
 		# Keep the recursive method "private" so we can have a place for
 		# a debugging hook when needed.
 		#
-		method _thread( Perl6::Element $node, Perl6::Element $next ) {
+		method _thread( Raku::Element $node, Raku::Element $next ) {
 			if $node.is-leaf {
 				self.add-link( $next );
 			}
@@ -1885,17 +1885,17 @@ class Perl6::Parser::Factory {
 		}
 	}
 
-	method thread( Perl6::Element $node ) {
+	method thread( Raku::Element $node ) {
 		Thread-Tree.new( tail => $node ).thread;
 	}
 
-	method _flatten( Perl6::Element $node ) {
+	method _flatten( Raku::Element $node ) {
 		my $clone = $node.clone;
 		$clone.child = ( ) if $node.is-twig;
 		$clone;
 	}
 
-	method flatten( Perl6::Element $node ) {
+	method flatten( Raku::Element $node ) {
 		my $tree = $node;
 		my $head = self._flatten( $tree );
 		$head.next-node = $head;
@@ -1917,20 +1917,20 @@ class Perl6::Parser::Factory {
 		$head;
 	}
 
-	method build( Mu $p ) returns Perl6::Element {
-		my $_child = Perl6::Element-List.new;
+	method build( Mu $p ) returns Raku::Element {
+		my $_child = Raku::Element-List.new;
 		$_child.append(
 			self._statementlist( $p.hash.<statementlist> )
 		);
 
-		my Perl6::Element $root =
-			Perl6::Document.from-list( $_child );
+		my Raku::Element $root =
+			Raku::Document.from-list( $_child );
 		self.fill-gaps( $p, $root );
 		$root;
 	}
 
-	method _fill-gap( Mu $p, Perl6::Element $root, Int $index ) {
-		my $child     = Perl6::Element-List.new;
+	method _fill-gap( Mu $p, Raku::Element $root, Int $index ) {
+		my $child     = Raku::Element-List.new;
 		my Int $start = $root.child.[$index].to;
 		my Int $end   = $root.child.[$index+1].from;
 
@@ -1950,12 +1950,12 @@ class Perl6::Parser::Factory {
 		$root.child.splice( $index + 1, 0, $child.child );
 	}
 
-	method fill-gaps( Mu $p, Perl6::Element $root, Int $depth = 0 ) {
+	method fill-gaps( Mu $p, Raku::Element $root, Int $depth = 0 ) {
 		self._fill-gaps( $p, $root, $depth );
 		if $p.from < $root.from {
 			my Str $remainder =
 				$p.orig.Str.substr( 0, $root.from );
-			my $child = Perl6::Element-List.new;
+			my $child = Raku::Element-List.new;
 			$child.append(
 				self._string-to-tokens( $p.from, $remainder )
 			);
@@ -1963,7 +1963,7 @@ class Perl6::Parser::Factory {
 		}
 		if $root.to < $p.to {
 			my Str $remainder = $p.orig.Str.substr( $root.to );
-			my $child = Perl6::Element-List.new;
+			my $child = Raku::Element-List.new;
 			$child.append(
 				self._string-to-tokens( $root.to, $remainder )
 			);
@@ -1971,7 +1971,7 @@ class Perl6::Parser::Factory {
 		}
 	}
 
-	method _fill-gaps( Mu $p, Perl6::Element $root, Int $depth = 0 ) {
+	method _fill-gaps( Mu $p, Raku::Element $root, Int $depth = 0 ) {
 		return unless $root.is-twig;
 
 		for reverse $root.child.keys {
@@ -2012,12 +2012,12 @@ class Perl6::Parser::Factory {
 			die;
 		}
 		else {
-			Perl6::Catch-All.from-match( $p );
+			Raku::Catch-All.from-match( $p );
 		}
 	}
 
-	method _arglist( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _arglist( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< EXPR >] ) {
 				$child.append( self._EXPR( $_.hash.<EXPR> ) );
@@ -2029,8 +2029,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _args( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _args( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< semiarglist >] ) {
 				$child.append(
@@ -2064,8 +2064,8 @@ class Perl6::Parser::Factory {
 	# name
 	# ~~
 	#
-	method _assertion( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _assertion( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if self.assert-hash( $p, [< cclass_elem >] ) {
 			$child.append(
 				self._cclass_elem( $p.hash.<cclass_elem> )
@@ -2083,8 +2083,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _atom( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _atom( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if self.assert-hash( $p, [< metachar >] ) {
 			$child.append(
 				self._metachar( $p.hash.<metachar> )
@@ -2092,7 +2092,7 @@ class Perl6::Parser::Factory {
 		}
 		elsif $p.Str {
 			$child.append(
-				Perl6::Bareword.from-match( $p )
+				Raku::Bareword.from-match( $p )
 			);
 		}
 		else {
@@ -2101,8 +2101,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _B( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _B( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -2111,8 +2111,8 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-#	method _babble( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _babble( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -2121,8 +2121,8 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-#	method _backmod( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _backmod( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -2145,8 +2145,8 @@ class Perl6::Parser::Factory {
 	# rn
 	# t
 	#
-#	method _backslash( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _backslash( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -2155,12 +2155,12 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-#	method _binint( Mu $p ) returns Perl6::Element {
-#		Perl6::Number::Binary.from-match( $p );
+#	method _binint( Mu $p ) returns Raku::Element {
+#		Raku::Number::Binary.from-match( $p );
 #	}
 
-	method _block( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _block( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< blockoid >] ) {
 				$child.append(
@@ -2174,8 +2174,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _blockoid( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _blockoid( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			# $_ doesn't contain WS after the block.
 			when self.assert-hash( $_, [< statementlist >] ) {
@@ -2195,8 +2195,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _blorst( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _blorst( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< statement >] ) {
 				$child.append(
@@ -2213,8 +2213,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _bracket( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _bracket( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -2223,14 +2223,14 @@ class Perl6::Parser::Factory {
 #		$child;
 #	} 
 
-	method _cclass_elem( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _cclass_elem( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.list {
-			my $_child = Perl6::Element-List.new;
+			my $_child = Raku::Element-List.new;
 			for $p.list {
 				if self.assert-hash( $_, [< sign charspec >] ) {
 					$child.append(
-						Perl6::Bareword.from-match( $p )
+						Raku::Bareword.from-match( $p )
 					);
 				}
 				else {
@@ -2244,8 +2244,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _charspec( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _charspec( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -2263,10 +2263,10 @@ class Perl6::Parser::Factory {
 	# [ ]
 	# reduce
 	#
-	method _circumfix( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _circumfix( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.list {
-			my $_child = Perl6::Element-List.new;
+			my $_child = Raku::Element-List.new;
 			for $p.list {
 				if self.assert-hash( $_, [< semilist >] ) {
 					$_child.append(
@@ -2301,9 +2301,9 @@ class Perl6::Parser::Factory {
 					);
 				}
 				when self.assert-hash( $_, [< nibble >] ) {
-					my $_child = Perl6::Element-List.new;
+					my $_child = Raku::Element-List.new;
 					$_child.append(
-						Perl6::String::Body.from-match(
+						Raku::String::Body.from-match(
 							$_.hash.<nibble>
 						)
 					);
@@ -2321,8 +2321,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _codeblock( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _codeblock( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $p, [< block >] ) {
 				$child.append(
@@ -2336,8 +2336,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _coercee( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _coercee( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< statement >] ) {
 				$child.append(
@@ -2351,8 +2351,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _coloncircumfix( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _coloncircumfix( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< circumfix >] ) {
 				$child.append(
@@ -2366,8 +2366,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _colonpair( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _colonpair( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.list {
 			for $p.list {
 				if self.assert-hash( $_,
@@ -2389,7 +2389,7 @@ class Perl6::Parser::Factory {
 						[< identifier
 						   coloncircumfix >] ) {
 					$child.append(
-						Perl6::ColonBareword.from-int(
+						Raku::ColonBareword.from-int(
 							$_.hash.<identifier>.from - 1,
 							COLON ~
 							$_.hash.<identifier>.Str
@@ -2405,7 +2405,7 @@ class Perl6::Parser::Factory {
 						[< coloncircumfix >] ) {
 					# XXX Should combine with identifier?
 					$child.append(
-						Perl6::Operator::Prefix.from-sample(
+						Raku::Operator::Prefix.from-sample(
 							$_, COLON
 						)
 					);
@@ -2422,14 +2422,14 @@ class Perl6::Parser::Factory {
 					);
 				}
 				when self.assert-hash( $_, [< fakesignature >] ) {
-					my $_child = Perl6::Element-List.new;
+					my $_child = Raku::Element-List.new;
 					$_child.append(
 						self._fakesignature(
 							$_.hash.<fakesignature>
 						)
 					);
 					$child.append(
-						Perl6::Operator::PostCircumfix.from-delims(
+						Raku::Operator::PostCircumfix.from-delims(
 							$_, ':(', ')', $_child
 						)
 					);
@@ -2437,7 +2437,7 @@ class Perl6::Parser::Factory {
 				when self.assert-hash( $_, [< var >] ) {
 					# XXX Should combine with identifier?
 					$child.append(
-						Perl6::Operator::Prefix.from-sample(
+						Raku::Operator::Prefix.from-sample(
 							$_, COLON
 						)
 					);
@@ -2451,8 +2451,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _colonpairs( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _colonpairs( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			when $_ ~~ Hash {
 #				return True if $_.<D>;
@@ -2465,19 +2465,19 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-	method _contextualizer( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _contextualizer( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< coercee sequence sigil >] ) {
-				my $_child = Perl6::Element-List.new;
+				my $_child = Raku::Element-List.new;
 				# XXX Capture the '(' and ')' properly, or
 				# XXX at least better than was done before.
 				$_child.append(
 					self._coercee( $_.hash.<coercee> )
 				);
 				$child.append(
-					Perl6::Operator::Circumfix.from-delims(
+					Raku::Operator::Circumfix.from-delims(
 						$_,
 						$_.hash.<sigil>.Str ~ '(',
 						')',
@@ -2506,12 +2506,12 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _decint( Mu $p ) returns Perl6::Element {
-#		Perl6::Number::Decimal.from-match( $p );
+#	method _decint( Mu $p ) returns Raku::Element {
+#		Raku::Number::Decimal.from-match( $p );
 #	}
 
-	method _declarator( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _declarator( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< deftermnow initializer term_init >],
@@ -2528,12 +2528,12 @@ class Perl6::Parser::Factory {
 			when self.assert-hash( $_,
 					[< initializer signature >],
 					[< trait >] ) {
-				my $_child = Perl6::Element-List.new;
+				my $_child = Raku::Element-List.new;
 				$_child.append(
 					self._signature( $_.hash.<signature> )
 				);
 				$child.append(
-					Perl6::Operator::Circumfix.from-outer-match(
+					Raku::Operator::Circumfix.from-outer-match(
 						$_.hash.<signature>,
 						$_child
 					)
@@ -2610,8 +2610,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _DECL( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _DECL( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			when self.assert-hash( $_,
 #					[< deftermnow initializer term_init >],
@@ -2726,8 +2726,8 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-	method _dec_number( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _dec_number( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< coeff frac int >] ) {
 				#$child.append( self.__FloatingPoint( $_ ) );
@@ -2757,8 +2757,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _default_value( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _default_value( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.list {
 			for $p.list {
 				if self.assert-hash( $_, [< EXPR >] ) {
@@ -2777,8 +2777,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _deflongname( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _deflongname( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< colonpair name >] ) {
 				$child.append( self._name( $_.hash.<name> ) );
@@ -2797,8 +2797,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _defterm( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _defterm( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< identifier >],
@@ -2811,7 +2811,7 @@ class Perl6::Parser::Factory {
 						$_.to - $_.from + 1
 					);
 					$child.append(
-						Perl6::Bareword.from-int(
+						Raku::Bareword.from-int(
 							$_.from - 1,
 							$content
 						)
@@ -2832,8 +2832,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _deftermnow( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _deftermnow( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< defterm >] ) {
 				$child.append(
@@ -2847,8 +2847,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _desigilname( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _desigilname( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -2857,13 +2857,13 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-#	method _dig( Mu $p ) returns Perl6::Element {
+#	method _dig( Mu $p ) returns Raku::Element {
 #		# PURE-PERL parser
 #		self.parse( $p, '_dig' );
 #	}
 
-#	method _doc( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _doc( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -2875,12 +2875,12 @@ class Perl6::Parser::Factory {
 	# .
 	# .*
 	#
-	method _dotty( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _dotty( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< dottyop O sym >] ) {
 				$child.append(
-					Perl6::Operator::Prefix.from-match(
+					Raku::Operator::Prefix.from-match(
 						$_.hash.<sym>
 					)
 				);
@@ -2895,8 +2895,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _dottyop( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _dottyop( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< O postop sym >] ) {
 				$child.append(
@@ -2920,8 +2920,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _dottyopish( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _dottyopish( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< term >] ) {
 				$child.append( self._term( $_.hash.<term> ) );
@@ -2933,8 +2933,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _e1( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _e1( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< scope_declarator >] ) {
 				$child.append(
@@ -2950,8 +2950,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _e2( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _e2( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< infix OPER >] ) {
 				$child.append(
@@ -2968,8 +2968,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _e3( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _e3( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< OPER postfix >],
@@ -2990,8 +2990,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _else( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _else( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< blockoid >] ) {
 				$child.append(
@@ -3005,8 +3005,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _escale( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _escale( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -3027,8 +3027,8 @@ class Perl6::Parser::Factory {
 	# “ ”
 	# colonpair
 	#
-#	method _escape( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _escape( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -3037,14 +3037,14 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-	method _EXPR( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _EXPR( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.Str ~~ m/ ^ \{ \s* ( \* ) \s* \} $ / and not $p.list {
 			# XXX shape is redundant
 			$child.append(
 				self._Block-from-match(
 					$p,
-					Perl6::Whatever.from-int(
+					Raku::Whatever.from-int(
 						$p.from + $0.from,
 						$0.Str
 					)
@@ -3099,7 +3099,7 @@ class Perl6::Parser::Factory {
 			$child.append(
 				self.__Infix(
 					$p,
-					Perl6::Operator::Infix.from-sample(
+					Raku::Operator::Infix.from-sample(
 						$p, $p.hash.<infix>.Str ~ 
 						$p.hash.<infix_postfix_meta_operator>.Str
 					)
@@ -3112,7 +3112,7 @@ class Perl6::Parser::Factory {
 			$child.append( self._EXPR( $p.list.[0] ) );
 			if $p.Str ~~ m{ ('>>') } {
 				$child.append(
-					Perl6::Operator::Infix.from-int(
+					Raku::Operator::Infix.from-int(
 						$p.from, $0.Str
 					)
 				);
@@ -3131,7 +3131,7 @@ class Perl6::Parser::Factory {
 			$child.append( self._EXPR( $p.list.[0] ) );
 			if $p.Str ~~ m{ ^ ('.') } {
 				$child.append(
-					Perl6::Operator::Infix.from-int(
+					Raku::Operator::Infix.from-int(
 						$p.from,
 						$0.Str
 					)
@@ -3173,7 +3173,7 @@ class Perl6::Parser::Factory {
 					$child.append( self._EXPR( $v.list.[0] ) );
 					if $v.Str ~~ m{ ('>>') } {
 						$child.append(
-							Perl6::Operator::Prefix.from-int(
+							Raku::Operator::Prefix.from-int(
 								$v.from, $0.Str
 							)
 						);
@@ -3273,14 +3273,14 @@ class Perl6::Parser::Factory {
 					)
 				}
 				elsif self.assert-hash( $v, [< args op >] ) {
-					my $_child = Perl6::Element-List.new;
+					my $_child = Raku::Element-List.new;
 					$_child.append(
-						Perl6::Operator::Prefix.from-match(
+						Raku::Operator::Prefix.from-match(
 							$v.hash.<op>
 						)
 					);
 					$child.append(
-						Perl6::Operator::Hyper.from-outer-match(
+						Raku::Operator::Hyper.from-outer-match(
 							$v.hash.<op>,
 							$_child
 						)
@@ -3302,7 +3302,7 @@ class Perl6::Parser::Factory {
 							if $x ~~ m{ ($_infix-str) } {
 								my Int $left-margin = $0.from;
 								$child.append(
-									Perl6::Operator::Infix.from-int(
+									Raku::Operator::Infix.from-int(
 										$left-margin + $_v.to,
 										$0.Str
 									)
@@ -3320,7 +3320,7 @@ class Perl6::Parser::Factory {
 					if $x ~~ m{ ($infix-str) } {
 						my Int $left-margin = $0.from;
 						$child.append(
-							Perl6::Operator::Infix.from-int(
+							Raku::Operator::Infix.from-int(
 								$left-margin + $v.to,
 								$0.Str
 							)
@@ -3338,7 +3338,7 @@ class Perl6::Parser::Factory {
 			if $infix-str ~~ m{ ('??') } {
 				$child.append( self._EXPR( $p.list.[0] ) );
 				$child.append(
-					Perl6::Operator::Infix.from-sample(
+					Raku::Operator::Infix.from-sample(
 						$p,
 						$0.Str
 					)
@@ -3346,7 +3346,7 @@ class Perl6::Parser::Factory {
 				
 				$child.append( self._EXPR( $p.list.[1] ) );
 				$child.append(
-					Perl6::Operator::Infix.from-sample(
+					Raku::Operator::Infix.from-sample(
 						$p,
 						BANG-BANG
 					)
@@ -3372,7 +3372,7 @@ class Perl6::Parser::Factory {
 						if $x ~~ m{ ($infix-str) } {
 							my Int $left-margin = $0.from;
 							$child.append(
-								Perl6::Operator::Infix.from-int(
+								Raku::Operator::Infix.from-int(
 									$child.child.[*-1].to + $0.from,
 									$0.Str
 								)
@@ -3383,14 +3383,14 @@ class Perl6::Parser::Factory {
 			}
 		}
 		elsif self.assert-hash( $p, [< args op >] ) {
-			my $_child = Perl6::Element-List.new;
+			my $_child = Raku::Element-List.new;
 			$_child.append(
-				Perl6::Operator::Prefix.from-match(
+				Raku::Operator::Prefix.from-match(
 					$p.hash.<op>
 				)
 			);
 			$child.append(
-				Perl6::Operator::Hyper.from-outer-match(
+				Raku::Operator::Hyper.from-outer-match(
 					$p.hash.<op>,
 					$_child
 				)
@@ -3409,7 +3409,7 @@ class Perl6::Parser::Factory {
 			# XXX _sym(...) falls back to Bareword because it's used
 			# XXX for 'my' among other things.
 			$child.append(
-				Perl6::Operator::Infix.from-match(
+				Raku::Operator::Infix.from-match(
 					$p.hash.<sym>
 				)
 			);
@@ -3511,11 +3511,11 @@ class Perl6::Parser::Factory {
 		}
 		# XXX Here begin some more ugly hacks.
 		elsif self.assert-hash( $p, [< args op triangle >] ) {
-			my $_child = Perl6::Element-List.new;
+			my $_child = Raku::Element-List.new;
 			# XXX Merge triangle and op?
 			if $p.hash.<triangle>.Str {
 				$_child.append(
-					Perl6::Operator::Prefix.from-int(
+					Raku::Operator::Prefix.from-int(
 						$p.hash.<triangle>.from,
 						$p.hash.<triangle>.Str ~
 						$p.hash.<op>,
@@ -3524,13 +3524,13 @@ class Perl6::Parser::Factory {
 			}
 			else {
 				$_child.append(
-					Perl6::Operator::Prefix.from-match(
+					Raku::Operator::Prefix.from-match(
 						$p.hash.<op>
 					)
 				);
 			}
 			$child.append(
-				Perl6::Operator::Hyper.from-outer-int(
+				Raku::Operator::Hyper.from-outer-int(
 					$p,
 					$p.hash.<triangle>.from,
 					$p.hash.<triangle>.Str ~
@@ -3549,8 +3549,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _fake_infix( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _fake_infix( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -3559,8 +3559,8 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-	method _fakesignature( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _fakesignature( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< signature >] ) {
 				$child.append(
@@ -3574,8 +3574,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _fatarrow( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _fatarrow( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< key val >] ) {
 				#$child.append( self._key( $_.hash.<key> ) );
@@ -3584,7 +3584,7 @@ class Perl6::Parser::Factory {
 					self.parse( $_.hash.<key>, '_key' )
 				);
 				$child.append(
-					Perl6::Operator::Infix.from-sample(
+					Raku::Operator::Infix.from-sample(
 						$_, FAT-ARROW
 					)
 				);
@@ -3597,18 +3597,18 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method __FloatingPoint( Mu $p ) returns Perl6::Element {
+#	method __FloatingPoint( Mu $p ) returns Raku::Element {
 #		# PURE-PERL parser
 #		self.parse( $p, '_floating_point' );
 #	}
 
-#	method _hexint( Mu $p ) returns Perl6::Element {
-#		Perl6::Number::Hexadecimal.from-match( $p );
+#	method _hexint( Mu $p ) returns Raku::Element {
+#		Raku::Number::Hexadecimal.from-match( $p );
 #	}
 
 
-	method _identifier( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _identifier( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		# PURE-PERL parser
 		$child.append(
 			self.parse( $p, '_identifier' )
@@ -3616,12 +3616,12 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _infix( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _infix( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< O sym >] ) {
 				$child.append(
-					Perl6::Operator::Infix.from-match(
+					Raku::Operator::Infix.from-match(
 						$_.hash.<sym>
 					)
 				);
@@ -3633,8 +3633,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _infixish( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _infixish( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -3647,8 +3647,8 @@ class Perl6::Parser::Factory {
 	# « »
 	#
 	method _infix_circumfix_meta_operator( Mu $p )
-			returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+			returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 				[< closing infixish opening >], [< O >] ) {
@@ -3667,8 +3667,8 @@ class Perl6::Parser::Factory {
 	# « »
 	#
 #	method _infix_prefix_meta_operator( Mu $p )
-#			returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#			returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -3683,12 +3683,12 @@ class Perl6::Parser::Factory {
 	# .=
 	# .
 	#
-	method _initializer( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _initializer( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< dottyopish sym >] ) {
 				$child.append(
-					Perl6::Operator::Infix.from-match(
+					Raku::Operator::Infix.from-match(
 						$_.hash.<sym>
 					)
 				);
@@ -3700,7 +3700,7 @@ class Perl6::Parser::Factory {
 				# XXX have to distinguish _sym(...) bareword
 				# XXX from operator
 				$child.append(
-					Perl6::Operator::Infix.from-match(
+					Raku::Operator::Infix.from-match(
 						$_.hash.<sym>
 					)
 				);
@@ -3713,8 +3713,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _integer( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _integer( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		# PURE-PERL parser
 		$child.append(
 			self.parse( $p, '_integer' )
@@ -3722,8 +3722,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _invocant( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _invocant( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		#if $p ~~ QAST::Want;
 #		given $p {
 #			default {
@@ -3733,18 +3733,18 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-#	method _key( Mu $p ) returns Perl6::Element {
+#	method _key( Mu $p ) returns Raku::Element {
 #		# PURE-PERL parser
 #		self.parse( $p, '_key' );
 #	}
 
-#	method _lambda( Mu $p ) returns Perl6::Element {
+#	method _lambda( Mu $p ) returns Raku::Element {
 #		# PURE-PERL parser
 #		self.parse( $p, '_lambda' );
 #	}
 
-	method _left( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _left( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< termseq >] ) {
 				$child.append(
@@ -3758,8 +3758,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _longname( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _longname( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< name >], [< colonpair >] ) {
@@ -3772,8 +3772,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _max( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _max( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -3787,25 +3787,25 @@ class Perl6::Parser::Factory {
 	# qw
 	# '
 	#
-	method _metachar( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _metachar( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if self.assert-hash( $p, [< sym >] ) {
 			$child.append( self._sym( $p.hash.<sym> ) );
 		}
 		elsif self.assert-hash( $p, [< assertion >] ) {
-			my $_child = Perl6::Element-List.new;
+			my $_child = Raku::Element-List.new;
 			$_child.append(
 				self._assertion( $p.hash.<assertion> )
 			);
 			$child.append(
-				Perl6::Operator::Circumfix.from-match(
+				Raku::Operator::Circumfix.from-match(
 					$p,
 					$_child
 				)
 			);
 		}
 		elsif self.assert-hash( $p, [< nibble >] ) {
-			my $_child = Perl6::Element-List.new;
+			my $_child = Raku::Element-List.new;
 			$_child.append( self._nibble( $p.hash.<nibble> ) );
 			$child.append(
 				self._Operator_Circumfix-from-match(
@@ -3827,10 +3827,10 @@ class Perl6::Parser::Factory {
 			$child.append( self._quote( $p.hash.<quote> ) );
 		}
 		elsif self.assert-hash( $p, [< nibbler >] ) {
-			my $_child = Perl6::Element-List.new;
+			my $_child = Raku::Element-List.new;
 			# XXX pack this into <nibbler> somehow.
 			$_child.append(
-				Perl6::Bareword.from-match( $p.hash.<nibbler> )
+				Raku::Bareword.from-match( $p.hash.<nibbler> )
 			);
 			$child.append(
 				self._Operator_Circumfix-from-match(
@@ -3840,7 +3840,7 @@ class Perl6::Parser::Factory {
 			);
 		}
 		elsif $p.Str {
-			$child.append( Perl6::Bareword.from-match( $p ) );
+			$child.append( Raku::Bareword.from-match( $p ) );
 		}
 		else {
 			$child.fall-through( $p );
@@ -3848,13 +3848,13 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _method_def( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _method_def( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< blockoid longname multisig
 					   specials trait >] ) {
-				my $_child = Perl6::Element-List.new;
+				my $_child = Raku::Element-List.new;
 				# XXX has a twin at <blockoid multisig> in EXPR
 				my Str $x = $_.orig.substr(
 					0, $_.hash.<multisig>.from
@@ -3873,7 +3873,7 @@ class Perl6::Parser::Factory {
 					self._longname( $_.hash.<longname> )
 				);
 				$child.append(
-					Perl6::Operator::Circumfix.from-int(
+					Raku::Operator::Circumfix.from-int(
 						$_.hash.<multisig>.from - $from,
 						$_.orig.substr(
 							$_.hash.<multisig>.from - $from,
@@ -3893,7 +3893,7 @@ class Perl6::Parser::Factory {
 					[< blockoid longname multisig
 					   specials >],
 					[< trait >] ) {
-				my $_child = Perl6::Element-List.new;
+				my $_child = Raku::Element-List.new;
 				# XXX has a twin at <blockoid multisig> in EXPR
 				my Str $x = $_.orig.substr(
 					0, $_.hash.<multisig>.from
@@ -3912,7 +3912,7 @@ class Perl6::Parser::Factory {
 					self._longname( $_.hash.<longname> )
 				);
 				$child.append(
-					Perl6::Operator::Circumfix.from-int(
+					Raku::Operator::Circumfix.from-int(
 						$_.hash.<multisig>.from - $from,
 						$_.orig.substr(
 							$_.hash.<multisig>.from - $from,
@@ -3942,8 +3942,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _methodop( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _methodop( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< args longname >] ) {
 				$child.append(
@@ -3968,8 +3968,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _min( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _min( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< decint VALUE >] ) {
 				# XXX The decimal is just a string.
@@ -3985,8 +3985,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _modifier_expr( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _modifier_expr( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< EXPR >] ) {
 				$child.append( self._EXPR( $_.hash.<EXPR> ) );
@@ -3998,8 +3998,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _module_name( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _module_name( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< longname >] ) {
 				$child.append(
@@ -4013,14 +4013,14 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _morename( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _morename( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		if $p.list {
 #			for $p.list {
 #				if self.assert-hash( $p, [< identifier >] ) {
 #					# XXX replace with _identifier(..)
 #					$child.append(
-#						Perl6::PackageName.from-match(
+#						Raku::PackageName.from-match(
 #							$_.hash.<identifier>
 #						)
 #					);
@@ -4041,8 +4041,8 @@ class Perl6::Parser::Factory {
 	# only
 	# null
 	#
-	method _multi_declarator( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _multi_declarator( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< routine_def sym >] ) {
 				$child.append( self._sym( $_.hash.<sym> ) );
@@ -4070,8 +4070,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _multisig( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _multisig( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< signature >] ) {
 				$child.append(
@@ -4085,17 +4085,17 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _named_param( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _named_param( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< name param_var >] ) {
-				my $_child = Perl6::Element-List.new;
+				my $_child = Raku::Element-List.new;
 				$_child.append(
 					self._param_var( $_.hash.<param_var> )
 				);
 				if $_.Str ~~ m{ ^ (':') } {
 					$child.append(
-						Perl6::Bareword.from-int(
+						Raku::Bareword.from-int(
 							$_.from,
 							$0.Str
 						)
@@ -4103,7 +4103,7 @@ class Perl6::Parser::Factory {
 				}
 				$child.append( self._name( $_.hash.<name> ) );
 				$child.append(
-					Perl6::Operator::Circumfix.from-outer-match(
+					Raku::Operator::Circumfix.from-outer-match(
 						$_.hash.<param_var>,
 						$_child
 					)
@@ -4112,7 +4112,7 @@ class Perl6::Parser::Factory {
 			when self.assert-hash( $_, [< param_var >] ) {
 				if $_.Str ~~ m{ ^ (':') } {
 					$child.append(
-						Perl6::Bareword.from-int(
+						Raku::Bareword.from-int(
 							$_.from,
 							$0.Str
 						)
@@ -4129,8 +4129,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _name( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _name( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.hash {
 			given $p {
 				when self.assert-hash( $_,
@@ -4145,7 +4145,7 @@ class Perl6::Parser::Factory {
 					if $_.orig.Str.substr( $_.to, 1 ) eq
 							COLON {
 						$child.append(
-							Perl6::Bareword.from-int(
+							Raku::Bareword.from-int(
 								$_.to,
 								COLON
 							)
@@ -4176,14 +4176,14 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _nibble( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _nibble( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if self.assert-hash( $p, [< termseq >] ) {
 			$child.append( self._termseq( $p.hash.<termseq> ) );
 		}
 		elsif $p.Str {
 			$child.append(
-				Perl6::Bareword.from-match( $p )
+				Raku::Bareword.from-match( $p )
 			);
 		}
 		else {
@@ -4192,8 +4192,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _nibbler( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _nibbler( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			when self.assert-hash( $_, [< termseq >] ) {
 #				$child.append(
@@ -4207,8 +4207,8 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-#	method _normspace( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _normspace( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -4217,8 +4217,8 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-	method _noun( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _noun( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.list {
 			for $p.list {
 				if self.assert-hash( $_,
@@ -4298,8 +4298,8 @@ class Perl6::Parser::Factory {
 
 	# numish # ?
 	#
-	method _number( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _number( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< numish >] ) {
 				$child.append(
@@ -4313,18 +4313,18 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method __Inf( Mu $p ) returns Perl6::Element {
+#	method __Inf( Mu $p ) returns Raku::Element {
 #		# PURE-PERL parser
 #		self.parse( $p, '_infinity' );
 #	}
 
-#	method __NaN( Mu $p ) returns Perl6::Element {
+#	method __NaN( Mu $p ) returns Raku::Element {
 #		# PURE-PERL parser
 #		self.parse( $p, '_nan' );
 #	}
 
-	method _numish( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _numish( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< dec_number >] ) {
 				$child.append(
@@ -4362,8 +4362,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _O( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _O( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		return True if $p.<thunky>
 #			and $p.<prec>
 #			and $p.<fiddly>
@@ -4415,12 +4415,12 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-#	method _octint( Mu $p ) returns Perl6::Element {
-#		Perl6::Number::Octal.from-match( $p );
+#	method _octint( Mu $p ) returns Raku::Element {
+#		Raku::Number::Octal.from-match( $p );
 #	}
 
-#	method _op( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _op( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -4429,8 +4429,8 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-#	method _OPER( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _OPER( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			when self.assert-hash( $_, [< infixish O sym >] ) {
 #				$child.append( self._sym( $_.hash.<sym> ) );
@@ -4442,7 +4442,7 @@ class Perl6::Parser::Factory {
 #			when self.assert-hash( $_, [< dottyop O sym >] ) {
 #				# XXX replace with _sym(..)
 #				$child.append(
-#					Perl6::Operator::Infix.from-match(
+#					Raku::Operator::Infix.from-match(
 #						$_.hash.<sym>
 #					)
 #				);
@@ -4500,8 +4500,8 @@ class Perl6::Parser::Factory {
 	# ??{ }
 	# var
 	#
-#	method _p5metachar( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _p5metachar( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -4521,8 +4521,8 @@ class Perl6::Parser::Factory {
 	# trusts <name>
 	# also <name>
 	#
-	method _package_declarator( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _package_declarator( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< package_def sym >] ) {
 				$child.append( self._sym( $_.hash.<sym> ) );
@@ -4549,8 +4549,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _package_def( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _package_def( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< longname statementlist >],
@@ -4564,7 +4564,7 @@ class Perl6::Parser::Factory {
 				if $temp ~~ m{ ^ ( \s+ ) (';') } {
 					my Int $left-margin = $0.Str.chars;
 					$child.append(
-						Perl6::Semicolon.from-int(
+						Raku::Semicolon.from-int(
 							$left-margin + $_.hash.<longname>.to,
 							$1.Str
 						)
@@ -4606,8 +4606,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _param_term( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _param_term( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< defterm >] ) {
 				$child.append(
@@ -4621,8 +4621,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _parameter( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _parameter( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		for $p.list {
 #			if self.assert-hash( $_,
 #				[< param_var type_constraint
@@ -4687,7 +4687,7 @@ class Perl6::Parser::Factory {
 #				);
 #				# XXX replace with _quant(..) &c
 #				$child.append(
-#					Perl6::Operator::Infix.from-sample(
+#					Raku::Operator::Infix.from-sample(
 #						$p, EQUAL
 #					)
 #				);
@@ -4723,49 +4723,49 @@ class Perl6::Parser::Factory {
 #	}
 
 	my %sigil-map =
-		'$' => Perl6::Variable::Scalar,
-		'$*' => Perl6::Variable::Scalar::Dynamic,
-		'$.' => Perl6::Variable::Scalar::Accessor,
-		'$!' => Perl6::Variable::Scalar::Attribute,
-		'$?' => Perl6::Variable::Scalar::CompileTime,
-		'$<' => Perl6::Variable::Scalar::MatchIndex,
-		'$^' => Perl6::Variable::Scalar::Positional,
-		'$:' => Perl6::Variable::Scalar::Named,
-		'$=' => Perl6::Variable::Scalar::Pod,
-		'$~' => Perl6::Variable::Scalar::SubLanguage,
-		'%' => Perl6::Variable::Hash,
-		'%*' => Perl6::Variable::Hash::Dynamic,
-		'%.' => Perl6::Variable::Hash::Accessor,
-		'%!' => Perl6::Variable::Hash::Attribute,
-		'%?' => Perl6::Variable::Hash::CompileTime,
-		'%<' => Perl6::Variable::Hash::MatchIndex,
-		'%^' => Perl6::Variable::Hash::Positional,
-		'%:' => Perl6::Variable::Hash::Named,
-		'%=' => Perl6::Variable::Hash::Pod,
-		'%~' => Perl6::Variable::Hash::SubLanguage,
-		'@' => Perl6::Variable::Array,
-		'@*' => Perl6::Variable::Array::Dynamic,
-		'@.' => Perl6::Variable::Array::Accessor,
-		'@!' => Perl6::Variable::Array::Attribute,
-		'@?' => Perl6::Variable::Array::CompileTime,
-		'@<' => Perl6::Variable::Array::MatchIndex,
-		'@^' => Perl6::Variable::Array::Positional,
-		'@:' => Perl6::Variable::Array::Named,
-		'@=' => Perl6::Variable::Array::Pod,
-		'@~' => Perl6::Variable::Array::SubLanguage,
-		'&' => Perl6::Variable::Callable,
-		'&*' => Perl6::Variable::Callable::Dynamic,
-		'&.' => Perl6::Variable::Callable::Accessor,
-		'&!' => Perl6::Variable::Callable::Attribute,
-		'&?' => Perl6::Variable::Callable::CompileTime,
-		'&<' => Perl6::Variable::Callable::MatchIndex,
-		'&^' => Perl6::Variable::Callable::Positional,
-		'&:' => Perl6::Variable::Callable::Named,
-		'&=' => Perl6::Variable::Callable::Pod,
-		'&~' => Perl6::Variable::Callable::SubLanguage;
+		'$' => Raku::Variable::Scalar,
+		'$*' => Raku::Variable::Scalar::Dynamic,
+		'$.' => Raku::Variable::Scalar::Accessor,
+		'$!' => Raku::Variable::Scalar::Attribute,
+		'$?' => Raku::Variable::Scalar::CompileTime,
+		'$<' => Raku::Variable::Scalar::MatchIndex,
+		'$^' => Raku::Variable::Scalar::Positional,
+		'$:' => Raku::Variable::Scalar::Named,
+		'$=' => Raku::Variable::Scalar::Pod,
+		'$~' => Raku::Variable::Scalar::SubLanguage,
+		'%' => Raku::Variable::Hash,
+		'%*' => Raku::Variable::Hash::Dynamic,
+		'%.' => Raku::Variable::Hash::Accessor,
+		'%!' => Raku::Variable::Hash::Attribute,
+		'%?' => Raku::Variable::Hash::CompileTime,
+		'%<' => Raku::Variable::Hash::MatchIndex,
+		'%^' => Raku::Variable::Hash::Positional,
+		'%:' => Raku::Variable::Hash::Named,
+		'%=' => Raku::Variable::Hash::Pod,
+		'%~' => Raku::Variable::Hash::SubLanguage,
+		'@' => Raku::Variable::Array,
+		'@*' => Raku::Variable::Array::Dynamic,
+		'@.' => Raku::Variable::Array::Accessor,
+		'@!' => Raku::Variable::Array::Attribute,
+		'@?' => Raku::Variable::Array::CompileTime,
+		'@<' => Raku::Variable::Array::MatchIndex,
+		'@^' => Raku::Variable::Array::Positional,
+		'@:' => Raku::Variable::Array::Named,
+		'@=' => Raku::Variable::Array::Pod,
+		'@~' => Raku::Variable::Array::SubLanguage,
+		'&' => Raku::Variable::Callable,
+		'&*' => Raku::Variable::Callable::Dynamic,
+		'&.' => Raku::Variable::Callable::Accessor,
+		'&!' => Raku::Variable::Callable::Attribute,
+		'&?' => Raku::Variable::Callable::CompileTime,
+		'&<' => Raku::Variable::Callable::MatchIndex,
+		'&^' => Raku::Variable::Callable::Positional,
+		'&:' => Raku::Variable::Callable::Named,
+		'&=' => Raku::Variable::Callable::Pod,
+		'&~' => Raku::Variable::Callable::SubLanguage;
 
-	method _param_var( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _param_var( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< name sigil twigil >] ) {
 				$child.append(
@@ -4805,8 +4805,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _pblock( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _pblock( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< blockoid lambda signature >] ) {
@@ -4856,8 +4856,8 @@ class Perl6::Parser::Factory {
 	# config
 	# text
 	#
-#	method _pod_block( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _pod_block( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -4869,8 +4869,8 @@ class Perl6::Parser::Factory {
 	# block
 	# text
 	#
-#	method _pod_content( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _pod_content( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -4882,8 +4882,8 @@ class Perl6::Parser::Factory {
 	# regular
 	# code
 	#
-#	method _pod_textcontent( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _pod_textcontent( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -4893,13 +4893,13 @@ class Perl6::Parser::Factory {
 #	}
 
 	method _postfix_prefix_meta_operator( Mu $p )
-			returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+			returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.list {
 			for $p.list {
 				if self.assert-hash( $_, [< sym >] ) {
 					$child.append(
-						Perl6::Operator::Prefix.from-match(
+						Raku::Operator::Prefix.from-match(
 							$_.hash.<sym>
 						)
 					);
@@ -4921,8 +4921,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _post_constraint( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _post_constraint( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.list {
 			for $p.list {
 				if self.assert-hash( $_, [< EXPR >] ) {
@@ -4950,33 +4950,33 @@ class Perl6::Parser::Factory {
 	# « »
 	# ( )
 	#
-	method _postcircumfix( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _postcircumfix( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< O semilist >] ) {
-				my $_child = Perl6::Element-List.new;
+				my $_child = Raku::Element-List.new;
 				$_child.append(
 					self._semilist( $_.hash.<semilist> )
 				);
 				$child.append(
-					Perl6::Operator::PostCircumfix.from-match(
+					Raku::Operator::PostCircumfix.from-match(
 						$_,
 						$_child
 					)
 				);
 			}
 			when self.assert-hash( $_, [< nibble O >] ) {
-				my $_child = Perl6::Element-List.new;
+				my $_child = Raku::Element-List.new;
 				$_.Str ~~ m{ ^ (.) ( \s* ) ( .+? ) \s* . $ };
 				$_child.append(
-					Perl6::Bareword.from-int(
+					Raku::Bareword.from-int(
 						$_.from + $0.Str.chars +
 						$1.Str.chars,
 						$2.Str
 					)
 				);
 				$child.append(
-					Perl6::Operator::PostCircumfix.from-match(
+					Raku::Operator::PostCircumfix.from-match(
 						$_, $_child
 					)
 				);
@@ -4994,7 +4994,7 @@ class Perl6::Parser::Factory {
 				}
 				else {
 					$child.append(
-						Perl6::Operator::Postfix.from-match(
+						Raku::Operator::Postfix.from-match(
 							$_
 						)
 					);
@@ -5009,13 +5009,13 @@ class Perl6::Parser::Factory {
 
 	# ⁿ
 	#
-	method _postfix( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _postfix( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< O sym >] ) {
 				# XXX replace with _sym(..)
 				$child.append(
-					Perl6::Operator::Postfix.from-match(
+					Raku::Operator::Postfix.from-match(
 						$_.hash.<sym>
 					)
 				);
@@ -5033,8 +5033,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _postop( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _postop( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< O postcircumfix sym >] ) {
@@ -5055,8 +5055,8 @@ class Perl6::Parser::Factory {
 	}
 
 	method _prefix_postfix_meta_operator( Mu $p )
-			returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+			returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.list {
 			for $p.list {
 				if self.assert-hash( $_, [< sym >] ) {
@@ -5075,13 +5075,13 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _prefix( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _prefix( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< O sym >] ) {
 				# XXX replace with _sym(..)
 				$child.append(
-					Perl6::Operator::Prefix.from-match(
+					Raku::Operator::Prefix.from-match(
 						$_.hash.<sym>
 					)
 				);
@@ -5093,8 +5093,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _quant( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _quant( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.Str {
 			# XXX Need to propagate this back upwards.
 			if $p.Str ne BACKSLASH {
@@ -5110,8 +5110,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _quantified_atom( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _quantified_atom( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< atom sigfinal >] ) {
 				# XXX sigfinal is unused
@@ -5127,8 +5127,8 @@ class Perl6::Parser::Factory {
 	# **
 	# rakvar
 	#
-	method _quantifier( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _quantifier( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< min sym >],
@@ -5147,8 +5147,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _quibble( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _quibble( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -5158,25 +5158,25 @@ class Perl6::Parser::Factory {
 #	}
 
 	my %delimiter-map =
-		Q{'} => Perl6::String::Escaping,
-		Q{"} => Perl6::String::Interpolation,
-		Q{｢} => Perl6::String::Literal;
+		Q{'} => Raku::String::Escaping,
+		Q{"} => Raku::String::Interpolation,
+		Q{｢} => Raku::String::Literal;
 
 	# XXX Any word-quoting should probably be broken into barewords
 	# XXX for later.
 	my %q-map =
-		Q{qqww} => Perl6::String::Interpolation::WordQuoting::QuoteProtection,
-		Q{qqw} => Perl6::String::Interpolation::WordQuoting,
-		Q{qqx} => Perl6::String::Interpolation::Shell,
-		Q{qww} => Perl6::String::WordQuoting::QuoteProtection,
-		Q{Qx} => Perl6::String::Literal::Shell,
-		Q{qw} => Perl6::String::WordQuoting,
-		Q{Qw} => Perl6::String::Literal::WordQuoting,
-		Q{qx} => Perl6::String::Shell,
+		Q{qqww} => Raku::String::Interpolation::WordQuoting::QuoteProtection,
+		Q{qqw} => Raku::String::Interpolation::WordQuoting,
+		Q{qqx} => Raku::String::Interpolation::Shell,
+		Q{qww} => Raku::String::WordQuoting::QuoteProtection,
+		Q{Qx} => Raku::String::Literal::Shell,
+		Q{qw} => Raku::String::WordQuoting,
+		Q{Qw} => Raku::String::Literal::WordQuoting,
+		Q{qx} => Raku::String::Shell,
 
-		Q{qq} => Perl6::String::Interpolation,
-		Q{Q} => Perl6::String::Literal,
-		Q{q} => Perl6::String::Escaping;
+		Q{qq} => Raku::String::Interpolation,
+		Q{Q} => Raku::String::Literal,
+		Q{q} => Raku::String::Escaping;
 
 	# apos # ' .. '
 	# sapos # ('smart single quotes')..()
@@ -5197,8 +5197,8 @@ class Perl6::Parser::Factory {
 	# s
 	# quasi
 	#
-	method _quote( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _quote( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< rx_adverbs sibble sym >] ) {
@@ -5212,7 +5212,7 @@ class Perl6::Parser::Factory {
 			}
 			when self.assert-hash( $_,
 					[< quibble rx_adverbs sym >] ) {
-				my $_child = Perl6::Element-List.new;
+				my $_child = Raku::Element-List.new;
 				$child.append( self._sym( $_.hash.<sym> ) );
 				if $_.hash.<rx_adverbs>.Str {
 					$child.append(
@@ -5222,12 +5222,12 @@ class Perl6::Parser::Factory {
 					);
 				}
 				$_child.append(
-					Perl6::String::Body.from-match(
+					Raku::String::Body.from-match(
 						$_.hash.<quibble>.hash.<nibble>
 					)
 				);
 				$child.append(
-					Perl6::Regex.from-match(
+					Raku::Regex.from-match(
 						$_.hash.<quibble>,
 						$_child
 					)
@@ -5236,11 +5236,11 @@ class Perl6::Parser::Factory {
 			when self.assert-hash( $_,
 					[< quibble sym >], [< rx_adverbs >] ) {
 				my Str @rx-adverb;
-				my $_child = Perl6::Element-List.new;
+				my $_child = Raku::Element-List.new;
 				$child.append( self._sym( $_.hash.<sym> ) );
 				# XXX The first place negative indices are used
 				$_child.append(
-					Perl6::String::Enter.from-int(
+					Raku::String::Enter.from-int(
 						$_.hash.<quibble>.hash.<nibble>.from - 1,
 						$_.hash.<quibble>.Str.substr(
 							*-($_.hash.<quibble>.hash.<nibble>.chars + 2),
@@ -5249,12 +5249,12 @@ class Perl6::Parser::Factory {
 					)
 				);
 				$_child.append(
-					Perl6::String::Body.from-match(
+					Raku::String::Body.from-match(
 						$_.hash.<quibble>.hash.<nibble>
 					)
 				);
 				$_child.append(
-					Perl6::String::Exit.from-int(
+					Raku::String::Exit.from-int(
 						$_.hash.<quibble>.hash.<nibble>.to,
 						$_.hash.<quibble>.Str.substr(
 							$_.hash.<quibble>.chars - 1,
@@ -5263,7 +5263,7 @@ class Perl6::Parser::Factory {
 					)
 				);
 				$child.append(
-					Perl6::Regex.new(
+					Raku::Regex.new(
 						:factory-line-number(
 							callframe(1).line
 						),
@@ -5390,7 +5390,7 @@ class Perl6::Parser::Factory {
 			when self.assert-hash( $_, [< nibble >] ) {
 				$_.Str ~~ m{ ^ (.) .* (.) $ };
 				if $0.Str eq Q{/} {
-					my $_child = Perl6::Element-List.new;
+					my $_child = Raku::Element-List.new;
 					if $_.hash.<nibble>.Str {
 						$_child.append(
 							self._nibble(
@@ -5400,7 +5400,7 @@ class Perl6::Parser::Factory {
 						);
 					}
 					$child.append(
-						Perl6::Regex.from-match(
+						Raku::Regex.from-match(
 							$_, $_child
 						)
 					);
@@ -5431,8 +5431,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _quotepair( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _quotepair( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.list {
 			for $p.list {
 				if self.assert-hash( $_, [< identifier >] ) {
@@ -5452,8 +5452,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _radix( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _radix( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -5462,12 +5462,12 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-	method __Radix( Mu $p ) returns Perl6::Element {
-		Perl6::Number::Radix.from-match( $p );
+	method __Radix( Mu $p ) returns Raku::Element {
+		Raku::Number::Radix.from-match( $p );
 	}
 
-	method _rad_number( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _rad_number( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< circumfix radix >],
@@ -5485,8 +5485,8 @@ class Perl6::Parser::Factory {
 	# token <name> { },
 	# regex <name> { },
 	#
-	method _regex_declarator( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _regex_declarator( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< regex_def sym >] ) {
 				$child.append( self._sym( $_.hash.<sym> ) );
@@ -5501,8 +5501,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _regex_def( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _regex_def( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 
 		# 'regex Foo { token }'
 		#	deflongname = 'Foo'
@@ -5512,7 +5512,7 @@ class Perl6::Parser::Factory {
 			when self.assert-hash( $_,
 					[< deflongname nibble >],
 					[< signature trait >] ) {
-				my $_child = Perl6::Element-List.new;
+				my $_child = Raku::Element-List.new;
 				$_child.append(
 					self._nibble( $_.hash.<nibble> )
 				);
@@ -5522,7 +5522,7 @@ class Perl6::Parser::Factory {
 					)
 				);
 				$child.append(
-					Perl6::Block.from-outer-match(
+					Raku::Block.from-outer-match(
 						$_.hash.<nibble>,
 						$_child
 					)
@@ -5535,8 +5535,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _right( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _right( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -5550,8 +5550,8 @@ class Perl6::Parser::Factory {
 	# submethod <name> ... { },
 	# macro <name> ... { }, # XXX ?
 	#
-	method _routine_declarator( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _routine_declarator( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< routine_def sym >] ) {
 				$child.append( self._sym( $_.hash.<sym> ) );
@@ -5574,19 +5574,19 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _routine_def( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _routine_def( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< blockoid deflongname
 					   multisig trait >] ) {
-				my $_child = Perl6::Element-List.new;
+				my $_child = Raku::Element-List.new;
 				my Str $left-edge = $_.Str.substr(
 					0, $_.hash.<multisig>.from - $_.from
 				);
 				$left-edge ~~ m{ ('(') ( \s* ) $ };
 				$_child.append(
-					Perl6::Balanced::Enter.from-int(
+					Raku::Balanced::Enter.from-int(
 						$_.hash.<multisig>.from -
 						$0.Str.chars - $1.Str.chars,
 						$0.Str
@@ -5596,7 +5596,7 @@ class Perl6::Parser::Factory {
 					self._multisig( $_.hash.<multisig> )
 				);
 				$_child.append(
-					Perl6::Balanced::Exit.from-int(
+					Raku::Balanced::Exit.from-int(
 						$_.hash.<multisig>.to,
 						PAREN-CLOSE
 					)
@@ -5607,7 +5607,7 @@ class Perl6::Parser::Factory {
 					)
 				);
 				$child.append(
-					Perl6::Operator::Circumfix.new(
+					Raku::Operator::Circumfix.new(
 						:factory-line-number(
 							callframe(1).line 
 						),
@@ -5629,13 +5629,13 @@ class Perl6::Parser::Factory {
 			when self.assert-hash( $_,
 					[< blockoid deflongname multisig >],
 					[< trait >] ) {
-				my $_child = Perl6::Element-List.new;
+				my $_child = Raku::Element-List.new;
 				my Str $left-edge = $_.Str.substr(
 					0, $_.hash.<multisig>.from - $_.from
 				);
 				$left-edge ~~ m{ ('(') ( \s* ) $ };
 				$_child.append(
-					Perl6::Balanced::Enter.from-int(
+					Raku::Balanced::Enter.from-int(
 						$_.hash.<multisig>.from -
 						$0.Str.chars - $1.Str.chars,
 						$0.Str
@@ -5645,7 +5645,7 @@ class Perl6::Parser::Factory {
 					self._multisig( $_.hash.<multisig> )
 				);
 				$_child.append(
-					Perl6::Balanced::Exit.from-int(
+					Raku::Balanced::Exit.from-int(
 						$_.hash.<multisig>.to,
 						PAREN-CLOSE
 					)
@@ -5656,7 +5656,7 @@ class Perl6::Parser::Factory {
 					)
 				);
 				$child.append(
-					Perl6::Operator::Circumfix.new(
+					Raku::Operator::Circumfix.new(
 						:factory-line-number(
 							callframe(1).line 
 						),
@@ -5686,7 +5686,7 @@ class Perl6::Parser::Factory {
 				);
 				if $_.Str ~~ m{ (';') ( \s* ) $ } {
 					$child.append(
-						Perl6::Semicolon.from-int(
+						Raku::Semicolon.from-int(
 							$_.to - $1.chars -
 							$0.chars,
 							$0.Str
@@ -5709,7 +5709,7 @@ class Perl6::Parser::Factory {
 			when self.assert-hash( $_,
 					[< blockoid multisig >],
 					[< trait >] ) {
-				my $_child = Perl6::Element-List.new;
+				my $_child = Raku::Element-List.new;
 				my Str $x = $_.Str.substr(
 					0, $_.hash.<multisig>.from - $_.from
 				);
@@ -5724,7 +5724,7 @@ class Perl6::Parser::Factory {
 					self._multisig( $_.hash.<multisig> )
 				);
 				$child.append(
-					Perl6::Operator::Circumfix.from-int(
+					Raku::Operator::Circumfix.from-int(
 						$_.hash.<multisig>.from - $from,
 						$_.orig.substr(
 							$_.hash.<multisig>.from - $from,
@@ -5760,8 +5760,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _rx_adverbs( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _rx_adverbs( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< quotepair >] ) {
 				$child.append(
@@ -5775,8 +5775,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _scoped( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _scoped( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			# XXX DECL seems to be a mirror of declarator.
 			# XXX This probably will turn out to be not true.
@@ -5834,8 +5834,8 @@ class Perl6::Parser::Factory {
 	# supsersede <name>
 	# unit {package,module,class...} <name>
 	#
-	method _scope_declarator( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _scope_declarator( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< scoped sym >] ) {
 				$child.append( self._sym( $_.hash.<sym> ) );
@@ -5850,8 +5850,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _semiarglist( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _semiarglist( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< arglist >] ) {
 				my $q = $_.hash.<arglist>;
@@ -5878,7 +5878,7 @@ class Perl6::Parser::Factory {
 						if $x ~~ m{ (';') } {
 							my Int $left-margin = $0.from;
 							$child.append(
-								Perl6::Dimension-Separator.from-int(
+								Raku::Dimension-Separator.from-int(
 									$left-margin + $v.to,
 									$0.Str
 								)
@@ -5894,8 +5894,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _semilist( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _semilist( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.list {
 			for $p.list {
 				if self.assert-hash( $_, [< statement >] ) {
@@ -5952,7 +5952,7 @@ class Perl6::Parser::Factory {
 							if $x ~~ m{ (';') } {
 								my Int $left-margin = $0.from;
 								$child.append(
-									Perl6::Operator::Infix.from-int(
+									Raku::Operator::Infix.from-int(
 										$left-margin + $v.to,
 										';'
 									)
@@ -5972,8 +5972,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _separator( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _separator( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< quantified_atom septype >] ) {
@@ -5999,13 +5999,13 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _septype( Mu $p ) returns Perl6::Element {
+#	method _septype( Mu $p ) returns Raku::Element {
 #		# PURE-PERL parser
 #		self.parse( $p, '_septype' );
 #	}
 
-#	method _sequence( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _sequence( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 ## XXX
 ##			when self.assert-hash( $_, [< statement >] ) {
@@ -6018,8 +6018,8 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-#	method _shape( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _shape( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -6028,14 +6028,14 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-	method _sibble( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _sibble( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< babble left right >] ) {
 				# XXX <right> isn't used
 				# XXX Don't need babble, apparently.
 				$child.append(
-					Perl6::Operator::Prefix.from-int(
+					Raku::Operator::Prefix.from-int(
 						$_.hash.<left>.from -
 							SLASH.chars,
 						SLASH
@@ -6043,13 +6043,13 @@ class Perl6::Parser::Factory {
 				);
 				$child.append( self._left( $_.hash.<left> ) );
 				$child.append(
-					Perl6::Operator::Prefix.from-int(
+					Raku::Operator::Prefix.from-int(
 						$_.hash.<left>.to,
 						SLASH
 					)
 				);
 				$child.append(
-					Perl6::Operator::Prefix.from-int(
+					Raku::Operator::Prefix.from-int(
 						$_.hash.<right>.to,
 						SLASH
 					)
@@ -6062,8 +6062,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _sigfinal( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _sigfinal( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -6072,13 +6072,13 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-#	method _sigil( Mu $p ) returns Perl6::Element {
+#	method _sigil( Mu $p ) returns Raku::Element {
 #		# PURE-PERL parser
 #		self.parse( $p, '_sigil' )
 #	}
 
-#	method _sigmaybe( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _sigmaybe( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -6087,8 +6087,8 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-	method __Parameter( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method __Parameter( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< param_term post_constraint
@@ -6197,7 +6197,7 @@ class Perl6::Parser::Factory {
 				if $_.hash.<default_value> {
 					if $_.Str ~~ m{ ('=') } {
 						$child.append(
-							Perl6::Operator::Infix.from-sample(
+							Raku::Operator::Infix.from-sample(
 								$_,
 								$0.Str
 							)
@@ -6223,7 +6223,7 @@ class Perl6::Parser::Factory {
 				if $_.hash.<default_value> {
 					if $_.Str ~~ m{ ('=') } {
 						$child.append(
-							Perl6::Operator::Infix.from-sample(
+							Raku::Operator::Infix.from-sample(
 								$_,
 								$0.Str
 							)
@@ -6243,7 +6243,7 @@ class Perl6::Parser::Factory {
 				);
 				# XXX assuming the location for '='
 				$child.append(
-					Perl6::Operator::Infix.from-sample(
+					Raku::Operator::Infix.from-sample(
 						$_, EQUAL
 					)
 				);
@@ -6334,8 +6334,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _signature( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _signature( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< parameter typename >],
@@ -6344,7 +6344,7 @@ class Perl6::Parser::Factory {
 				for $_.hash.<parameter>.list.kv -> $k, $v {
 					if $left-edge and $left-edge < $v.from {
 						$child.append(
-							Perl6::Operator::Infix.from-int(
+							Raku::Operator::Infix.from-int(
 								$left-edge, ','
 							)
 						);
@@ -6359,7 +6359,7 @@ class Perl6::Parser::Factory {
 				);
 				if $x ~~ m{ ('-->') } {
 					$child.append(
-						Perl6::Operator::Infix.from-int(
+						Raku::Operator::Infix.from-int(
 							$_.hash.<parameter>.to +
 								$0.from,
 							$0.Str
@@ -6377,7 +6377,7 @@ class Perl6::Parser::Factory {
 				for $_.hash.<parameter>.list -> $q {
 					if $left-edge and $left-edge < $q.from {
 						$child.append(
-							Perl6::Operator::Infix.from-int(
+							Raku::Operator::Infix.from-int(
 								$left-edge, ','
 							)
 						);
@@ -6387,7 +6387,7 @@ class Perl6::Parser::Factory {
 				}
 				if $left-edge and $left-edge < $_.to {
 					$child.append(
-						Perl6::Operator::Infix.from-int(
+						Raku::Operator::Infix.from-int(
 							$left-edge, ','
 						)
 					);
@@ -6404,8 +6404,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _smexpr( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _smexpr( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< EXPR >] ) {
 				$child.append( self._EXPR( $_.hash.<EXPR> ) );
@@ -6414,7 +6414,7 @@ class Perl6::Parser::Factory {
 				);
 				if $right-edge ~~ m{ (\\) } {
 					$child.append(
-						Perl6::Backslash.from-int(
+						Raku::Backslash.from-int(
 							$_.hash.<EXPR>.to +
 							$0.from,
 							$0.Str
@@ -6429,8 +6429,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _specials( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _specials( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -6457,11 +6457,11 @@ class Perl6::Parser::Factory {
 	# CONTROL
 	# QUIT
 	#
-	method _statement_control( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _statement_control( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< block e1 e2 e3 sym >] ) {
-				my $_child = Perl6::Element-List.new;
+				my $_child = Raku::Element-List.new;
 				$child.append( self._sym( $_.hash.<sym> ) );
 				my $x = $_.orig.Str.substr(
 					$_.hash.<sym>.to,
@@ -6470,7 +6470,7 @@ class Perl6::Parser::Factory {
 				$x ~~ m{ ('(') };
 				my $left-margin = $0.from;
 				$_child.append(
-					Perl6::Balanced::Enter.from-int(
+					Raku::Balanced::Enter.from-int(
 						$_.hash.<sym>.to + $0.from,
 						$0.Str
 					)
@@ -6482,7 +6482,7 @@ class Perl6::Parser::Factory {
 				);
 				$x ~~ m{ (';') };
 				$_child.append(
-					Perl6::Loop-Separator.from-int(
+					Raku::Loop-Separator.from-int(
 						$_.hash.<e1>.to + $0.from,
 						$0.Str
 					)
@@ -6494,7 +6494,7 @@ class Perl6::Parser::Factory {
 				);
 				$x ~~ m{ (';') };
 				$_child.append(
-					Perl6::Loop-Separator.from-int(
+					Raku::Loop-Separator.from-int(
 						$_.hash.<e2>.to + $0.from,
 						$0.Str
 					)
@@ -6506,13 +6506,13 @@ class Perl6::Parser::Factory {
 				);
 				$x ~~ m{ (')') };
 				$_child.append(
-					Perl6::Balanced::Exit.from-int(
+					Raku::Balanced::Exit.from-int(
 						$_.hash.<e3>.to + $0.from,
 						$0.Str
 					)
 				);
 				$child.append(
-					Perl6::Operator::Circumfix.new(
+					Raku::Operator::Circumfix.new(
 						:factory-line-number(
 							callframe(1).line 
 						),
@@ -6556,7 +6556,7 @@ class Perl6::Parser::Factory {
 			when self.assert-hash( $_, [< else sym xblock >] ) {
 				for $_.hash.<sym>.list.keys -> $k {
 					$child.append(
-						Perl6::Bareword.from-match(
+						Raku::Bareword.from-match(
 							$_.hash.<sym>.list.[$k]
 						)
 					);
@@ -6571,7 +6571,7 @@ class Perl6::Parser::Factory {
 				);
 				if $x ~~ m{ << (else) >> } {
 					$child.append(
-						Perl6::Bareword.from-int(
+						Raku::Bareword.from-int(
 							$_.from + $0.from,
 							$0.Str
 						)
@@ -6595,7 +6595,7 @@ class Perl6::Parser::Factory {
 					$_.hash.<sym>.[0].Str ~~ m{ if } {
 					for $_.hash.<sym>.list.keys -> $k {
 						$child.append(
-							Perl6::Bareword.from-match( 
+							Raku::Bareword.from-match( 
 								$_.hash.<sym>.list.[$k]
 							)
 						);
@@ -6626,8 +6626,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _statement( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _statement( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.list {
 			for $p.list {
 				if self.assert-hash( $_, [< EXPR >] ) {
@@ -6675,11 +6675,11 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _statementlist( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _statementlist( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 
 		for $p.hash.<statement>.list {
-			my $_child = Perl6::Element-List.new;
+			my $_child = Raku::Element-List.new;
 			$_child.append( self._statement( $_ ) );
 			# Do *NOT* remove this, use it to replace whatever
 			# WS trailing terms the grammar below might add
@@ -6701,14 +6701,14 @@ class Perl6::Parser::Factory {
 			);
 			if $temp ~~ m{ ^ (';') ( \s* ) } {
 				$_child.append(
-					Perl6::Semicolon.from-int(
+					Raku::Semicolon.from-int(
 						$_child.child.[*-1].to,
 						$0.Str
 					)
 				);
 			}
 			$child.append(
-				Perl6::Statement.from-list( $_child )
+				Raku::Statement.from-list( $_child )
 			);
 		}
 		$child;
@@ -6724,8 +6724,8 @@ class Perl6::Parser::Factory {
 	# for
 	# given
 	#
-	method _statement_mod_cond( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _statement_mod_cond( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< modifier_expr sym >] ) {
 				$child.append( self._sym( $_.hash.<sym> ) );
@@ -6747,8 +6747,8 @@ class Perl6::Parser::Factory {
 	# for
 	# given
 	#
-	method _statement_mod_loop( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _statement_mod_loop( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< smexpr sym >] ) {
 				$child.append( self._sym( $_.hash.<sym> ) );
@@ -6793,8 +6793,8 @@ class Perl6::Parser::Factory {
 	# try
 	# quietly
 	#
-	method _statement_prefix( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _statement_prefix( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< blorst sym >] ) {
 				$child.append( self._sym( $_.hash.<sym> ) );
@@ -6809,8 +6809,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _subshortname( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _subshortname( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -6819,8 +6819,8 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-	method _sym( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _sym( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.Str {
 			given $p.Str {
 				when 'sub' {
@@ -6831,7 +6831,7 @@ class Perl6::Parser::Factory {
 				}
 				default {
 					$child.append(
-						Perl6::Bareword.from-match( $p )
+						Raku::Bareword.from-match( $p )
 					);
 				}
 			}
@@ -6877,8 +6877,8 @@ class Perl6::Parser::Factory {
 	# onlystar
 	# value
 	#
-	method _term( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _term( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< circumfix >] ) {
 				$child.append(
@@ -6897,8 +6897,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _termalt( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _termalt( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.list {
 			for $p.list {
 				if self.assert-hash( $_, [< termconj >] ) {
@@ -6919,8 +6919,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _termaltseq( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _termaltseq( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< termconjseq >] ) {
 				$child.append(
@@ -6936,8 +6936,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _termconj( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _termconj( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.list {
 			for $p.list {
 				if self.assert-hash( $_, [< termish >] ) {
@@ -6952,7 +6952,7 @@ class Perl6::Parser::Factory {
 					if $x ~~ m{ ^ \s* ('|'+) } {
 						my Int $left-margin = $0.from;
 						$child.append(
-							Perl6::Operator::Infix.from-int(
+							Raku::Operator::Infix.from-int(
 								$left-margin + $_.hash.<termish>.to,
 								$0.Str
 
@@ -6971,8 +6971,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _termconjseq( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _termconjseq( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.list {
 			for $p.list {
 				if self.assert-hash( $_, [< termalt >] ) {
@@ -6993,8 +6993,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _term_init( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _term_init( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -7003,8 +7003,8 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-	method _termish( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _termish( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.list {
 			for $p.list {
 				if self.assert-hash( $_, [< noun >] ) {
@@ -7023,8 +7023,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _termseq( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _termseq( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< termaltseq >] ) {
 				$child.append(
@@ -7038,8 +7038,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _trait( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _trait( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.list {
 			for $p.list {
 				if self.assert-hash( $_, [< trait_mod >] ) {
@@ -7068,8 +7068,8 @@ class Perl6::Parser::Factory {
 	# returns
 	# handles
 	#
-	method _trait_mod( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _trait_mod( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< circumfix longname sym >] ) {
@@ -7106,8 +7106,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _triangle( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _triangle( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		if $p.list {
 #			for $p.list {
 #				if self.assert-hash( $_, [< trait_mod >] ) {
@@ -7128,8 +7128,8 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-#	method _twigil( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _twigil( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -7138,8 +7138,8 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-	method _type_constraint( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _type_constraint( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.list {
 			for $p.list {
 				if self.assert-hash( $_, [< typename >] ) {
@@ -7169,8 +7169,8 @@ class Perl6::Parser::Factory {
 	# subset
 	# constant
 	#
-	method _type_declarator( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _type_declarator( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $p,
 					[< initializer sym variable >],
@@ -7228,8 +7228,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _typename( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _typename( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		if $p.list {
 			for $p.list {
 				if self.assert-hash( $_,
@@ -7264,8 +7264,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _val( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _val( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< OPER postcircumfix >],
@@ -7273,7 +7273,7 @@ class Perl6::Parser::Factory {
 				$child.append( self._EXPR( $_.list.[0] ) );
 				if $_.Str ~~ m{ ^ ('.') } {
 					$child.append(
-						Perl6::Operator::Infix.from-int(
+						Raku::Operator::Infix.from-int(
 							$_.from,
 							$0.Str
 						)
@@ -7311,8 +7311,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-#	method _VALUE( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _VALUE( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		given $p {
 #			default {
 #				$child.fall-through( $_ );
@@ -7325,8 +7325,8 @@ class Perl6::Parser::Factory {
 	# number
 	# version
 	#
-	method _value( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _value( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< number >] ) {
 				$child.append(
@@ -7356,8 +7356,8 @@ class Perl6::Parser::Factory {
 		);
 	}
 
-	method __Variable( Mu $p, Mu $name ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method __Variable( Mu $p, Mu $name ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< desigilname sigil twigil >] ) {
@@ -7405,8 +7405,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _var( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _var( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< desigilname sigil twigil >] ) {
@@ -7430,8 +7430,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _variable_declarator( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _variable_declarator( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_,
 					[< semilist shape variable >],
@@ -7496,8 +7496,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _variable( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _variable( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $p,
 					[< desigilname sigil twigil >] ) {
@@ -7537,8 +7537,8 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _version( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _version( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< vnum vstr >] ) {
 				$child.append( self._vstr( $_.hash.<vstr> ) );
@@ -7550,20 +7550,20 @@ class Perl6::Parser::Factory {
 		$child;
 	}
 
-	method _vstr( Mu $p ) returns Perl6::Element {
-		Perl6::Bareword.from-int(
+	method _vstr( Mu $p ) returns Raku::Element {
+		Raku::Bareword.from-int(
 			$p.from - VERSION-STR.chars,
 			VERSION-STR ~ $p.Str
 		)
 	}
 
-#	method _vnum( Mu $p ) returns Perl6::Element-List {
-#		my $child = Perl6::Element-List.new;
+#	method _vnum( Mu $p ) returns Raku::Element-List {
+#		my $child = Raku::Element-List.new;
 #		if $p.list {
 #			for $p.list {
 #				if $p.Int {
 #					$child.append(
-#						Perl6::Number.from-match( $p )
+#						Raku::Number.from-match( $p )
 #					)
 #				}
 #				else {
@@ -7577,13 +7577,13 @@ class Perl6::Parser::Factory {
 #		$child;
 #	}
 
-#	method _wu( Mu $p ) returns Perl6::Element {
+#	method _wu( Mu $p ) returns Raku::Element {
 #		# PURE-PERL parser
 #		self.parse( $p, '_wu' );
 #	}
 
-	method _xblock( Mu $p ) returns Perl6::Element-List {
-		my $child = Perl6::Element-List.new;
+	method _xblock( Mu $p ) returns Raku::Element-List {
+		my $child = Raku::Element-List.new;
 		given $p {
 			when self.assert-hash( $_, [< EXPR pblock >] ) {
 				$child.append( self._EXPR( $_.hash.<EXPR> ) );

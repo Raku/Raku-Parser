@@ -1,6 +1,6 @@
 class Utils {
 
-	use Perl6::Parser;
+	use Raku::Parser;
 
 	# Classes, modules, packages &c can no longer be redeclared.
 	# Which is probably a good thing, but plays havoc with testing here.
@@ -8,7 +8,7 @@ class Utils {
 	# This is a little ol' tool that generates a fresh package name every
 	# time through the testing suite. I can't just make up new names as
 	# the test suite goes along because I'm running the full test suite
-	# twice, once with the original Perl6 parser-aided version, and once
+	# twice, once with the original Raku parser-aided version, and once
 	# with the new regex-based parser.
 	#
 	# Use it to build out package names and such.
@@ -22,7 +22,7 @@ class Utils {
 	}
 
 	sub round-trips( Str $code ) returns Bool is export {
-		my $pp   = Perl6::Parser.new;
+		my $pp   = Raku::Parser.new;
 		my $tree = $pp.to-tree( $code );
 
 		return $pp.to-string( $tree ) eq $code;

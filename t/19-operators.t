@@ -1,7 +1,7 @@
 use v6;
 
 use Test;
-use Perl6::Parser;
+use Raku::Parser;
 
 use lib 't/lib/';
 use Utils;
@@ -26,7 +26,7 @@ plan 25;
 # There are also +=, R= and /= variants, those will be in separate files.
 # As will the [+] hyperoperator, as it'll probably get a test suite of its own.
 
-my $pp = Perl6::Parser.new;
+my $pp = Raku::Parser.new;
 my $*CONSISTENCY-CHECK = True;
 my $*FALL-THROUGH = True;
 
@@ -41,7 +41,7 @@ subtest {
 
       my $source = Q{<a>};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::String ), Q{found string};
+      ok has-a( $tree, Raku::String ), Q{found string};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -54,7 +54,7 @@ subtest {
       < a >
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::String ), Q{found string};
+      ok has-a( $tree, Raku::String ), Q{found string};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -69,7 +69,7 @@ subtest {
 
       my $source = Q{(1)};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -82,7 +82,7 @@ subtest {
       ( 1 )
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -97,7 +97,7 @@ subtest {
 
       my $source = Q[{1}];
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Block ), Q{found block};
+      ok has-a( $tree, Raku::Block ), Q{found block};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -110,7 +110,7 @@ subtest {
       { 1 }
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Block ), Q{found block};
+      ok has-a( $tree, Raku::Block ), Q{found block};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -125,7 +125,7 @@ subtest {
 
       my $source = Q{[1]};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -138,7 +138,7 @@ subtest {
       [ 1 ]
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -157,7 +157,7 @@ subtest {
 
       my $source = Q{my@a;@a[2]};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -170,7 +170,7 @@ subtest {
       my @a; @a[ 2 ]
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -186,7 +186,7 @@ subtest {
       # Whitespace sensitive between 'a' and '{' '}'
       my $source = Q{my%a;%a{"foo"}};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -200,7 +200,7 @@ subtest {
       my %a; %a{ "foo" }
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -216,7 +216,7 @@ subtest {
       # Whitespace sensitive between 'a' and '<' '>'
       my $source = Q{my%a;%a<foo>};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -230,7 +230,7 @@ subtest {
       my %a; %a< foo >
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -246,7 +246,7 @@ subtest {
       # Whitespace sensitive between 'a' and '«' '»'
       my $source = Q{my%a;%a«foo»};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -260,7 +260,7 @@ subtest {
       my %a; %a« foo »
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -276,7 +276,7 @@ subtest {
       # Whitespace sensitive between 'chomp' and '(' ')'
       my $source = Q{chomp()};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -290,7 +290,7 @@ subtest {
       chomp( )
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -304,7 +304,7 @@ subtest {
       chomp( 1 )
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -318,7 +318,7 @@ subtest {
     42.round
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
     
     done-testing;
@@ -331,7 +331,7 @@ subtest {
     42.&round
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
     
     done-testing;
@@ -344,7 +344,7 @@ subtest {
     Int.=round
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
     
     done-testing;
@@ -357,7 +357,7 @@ subtest {
     42.^name
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
     
     done-testing;
@@ -370,7 +370,7 @@ subtest {
     42.?name
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
     
     done-testing;
@@ -383,7 +383,7 @@ subtest {
     42.+name
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
     
     done-testing;
@@ -396,7 +396,7 @@ subtest {
     42.*name
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
     
     done-testing;
@@ -409,7 +409,7 @@ subtest {
     42>>.say
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
     
     done-testing;
@@ -423,7 +423,7 @@ subtest {
 
       my $source = Q{my$a;$a.:<++>};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -436,7 +436,7 @@ subtest {
       my $a; $a.:< ++ >
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -451,7 +451,7 @@ subtest {
 
       my $source = Q{my $a; $a.Foo::Bar};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -464,7 +464,7 @@ subtest {
       my $a; $a.Foo::Bar
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -483,7 +483,7 @@ subtest {
 
       my $source = Q{my$a;++$a};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -496,7 +496,7 @@ subtest {
       my $a; ++$a
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -511,7 +511,7 @@ subtest {
 
       my $source = Q{my$a;--$a};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -524,7 +524,7 @@ subtest {
       my $a; --$a
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -539,7 +539,7 @@ subtest {
 
       my $source = Q{my$a;$a++};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -552,7 +552,7 @@ subtest {
       my $a; $a++
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
       
       done-testing;
@@ -567,7 +567,7 @@ subtest {
 
       my $source = Q{my$a;$a--};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
   
       done-testing;
@@ -580,7 +580,7 @@ subtest {
       my $a; $a--
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
   
       done-testing;
@@ -596,7 +596,7 @@ subtest {
 
     my $source = Q{1**2};
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -609,7 +609,7 @@ subtest {
     1 ** 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -627,7 +627,7 @@ subtest {
 
       my $source = Q{?2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -640,7 +640,7 @@ subtest {
       ? 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -655,7 +655,7 @@ subtest {
 
       my $source = Q{!2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -668,7 +668,7 @@ subtest {
       ! 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -682,7 +682,7 @@ subtest {
     + 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -695,7 +695,7 @@ subtest {
     - 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -708,7 +708,7 @@ subtest {
     ~ 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -721,7 +721,7 @@ subtest {
     | 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -734,7 +734,7 @@ subtest {
     +^ 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -747,7 +747,7 @@ subtest {
     ?^ 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -760,7 +760,7 @@ subtest {
     ^ 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -778,7 +778,7 @@ subtest {
 
       my $source = Q{1*2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -791,7 +791,7 @@ subtest {
       1 * 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -806,7 +806,7 @@ subtest {
 
       my $source = Q{1/2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -819,7 +819,7 @@ subtest {
       1 / 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -834,7 +834,7 @@ subtest {
     1 div 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -848,7 +848,7 @@ subtest {
 
       my $source = Q{1%2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -861,7 +861,7 @@ subtest {
       1 % 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -876,7 +876,7 @@ subtest {
 
       my $source = Q{1%%2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -889,7 +889,7 @@ subtest {
       1 %% 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -904,7 +904,7 @@ subtest {
     1 mod 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -918,7 +918,7 @@ subtest {
 
       my $source = Q{1+&2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -931,7 +931,7 @@ subtest {
       1 +& 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -946,7 +946,7 @@ subtest {
 
       my $source = Q{1+<2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -959,7 +959,7 @@ subtest {
       1 +< 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -974,7 +974,7 @@ subtest {
 
       my $source = Q{1+>2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -987,7 +987,7 @@ subtest {
       1 +> 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1002,7 +1002,7 @@ subtest {
     1 gcd 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1016,7 +1016,7 @@ subtest {
     1 lcm 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1034,7 +1034,7 @@ subtest {
 
       my $source = Q{1+2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1047,7 +1047,7 @@ subtest {
       1 + 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1062,7 +1062,7 @@ subtest {
 
       my $source = Q{1=2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1075,7 +1075,7 @@ subtest {
       1 - 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1090,7 +1090,7 @@ subtest {
 
       my $source = Q{1+|2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1103,7 +1103,7 @@ subtest {
       1 +| 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1118,7 +1118,7 @@ subtest {
 
       my $source = Q{1+^2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1131,7 +1131,7 @@ subtest {
       1 +^ 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1146,7 +1146,7 @@ subtest {
 
       my $source = Q{1?|2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1159,7 +1159,7 @@ subtest {
       1 ?| 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1178,7 +1178,7 @@ subtest {
     1 x 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1192,7 +1192,7 @@ subtest {
     1 xx 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1207,7 +1207,7 @@ subtest {
 
     my $source = Q{1~2};
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1220,7 +1220,7 @@ subtest {
     1 ~ 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1235,7 +1235,7 @@ subtest {
 
     my $source = Q{1&2};
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1248,7 +1248,7 @@ subtest {
     1 & 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1266,7 +1266,7 @@ subtest {
 
       my $source = Q{1|2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1279,7 +1279,7 @@ subtest {
       1 | 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1294,7 +1294,7 @@ subtest {
 
       my $source = Q{1^2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1307,7 +1307,7 @@ subtest {
       1 ^ 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1326,7 +1326,7 @@ subtest {
     my $a; temp $a
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1340,7 +1340,7 @@ subtest {
     my $a; let $a
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1358,7 +1358,7 @@ subtest {
     1 does 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1372,7 +1372,7 @@ subtest {
     1 but 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1386,7 +1386,7 @@ subtest {
     1 cmp 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1400,7 +1400,7 @@ subtest {
     1 leg 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1414,7 +1414,7 @@ subtest {
     1 <=> 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1428,7 +1428,7 @@ subtest {
 
       my $source = Q{1..2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1441,7 +1441,7 @@ subtest {
       1 .. 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1456,7 +1456,7 @@ subtest {
 
       my $source = Q{1^..2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1469,7 +1469,7 @@ subtest {
       1 ^.. 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1484,7 +1484,7 @@ subtest {
 
       my $source = Q{1..^2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1497,7 +1497,7 @@ subtest {
       1 ..^ 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1512,7 +1512,7 @@ subtest {
 
       my $source = Q{1^..^2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1525,7 +1525,7 @@ subtest {
       1 ^..^ 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1544,7 +1544,7 @@ subtest {
 
       my $source = Q{1==2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1557,7 +1557,7 @@ subtest {
       1 == 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1572,7 +1572,7 @@ subtest {
 
       my $source = Q{1!=2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1585,7 +1585,7 @@ subtest {
       1 != 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1600,7 +1600,7 @@ subtest {
     1 < 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1614,7 +1614,7 @@ subtest {
 
       my $source = Q{1>2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1627,7 +1627,7 @@ subtest {
       1 > 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1642,7 +1642,7 @@ subtest {
     1 <= 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1656,7 +1656,7 @@ subtest {
 
       my $source = Q{1>2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1669,7 +1669,7 @@ subtest {
       1 > 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1684,7 +1684,7 @@ subtest {
 
       my $source = Q{1>=2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1697,7 +1697,7 @@ subtest {
       1 >= 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1712,7 +1712,7 @@ subtest {
     1 eq 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1726,7 +1726,7 @@ subtest {
     1 ne 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1740,7 +1740,7 @@ subtest {
     1 gt 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1754,7 +1754,7 @@ subtest {
     1 ge 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1768,7 +1768,7 @@ subtest {
     1 lt 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1782,7 +1782,7 @@ subtest {
     1 le 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1796,7 +1796,7 @@ subtest {
     1 before 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1810,7 +1810,7 @@ subtest {
     1 after 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1824,7 +1824,7 @@ subtest {
     1 eqv 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1838,7 +1838,7 @@ subtest {
 
       my $source = Q{1===2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1851,7 +1851,7 @@ subtest {
       1===2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1866,7 +1866,7 @@ subtest {
 
       my $source = Q{1=:=2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1879,7 +1879,7 @@ subtest {
       1 =:= 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1894,7 +1894,7 @@ subtest {
 
       my $source = Q{1~~2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1907,7 +1907,7 @@ subtest {
       1 ~~ 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1922,7 +1922,7 @@ subtest {
 
       my $source = Q{1=~=2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1935,7 +1935,7 @@ subtest {
       1 =~= 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1951,7 +1951,7 @@ subtest {
 
     my $source = Q{1&&2};
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1964,7 +1964,7 @@ subtest {
     1 && 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -1982,7 +1982,7 @@ subtest {
 
       my $source = Q{1||2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -1995,7 +1995,7 @@ subtest {
       1 || 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2010,7 +2010,7 @@ subtest {
 
       my $source = Q{1^^2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2023,7 +2023,7 @@ subtest {
       1 ^^ 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2038,7 +2038,7 @@ subtest {
 
       my $source = Q{1//2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2051,7 +2051,7 @@ subtest {
       1 // 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2066,7 +2066,7 @@ subtest {
     1 min 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -2080,7 +2080,7 @@ subtest {
     1 max 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -2098,7 +2098,7 @@ subtest {
 
       my $source = Q{1??2!!3};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2111,7 +2111,7 @@ subtest {
       1 ?? 2 !! 3
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2126,7 +2126,7 @@ subtest {
     1 ff 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -2140,7 +2140,7 @@ subtest {
 
       my $source = Q{1...2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2153,7 +2153,7 @@ subtest {
       1 ^ff 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2168,7 +2168,7 @@ subtest {
     1 ff^ 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -2182,7 +2182,7 @@ subtest {
 
       my $source = Q{1^ff^2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2195,7 +2195,7 @@ subtest {
       1 ^ff^ 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2210,7 +2210,7 @@ subtest {
     1 fff 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -2224,7 +2224,7 @@ subtest {
     1 ^fff 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -2238,7 +2238,7 @@ subtest {
     1 fff^ 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -2252,7 +2252,7 @@ subtest {
 
       my $source = Q{1^fff^2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2265,7 +2265,7 @@ subtest {
       1 ^fff^ 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2284,7 +2284,7 @@ subtest {
 
       my $source = Q{my$a=1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2297,7 +2297,7 @@ subtest {
       my $a = 1
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2312,7 +2312,7 @@ subtest {
 
       my $source = Q{a=>1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2325,7 +2325,7 @@ subtest {
       a => 1
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2344,7 +2344,7 @@ subtest {
     not 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -2358,7 +2358,7 @@ subtest {
     so 1
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -2373,7 +2373,7 @@ subtest {
 
     my $source = Q{1,2};
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -2386,7 +2386,7 @@ subtest {
     1 , 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -2406,7 +2406,7 @@ subtest {
     3 Z 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -2420,7 +2420,7 @@ subtest {
     3 X 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -2434,7 +2434,7 @@ subtest {
 
       my $source = Q{1...2};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2447,7 +2447,7 @@ subtest {
       1 ... 2
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2466,7 +2466,7 @@ subtest {
 
       my $source = Q{my$a=1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2479,7 +2479,7 @@ subtest {
       my $a = 1
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2494,7 +2494,7 @@ subtest {
 
       my $source = Q{my$a:=1};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2507,7 +2507,7 @@ subtest {
       my $a := 1
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2524,7 +2524,7 @@ subtest {
 
       my $source = Q{...};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2537,7 +2537,7 @@ subtest {
       ...
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2552,7 +2552,7 @@ subtest {
 
       my $source = Q{!!!};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2565,7 +2565,7 @@ subtest {
       !!!
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2580,7 +2580,7 @@ subtest {
 
       my $source = Q{???};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2593,7 +2593,7 @@ subtest {
       ???
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2614,7 +2614,7 @@ subtest {
     3 and 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -2628,7 +2628,7 @@ subtest {
     3 andthen 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -2646,7 +2646,7 @@ subtest {
     3 or 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -2660,7 +2660,7 @@ subtest {
     3 orelse 2
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -2678,7 +2678,7 @@ subtest {
     my @a; @a <== 'a'
     _END_
     my $tree = $pp.to-tree( $source );
-    ok has-a( $tree, Perl6::Operator ), Q{found operator};
+    ok has-a( $tree, Raku::Operator ), Q{found operator};
     is $pp.to-string( $tree ), $source, Q{formatted};
 
     done-testing;
@@ -2692,7 +2692,7 @@ subtest {
 
       my $source = Q{my@a;'a'==>@a};
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2705,7 +2705,7 @@ subtest {
       my @a; 'a' ==> @a
       _END_
       my $tree = $pp.to-tree( $source );
-      ok has-a( $tree, Perl6::Operator ), Q{found operator};
+      ok has-a( $tree, Raku::Operator ), Q{found operator};
       is $pp.to-string( $tree ), $source, Q{formatted};
 
       done-testing;
@@ -2713,4 +2713,4 @@ subtest {
   }, Q{==>};
 }, Q{Sequencer Precedence};
 
-# vim: ft=perl6
+# vim: ft=raku
