@@ -3,7 +3,7 @@
 NAME
 ====
 
-Perl6::Parser - Extract a Perl 6 AST from the NQP Perl 6 Parser
+Perl6::Parser - Extract a Raku (f/k/a Perl 6) AST from the NQP Parser
 
 SYNOPSIS
 ========
@@ -30,29 +30,29 @@ SYNOPSIS
     # This used to fire BEGIN and CHECK phasers, it no longer does so.
 
     # As of 2019-03-05 $*PURE-PERL has gone away, instead all lines that *can*
-    # call the pure Perl 6 parser *do* call it, and I'm replacing calls to the
-    # internal Perl6 nqp parser with calls to regular Perl 6 code. This method
+    # call the pure Raku parser *do* call it, and I'm replacing calls to the
+    # internal Raku nqp parser with calls to regular Raku code. This method
     # will eventually get rid of some code that I use to bypass BEGIN and CHECK
     # phasers, but that's a ways off.
 
 DESCRIPTION
 ===========
 
-Uses the built-in Perl 6 parser exposed by the internal nqp module, so that you can parse Perl 6 using Perl 6 itself. If it scares you... well, it probably should. Assuming everything works out, you'll get back a Perl 6 object tree that exactly mirrors your source file's layout, with every bit of whitespace, POD, and code given one or more tokens.
+Uses the built-in Raku parser exposed by the internal nqp module, so that you can parse Raku using Raku itself. If it scares you... well, it probably should. Assuming everything works out, you'll get back a Raku object tree that exactly mirrors your source file's layout, with every bit of whitespace, POD, and code given one or more tokens.
 
 Redisplaying it becomes a matter of calling the `to-string()` method on the tree, which passes an optional formatting hashref down the tree. You can use the format methods as they are, or add a role or subclass the objects created as you see fit to create new objects.
 
-This process **will** be simplified and encapsulated in the near future, as reformatting Perl 6 code was what this rather extensive module was designed to do.
+This process **will** be simplified and encapsulated in the near future, as reformatting Raku code was what this rather extensive module was designed to do.
 
 I've added fairly extensive debugging documentation to the [README.md](README.md) of this module, along with an internal [DEBUGGING.pod](DEBUGGING.pod) file talking about what you're seeing here, and why on **earth** didn't I do it **this** way? I have my reasons, but can be talked out of it with a good argument.
 
 Please note that this does compile your code, but it takes the precaution of munging `BEGIN` and `CHECK` phasers into `ENTER` instead so that it won't run at compile time.
 
-As it stands, the `.parse` method returns a deeply-nested object representation of the Perl 6 code it's given. It handles the regex language, but not the other braided languages such as embedded blocks in strings. It will do so eventually, but for the moment I'm busy getting the grammar rules covered.
+As it stands, the `.parse` method returns a deeply-nested object representation of the Raku code it's given. It handles the regex language, but not the other braided languages such as embedded blocks in strings. It will do so eventually, but for the moment I'm busy getting the grammar rules covered.
 
 While classes like [EClass](EClass) won't go away, their parent classes like [DecInteger](DecInteger) will remove them from the tree once their validation job has been done. For example, while the internals need to know that [$/<eclass> ]($/<eclass> ) (the exponent for a scientific-notation number) hasn't been renamed or moved elsewhere in the tree, you as a consumer of the [DecInteger](DecInteger) class don't need to know that. The `DecInteger.perl6` method will delete the child classes so that we don't end up with a **horribly** cluttered tree.
 
-Classes representing Perl 6 object code are currently in the same file as the main [Perl6::Parser](Perl6::Parser) class, as moving them to separate files caused a severe performance penalty. When the time is right I'll look at moving these to another location, but as shuffling out 20 classes increased my runtime on my little ol' VM from 6 to 20 seconds, it's not worth my time to break them out. And besides, having them all in one file makes editing en masse easier.
+Classes representing Raku object code are currently in the same file as the main [Perl6::Parser](Perl6::Parser) class, as moving them to separate files caused a severe performance penalty. When the time is right I'll look at moving these to another location, but as shuffling out 20 classes increased my runtime on my little ol' VM from 6 to 20 seconds, it's not worth my time to break them out. And besides, having them all in one file makes editing en masse easier.
 
 DEBUGGING
 =========
@@ -72,7 +72,7 @@ The first thing is to break the offending bit of code out so it's easier to debu
     say $pt.dump-tree($tree);
     is $pt.to-string( $tree ), $source, Q{formatted};
 
-Already a few things might stand out. First, the code inside the here-doc doesn't actually do anything, it'll never print anything to the screen or do anything interesting. That's not the point at this stage in the game. At this point all I need is a syntactically valid bit of Perl 6 that has the constructs that reproduce the bug. I don't care what the code actually does in the real world.
+Already a few things might stand out. First, the code inside the here-doc doesn't actually do anything, it'll never print anything to the screen or do anything interesting. That's not the point at this stage in the game. At this point all I need is a syntactically valid bit of Raku that has the constructs that reproduce the bug. I don't care what the code actually does in the real world.
 
 Second, I'm not doing anything that you as a user of the class would do. As a user of a the class, all you have to do is run the to-string() method, and it does what you want. I'm breaking things down into their component steps.
 
@@ -80,9 +80,9 @@ Second, I'm not doing anything that you as a user of the class would do. As a us
 
 Internally, the library takes sevaral steps to get to the nicely objectified tree that you see on your output. The two important steps in our case are the `.parse( 'text goes here' )` method call, and `.build-tree( $parse-tree )`.
 
-The `.parse()` call returns a very raw [NQPMatch](NQPMatch) object, which is the Perl 6 internal we're trying to reparse into a more useful form. Most of the time you can call `.dump()` on this object and get back a semi-useful object tree. On occasion this **will** lock up, most often because you're trying to `.dump()` a [list](list) accessor, and that hasn't been implemented for NQPMatch. The actual `list` accessor works, but the `.dump()` call will not. A simple workaround is to call `$p.list.[0].dump` on one of the list elements inside, and hope there is one.
+The `.parse()` call returns a very raw [NQPMatch](NQPMatch) object, which is the Raku internal we're trying to reparse into a more useful form. Most of the time you can call `.dump()` on this object and get back a semi-useful object tree. On occasion this **will** lock up, most often because you're trying to `.dump()` a [list](list) accessor, and that hasn't been implemented for NQPMatch. The actual `list` accessor works, but the `.dump()` call will not. A simple workaround is to call `$p.list.[0].dump` on one of the list elements inside, and hope there is one.
 
-Again, these are NQP internals, and aren't quite as stable as the Perl 6 main support layer.
+Again, these are NQP internals, and aren't quite as stable as the Raku main support layer.
 
 Once you've got a dump of the offending area, it'll look something like this:
 
